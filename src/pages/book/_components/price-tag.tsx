@@ -47,9 +47,11 @@ function digitSrc(char: string): string | null {
 function BrushPrice({
   value,
   size,
+  className,
 }: {
   value: string;
   size: keyof typeof SALE_SIZE_CLASSES;
+  className?: string;
 }) {
   return (
     <span
@@ -58,6 +60,7 @@ function BrushPrice({
       className={cn(
         "inline-flex items-baseline text-primary",
         SALE_SIZE_CLASSES[size],
+        className,
       )}
     >
       {[...value].map((char, i) => {
@@ -103,6 +106,13 @@ function BrushPrice({
  * accent color, so it reads as a deal rather than blending into the
  * surrounding text. See use-book-price.ts for how
  * regularPrice/salePrice/onSale are worked out.
+ *
+ * `variant="brushOnly"` skips the compare-price logic entirely and always
+ * renders `regularPrice` alone in the big brushed-calligraphy style —
+ * used for the book's very first price mention (the hero), which should
+ * read as a confident price rather than a discount, while the sale-styled
+ * compare price is reserved for the lower, deal-focused sections of the
+ * page (final CTA, exit popup, quiz result).
  */
 export function PriceTag({
   regularPrice,
@@ -111,6 +121,7 @@ export function PriceTag({
   size = "lg",
   dark = false,
   className,
+  variant = "compare",
 }: {
   regularPrice: string;
   salePrice: string;
@@ -120,7 +131,12 @@ export function PriceTag({
    * readable instead of using the light-background muted gray. */
   dark?: boolean;
   className?: string;
+  variant?: "compare" | "brushOnly";
 }) {
+  if (variant === "brushOnly") {
+    return <BrushPrice value={regularPrice} size={size} className={className} />;
+  }
+
   if (!onSale) {
     return (
       <span

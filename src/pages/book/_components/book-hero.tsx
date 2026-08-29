@@ -30,6 +30,14 @@ export default function BookHero() {
     BOOK_HERO_DEFAULTS.subtitle,
   );
   const { regularPrice, salePrice, onSale } = useBookPrice();
+  // The hero is the book's first price mention on the page — it shows the
+  // plain price with the same big brushed-calligraphy weight a sale price
+  // gets further down, not a struck-through compare price (that's reserved
+  // for the final CTA / exit popup / quiz result, further down the page).
+  // Strip a trailing ".00" so a whole-dollar price ($45.00) reads as the
+  // clean "$45" the brush digits were designed for; a price with real
+  // cents would still display in full.
+  const heroPrice = regularPrice.replace(/\.00$/, "");
   const priceNote = useContentText(
     "book.hero.priceNote",
     BOOK_HERO_DEFAULTS.priceNote,
@@ -62,9 +70,10 @@ export default function BookHero() {
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 md:items-start">
             <PriceTag
-              regularPrice={regularPrice}
+              regularPrice={heroPrice}
               salePrice={salePrice}
               onSale={onSale}
+              variant="brushOnly"
               size="xl"
               dark
             />
