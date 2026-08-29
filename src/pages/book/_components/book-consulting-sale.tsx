@@ -1,4 +1,5 @@
 import { toast } from "sonner";
+import { Mail, MessagesSquare, Crown } from "lucide-react";
 import { Section, SectionHeading } from "@/components/layout/section.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useContentGetter, useContentText } from "@/hooks/use-content.ts";
@@ -21,6 +22,16 @@ function handleConsultingClick(tierTitle: string) {
   toast.info(`${tierTitle} checkout is coming soon — thanks for your patience.`);
 }
 
+// Keep in sync with the same map in book-consulting.tsx — see the comment
+// there.
+const TIER_ICONS: Record<string, typeof Mail> = {
+  two: Mail,
+  five: MessagesSquare,
+  ten: Crown,
+};
+
+const HIGHLIGHTED_TIER = "five";
+
 export default function BookConsultingSale() {
   const get = useContentGetter();
   const eyebrow = useContentText(
@@ -41,47 +52,65 @@ export default function BookConsultingSale() {
     <Section className="bg-secondary/40">
       <SectionHeading eyebrow={eyebrow} title={title} description={subtitle} />
       <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-3">
-        {BOOK_CONSULTING_TIERS.map((tier) => (
-          // Matches the champagne-gold card treatment used for the regular-
-          // price consulting grid mid-page (see book-consulting.tsx) so the
-          // two line up as an intentional pair rather than one looking
-          // unfinished next to the other.
-          <div
-            key={tier.key}
-            className="flex flex-col rounded-xl border border-border bg-accent p-7"
-          >
-            <h3 className="font-serif text-lg font-semibold text-accent-foreground">
-              {get(`book.consulting.${tier.key}.title`, tier.title)}
-            </h3>
-            <div className="mt-2">
-              <PriceTag
-                regularPrice={get(
-                  `book.consulting.${tier.key}.price`,
-                  tier.price,
-                )}
-                salePrice={get(
-                  `book.consulting.${tier.key}.salePrice`,
-                  tier.salePrice,
-                )}
-                onSale
-                size="md"
-              />
-            </div>
-            <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-              {get(`book.consulting.${tier.key}.body`, tier.body)}
-            </p>
-            <Button
-              className="mt-6 cursor-pointer"
-              onClick={() =>
-                handleConsultingClick(
-                  get(`book.consulting.${tier.key}.title`, tier.title),
-                )
+        {BOOK_CONSULTING_TIERS.map((tier) => {
+          const Icon = TIER_ICONS[tier.key];
+          const highlighted = tier.key === HIGHLIGHTED_TIER;
+          return (
+            // Matches the champagne-gold card treatment used for the
+            // regular-price consulting grid mid-page (see
+            // book-consulting.tsx) so the two line up as an intentional
+            // pair rather than one looking unfinished next to the other —
+            // including the same icon badge and "Most Popular" highlight.
+            <div
+              key={tier.key}
+              className={
+                highlighted
+                  ? "relative flex flex-col rounded-xl border-2 border-primary bg-accent p-7 shadow-lg sm:-translate-y-2"
+                  : "flex flex-col rounded-xl border border-border bg-accent p-7"
               }
             >
-              {ctaLabel}
-            </Button>
-          </div>
-        ))}
+              {highlighted && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary-foreground">
+                  Most Popular
+                </span>
+              )}
+              <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
+                <Icon className="size-5" />
+              </div>
+              <h3 className="mt-4 font-serif text-lg font-semibold text-accent-foreground">
+                {get(`book.consulting.${tier.key}.title`, tier.title)}
+              </h3>
+              <div className="mt-2">
+                <PriceTag
+                  regularPrice={get(
+                    `book.consulting.${tier.key}.price`,
+                    tier.price,
+                  )}
+                  salePrice={get(
+                    `book.consulting.${tier.key}.salePrice`,
+                    tier.salePrice,
+                  )}
+                  onSale
+                  onCard
+                  size="md"
+                />
+              </div>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                {get(`book.consulting.${tier.key}.body`, tier.body)}
+              </p>
+              <Button
+                className="mt-6 cursor-pointer"
+                onClick={() =>
+                  handleConsultingClick(
+                    get(`book.consulting.${tier.key}.title`, tier.title),
+                  )
+                }
+              >
+                {ctaLabel}
+              </Button>
+            </div>
+          );
+        })}
       </div>
     </Section>
   );

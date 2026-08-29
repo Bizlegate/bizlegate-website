@@ -31,9 +31,25 @@ const DIGIT_HEIGHT_EM = 1.15;
 
 // Same wine-red pairing used for the strike-through stroke below: the
 // deeper tone for light section backgrounds, the lightened one so it still
-// reads on the dark navy sections (hero / final CTA).
+// reads on the dark navy sections (hero / final CTA). WINE_ON_DARK was
+// originally a desaturated dusty-rose (#c98a92, oklch chroma 0.08) so it
+// wouldn't sink into the navy — measured contrast was fine (6.3:1), but it
+// read as pale "salmon" rather than a sale/urgency color. Deepened to a
+// fully saturated red (oklch chroma 0.19) that still clears WCAG AA for
+// large text against #0A1B2A (4.9:1). The sale-price *digits* are separate
+// raster sprite files (see digitSrc below) and were recolored to match —
+// this constant only drives the "$" and "." characters next to them.
 const WINE = "#7c2d3a";
-const WINE_ON_DARK = "#c98a92";
+const WINE_ON_DARK = "#ec515d";
+
+// The regular --primary gold (oklch L0.72) reads fine on white or dark-navy
+// backgrounds, but measured contrast against this page's --accent
+// champagne-gold card background (oklch L0.93, nearly the same hue) is only
+// ~2:1 — well under WCAG's 3:1 floor even for large text, which is why the
+// consulting-tier prices read as illegible on the new gold cards. This is a
+// darker, card-specific gold (~5.5:1 against --accent) used only when a
+// gold price sits directly on that card surface — see the `onCard` prop.
+export const CARD_GOLD = "#7a5320";
 
 type BrushTone = "gold" | "wine";
 
@@ -174,6 +190,7 @@ export function PriceTag({
   onSale,
   size = "lg",
   dark = false,
+  onCard = false,
   className,
   variant = "compare",
 }: {
@@ -184,6 +201,14 @@ export function PriceTag({
   /** True on dark (navy) section backgrounds, so the regular price stays
    * readable instead of using the light-background muted gray. */
   dark?: boolean;
+  /** True when this price sits directly on the --accent champagne-gold
+   * card background (the consulting-tier cards) rather than the page's
+   * plain background — swaps the regular gold price to CARD_GOLD, a
+   * darker gold with enough contrast against that specific card tone (see
+   * the comment on CARD_GOLD above). Has no effect on the sale-price
+   * brush digits, which already use the (unrelated, high-contrast) wine
+   * tone. */
+  onCard?: boolean;
   className?: string;
   variant?: "compare" | "brushOnly";
 }) {
@@ -195,10 +220,12 @@ export function PriceTag({
     return (
       <span
         className={cn(
-          "font-serif font-bold text-primary",
+          "font-serif font-bold",
+          !onCard && "text-primary",
           SIZE_CLASSES[size],
           className,
         )}
+        style={onCard ? { color: CARD_GOLD } : undefined}
       >
         {regularPrice}
       </span>
@@ -218,9 +245,11 @@ export function PriceTag({
           wine-red instead. */}
       <span
         className={cn(
-          "relative inline-block font-normal text-primary",
+          "relative inline-block font-normal",
+          !onCard && "text-primary",
           REGULAR_STRIKE_SIZE_CLASSES[size],
         )}
+        style={onCard ? { color: CARD_GOLD } : undefined}
       >
         {regularPrice}
         <StrikeStroke dark={dark} />
