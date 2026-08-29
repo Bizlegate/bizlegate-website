@@ -1,8 +1,18 @@
 name: Deploy to GitHub Pages
 
+# Builds the site and publishes it to GitHub Pages on every push to main.
+# This replaces the Netlify auto-deploy flow: push to main -> this workflow
+# runs -> live site updates, no manual steps needed on an ongoing basis.
+#
+# One-time setup required in the GitHub UI before this works:
+#   Repo -> Settings -> Pages -> "Build and deployment" -> Source -> set to
+#   "GitHub Actions" (not "Deploy from a branch").
+
 on:
   push:
     branches: [main]
+  # Lets you manually trigger a redeploy from the Actions tab without
+  # needing a new commit (Actions tab -> Deploy to GitHub Pages -> Run workflow).
   workflow_dispatch:
 
 permissions:
@@ -10,6 +20,8 @@ permissions:
   pages: write
   id-token: write
 
+# Only one deployment at a time; a new push cancels an in-progress one
+# rather than queuing behind it.
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -40,9 +52,12 @@ jobs:
         env:
           VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
-          VITE_GOOGLE_CLIENT_SECRET: ${{ secrets.VITE_GOOGLE_CLIENT_SECRET }}
 
       - name: Add SPA fallback (client-side routes like /book, /services)
+        # GitHub Pages has no server-side rewrite rules (unlike Netlify/
+        # Vercel), so a direct link or refresh on a route like bizlegate.com
+        # /book would 404. Serving the same app shell as 404.html lets
+        # React Router take over and render the right page client-side.
         run: cp dist/index.html dist/404.html
 
       - name: Upload build output

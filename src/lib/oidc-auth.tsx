@@ -33,22 +33,25 @@ export function AppAuthProvider({
   children,
   authority,
   client_id,
-  client_secret,
+  tokenEndpointProxy,
   scope = "openid profile email",
   redirect_uri,
 }: {
   children: React.ReactNode;
   authority: string;
   client_id: string;
-  // Google's "Web application" OAuth client type requires the client secret
+  // Google's "Web application" OAuth client type requires a client_secret
   // to be sent when exchanging the authorization code for tokens, even when
-  // the frontend otherwise uses PKCE. Without this, Google's token endpoint
-  // rejects the exchange with "client_secret is missing". This value is not
-  // sensitive in the way a backend secret would be (this app has no backend
-  // token exchange step to hide it behind), but keep it out of source
-  // control regardless — it's injected via the VITE_GOOGLE_CLIENT_SECRET
-  // build-time environment variable.
-  client_secret?: string;
+  // the frontend otherwise uses PKCE — there's no Google client type for a
+  // web app that skips this. Rather than ship that secret to the browser
+  // (Vite would bundle it into public JS for anyone to read), the code
+  // exchange is routed through this backend proxy instead — see
+  // convex/http.ts, where the real secret lives as a server-side Convex
+  // environment variable. `metadataSeed` overrides just the discovered
+  // token_endpoint; everything else (authorization_endpoint, jwks_uri,
+  // ...) still comes straight from Google's own discovery document, so
+  // this only changes where the one secret-requiring step happens.
+  tokenEndpointProxy: string;
   scope?: string;
   redirect_uri?: string;
 }) {
@@ -56,7 +59,7 @@ export function AppAuthProvider({
     const settings: UserManagerSettings = {
       authority,
       client_id,
-      client_secret,
+      metadataSeed: { token_endpoint: tokenEndpointProxy },
       redirect_uri: redirect_uri ?? `${window.location.origin}/auth/callback`,
       post_logout_redirect_uri: window.location.origin,
       response_type: "code",
