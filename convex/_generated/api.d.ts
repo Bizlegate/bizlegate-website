@@ -11,6 +11,7 @@
 import type * as authz from "../authz.js";
 import type * as content from "../content.js";
 import type * as emails from "../emails.js";
+import type * as http from "../http.js";
 import type * as quiz from "../quiz.js";
 import type * as submissions from "../submissions.js";
 import type * as users from "../users.js";
@@ -25,6 +26,7 @@ declare const fullApi: ApiFromModules<{
   authz: typeof authz;
   content: typeof content;
   emails: typeof emails;
+  http: typeof http;
   quiz: typeof quiz;
   submissions: typeof submissions;
   users: typeof users;
