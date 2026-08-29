@@ -161,7 +161,7 @@ function StrikeStroke({ dark = false }: { dark?: boolean }) {
       style={{ left: "-8%", right: "-8%", top: "-22%", bottom: "-22%", width: "116%", height: "144%" }}
     >
       <path
-        d="M 92 4 Q 97 3 94 9 L 11 35 Q 5 39 3 34 Q 2 30 8 27 L 87 1 Q 91 0 92 4 Z"
+        d="M 90.14 4.54 Q 92.64 4.04 93.36 6.96 L 10.36 32.96 Q 7.36 34.96 6.36 32.46 Q 5.86 30.46 8.64 29.04 L 87.64 3.04 Q 89.64 2.54 90.14 4.54 Z"
         fill={dark ? WINE_ON_DARK : WINE}
       />
     </svg>

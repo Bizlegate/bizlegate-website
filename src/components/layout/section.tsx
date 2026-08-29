@@ -36,6 +36,11 @@ type SectionHeadingProps = {
   align?: "left" | "center";
   className?: string;
   invert?: boolean;
+  /** Overrides the eyebrow's default text-primary gold. Needed on section
+   * backgrounds where gold doesn't have enough contrast to read — e.g. a
+   * translucent bg-secondary/40 backdrop, which lands as a mid gray that
+   * gold measures under 1.1:1 against (see book-consulting.tsx). */
+  eyebrowClassName?: string;
 };
 
 /**
@@ -48,6 +53,7 @@ export function SectionHeading({
   align = "center",
   className,
   invert = false,
+  eyebrowClassName,
 }: SectionHeadingProps) {
   return (
     <div
@@ -58,7 +64,12 @@ export function SectionHeading({
       )}
     >
       {eyebrow && (
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-primary">
+        <p
+          className={cn(
+            "mb-3 text-xs font-semibold uppercase tracking-[0.3em]",
+            eyebrowClassName ?? "text-primary",
+          )}
+        >
           {eyebrow}
         </p>
       )}

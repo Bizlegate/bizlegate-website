@@ -50,7 +50,14 @@ export default function BookConsultingSale() {
 
   return (
     <Section className="bg-secondary/40">
-      <SectionHeading eyebrow={eyebrow} title={title} description={subtitle} />
+      {/* Same fix as book-consulting.tsx: gold reads as barely-visible on
+          this section's bg-secondary/40 backdrop. */}
+      <SectionHeading
+        eyebrow={eyebrow}
+        title={title}
+        description={subtitle}
+        eyebrowClassName="text-foreground"
+      />
       <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-3">
         {BOOK_CONSULTING_TIERS.map((tier) => {
           const Icon = TIER_ICONS[tier.key];

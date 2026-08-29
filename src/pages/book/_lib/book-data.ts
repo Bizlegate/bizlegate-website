@@ -105,9 +105,17 @@ export const BOOK_QUOTE_DEFAULTS = {
 
 export const BOOK_CONSULTING_DEFAULTS = {
   eyebrow: "Need More Than the Book?",
-  title: "Get a direct answer to your situation.",
+  // Was "Get a direct answer to your situation." — read as a guarantee of
+  // resolution, which a few rounds of email can't always promise if the
+  // first message doesn't give the full picture. Softened to describe what
+  // is actually being sold (guidance, not a guaranteed fix).
+  title: "Get thoughtful, specific guidance on your situation.",
+  // Leads with privacy/discretion — for this audience (a difficult boss, a
+  // reorg, office politics), being able to write it out privately instead
+  // of saying it out loud on a call is a real advantage of the email
+  // format, not just a scheduling convenience.
   subtitle:
-    "Email-based guidance — no calls to schedule. Write out what you're dealing with and get a thoughtful, specific reply back. No expiration on any pack.",
+    "Email-based guidance — private, on your own time, no calls to schedule. Write out what you're dealing with and get a thoughtful, specific reply back. No expiration on any pack.",
   note: "No time limit — use your replies whenever you need them. Each reply covers up to 3 questions.",
 };
 

@@ -63,7 +63,15 @@ export default function BookConsulting() {
 
   return (
     <Section className="bg-secondary/40">
-      <SectionHeading eyebrow={eyebrow} title={title} description={subtitle} />
+      {/* eyebrowClassName: this section's bg-secondary/40 backdrop composites
+          to a mid gray that the default gold eyebrow measures well under
+          2:1 against — see the comment on SectionHeading. */}
+      <SectionHeading
+        eyebrow={eyebrow}
+        title={title}
+        description={subtitle}
+        eyebrowClassName="text-foreground"
+      />
       <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-3">
         {BOOK_CONSULTING_TIERS.map((tier) => {
           const Icon = TIER_ICONS[tier.key];
