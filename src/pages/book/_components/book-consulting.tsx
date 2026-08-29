@@ -47,11 +47,14 @@ export default function BookConsulting() {
       <SectionHeading eyebrow={eyebrow} title={title} description={subtitle} />
       <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-3">
         {BOOK_CONSULTING_TIERS.map((tier) => (
+          // Warm champagne-gold card (the site's --accent token) rather
+          // than plain white, so this pricing grid reads as branded rather
+          // than a generic form on the muted section background.
           <div
             key={tier.key}
-            className="flex flex-col rounded-xl border border-border bg-card p-7"
+            className="flex flex-col rounded-xl border border-border bg-accent p-7"
           >
-            <h3 className="font-serif text-lg font-semibold text-card-foreground">
+            <h3 className="font-serif text-lg font-semibold text-accent-foreground">
               {get(`book.consulting.${tier.key}.title`, tier.title)}
             </h3>
             <p className="mt-2 font-serif text-3xl font-bold text-foreground">

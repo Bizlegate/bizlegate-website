@@ -42,11 +42,15 @@ export default function BookConsultingSale() {
       <SectionHeading eyebrow={eyebrow} title={title} description={subtitle} />
       <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-3">
         {BOOK_CONSULTING_TIERS.map((tier) => (
+          // Matches the champagne-gold card treatment used for the regular-
+          // price consulting grid mid-page (see book-consulting.tsx) so the
+          // two line up as an intentional pair rather than one looking
+          // unfinished next to the other.
           <div
             key={tier.key}
-            className="flex flex-col rounded-xl border border-border bg-card p-7"
+            className="flex flex-col rounded-xl border border-border bg-accent p-7"
           >
-            <h3 className="font-serif text-lg font-semibold text-card-foreground">
+            <h3 className="font-serif text-lg font-semibold text-accent-foreground">
               {get(`book.consulting.${tier.key}.title`, tier.title)}
             </h3>
             <div className="mt-2">
