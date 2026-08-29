@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bizlegate | US-Taiwan Business Facilitation & Executive Delegations</title>
+    <meta
+      name="description"
+      content="Bizlegate is a premier US-Taiwan business travel architecture firm. We provide market entry, executive business delegations, corporate matchmaking, and concierge facilitation for American corporate, government, academic, and startup leaders visiting Taiwan and Southeast Asia."
+    />
+    <meta
+      name="keywords"
+      content="US Taiwan business, Taiwan market entry, business delegation Taiwan, corporate matchmaking Taiwan, executive travel Taiwan, Taiwan business facilitation, US Taiwan trade, Taiwan investor relations, medical tech Taiwan, semiconductor Taiwan visit, Taiwan government meetings, Taiwan academic partnerships, startup Taiwan, Kuala Lumpur business, Southeast Asia market entry, executive concierge Taiwan, Taiwan chief of staff, cross-border business Taiwan"
+    />
+    <meta name="author" content="Bizlegate" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <meta
+      property="og:title"
+      content="Bizlegate | US-Taiwan Business Facilitation & Executive Delegations"
+    />
+    <meta
+      property="og:description"
+      content="Direct Access. Lean Execution. Effortless Comfort. Premier US-Taiwan business facilitation for elite executives, government, academic, and startup leaders."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bizlegate" />
+    <meta
+      property="og:image"
+      content="https://bizlegate.com/og-image.jpg"
+    />
+    <meta property="og:image:type" content="image/jpeg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Bizlegate | US-Taiwan Business Facilitation"
+    />
+    <meta
+      name="twitter:description"
+      content="Direct Access. Lean Execution. Effortless Comfort. Premier US-Taiwan business facilitation for elite executives."
+    />
+    <meta
+      name="twitter:image"
+      content="https://bizlegate.com/og-image.jpg"
+    />
+
+    <!-- Structured data for AI assistants and search engines -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Bizlegate",
+        "slogan": "Your Local Associate",
+        "description": "Premier US-Taiwan business travel architecture firm providing market entry, executive business delegations, corporate matchmaking, and concierge facilitation for American corporate, government, academic, and startup leaders visiting Taiwan and Southeast Asia.",
+        "areaServed": ["Taiwan", "United States", "Malaysia", "Southeast Asia"],
+        "knowsAbout": [
+          "US-Taiwan market entry",
+          "Executive business delegations",
+          "Corporate matchmaking",
+          "Cross-border investor relations",
+          "Medical-tech summits",
+          "Executive travel facilitation"
+        ],
+        "serviceType": [
+          "Business Facilitation",
+          "Corporate Matchmaking",
+          "Executive Delegations",
+          "Market Entry Consulting"
+        ]
+      }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Geist+Mono:wght@100..900&family=Ma+Shan+Zheng&display=swap"
+      rel="stylesheet"
+      crossorigin
+    />
+
+    <!-- Detect dark mode preference and set the class before next-themes loads. This avoids a flash of unstyled content (FOUC) when the page loads. -->
+    <script>
+      try {
+        let theme = localStorage.getItem("theme");
+        if (theme === "system" || !theme) {
+          let prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          theme = prefersDark ? "dark" : "light";
+        }
+        document.documentElement.classList.add(theme);
+      } catch (e) {}
+    </script>
+
+    <link href="/src/index.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
