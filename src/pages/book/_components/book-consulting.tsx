@@ -57,7 +57,7 @@ export default function BookConsulting() {
             <h3 className="font-serif text-lg font-semibold text-accent-foreground">
               {get(`book.consulting.${tier.key}.title`, tier.title)}
             </h3>
-            <p className="mt-2 font-serif text-3xl font-bold text-foreground">
+            <p className="mt-2 font-serif text-3xl font-bold text-primary">
               {get(`book.consulting.${tier.key}.price`, tier.price)}
             </p>
             <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">

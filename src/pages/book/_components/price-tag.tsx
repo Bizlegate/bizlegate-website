@@ -29,42 +29,71 @@ const REGULAR_STRIKE_SIZE_CLASSES = {
 // scale as the "$" / "." characters next to them.
 const DIGIT_HEIGHT_EM = 1.15;
 
+// Same wine-red pairing used for the strike-through stroke below: the
+// deeper tone for light section backgrounds, the lightened one so it still
+// reads on the dark navy sections (hero / final CTA).
+const WINE = "#7c2d3a";
+const WINE_ON_DARK = "#c98a92";
+
+type BrushTone = "gold" | "wine";
+
 /**
  * The digits 0-9 are cropped directly out of the exact calligraphy artwork
  * the client supplied (not a look-alike font — no Google Font matched the
- * brush texture closely enough). Each is a small transparent WebP,
- * recolored to the site's champagne-gold accent, stored under
- * /public/book/digits. That source artwork only contained the ten digits,
- * so "$" borrows a real calligraphy face (Ma Shan Zheng — see --font-hand
- * in index.css) tilted slightly back to read as the same brush family,
- * and "." falls back to the site's bold serif face — both in the same
- * gold color to frame the digits.
+ * brush texture closely enough). Each is a small transparent WebP. The
+ * source artwork only contained the ten digits, so "$" borrows a real
+ * calligraphy face (Ma Shan Zheng — see --font-hand in index.css) tilted
+ * slightly back to read as the same brush family, and "." falls back to
+ * the site's bold serif face.
+ *
+ * Three colorways of every digit are pre-rendered to /public/book/digits
+ * (same alpha mask, different fill) rather than recoloring in CSS, because
+ * the digits are raster art, not font glyphs — a CSS `color` can't reach
+ * the pixels inside an <img>: `digit-N.webp` (gold, the price shown with
+ * confidence — hero, any regular price), `digit-N-wine.webp` (the deal
+ * price on light section backgrounds) and `digit-N-wine-dark.webp` (the
+ * deal price on the dark navy sections, lightened so it doesn't sink into
+ * the background the way the darker wine would).
  */
-function digitSrc(char: string): string | null {
-  return /^[0-9]$/.test(char) ? `/book/digits/digit-${char}.webp` : null;
+function digitSrc(char: string, tone: BrushTone, dark: boolean): string | null {
+  if (!/^[0-9]$/.test(char)) return null;
+  const suffix = tone === "gold" ? "" : dark ? "-wine-dark" : "-wine";
+  return `/book/digits/digit-${char}${suffix}.webp`;
 }
 
 function BrushPrice({
   value,
   size,
   className,
+  tone = "gold",
+  dark = false,
 }: {
   value: string;
   size: keyof typeof SALE_SIZE_CLASSES;
   className?: string;
+  /** "gold": the confident, non-discounted price (hero, any regular
+   *  price). "wine": the deal price shown next to a struck-through
+   *  compare price. */
+  tone?: BrushTone;
+  /** True on dark (navy) section backgrounds — only matters for
+   *  tone="wine", where it swaps in the lightened wine so the digits
+   *  stay legible against navy instead of both reading as near-black. */
+  dark?: boolean;
 }) {
   return (
     <span
       role="img"
       aria-label={value}
       className={cn(
-        "inline-flex items-baseline text-primary",
+        "inline-flex items-baseline",
+        tone === "gold" && "text-primary",
         SALE_SIZE_CLASSES[size],
         className,
       )}
+      style={tone === "wine" ? { color: dark ? WINE_ON_DARK : WINE } : undefined}
     >
       {[...value].map((char, i) => {
-        const src = digitSrc(char);
+        const src = digitSrc(char, tone, dark);
         if (src) {
           return (
             <img
@@ -95,6 +124,31 @@ function BrushPrice({
         );
       })}
     </span>
+  );
+}
+
+/**
+ * A single confident brush swipe drawn over the struck-through regular
+ * price, top-right to bottom-left — standing in for a plain CSS
+ * line-through so the "strike" reads as a hand-drawn mark instead of a
+ * ruled line. Sized in a viewBox that roughly matches a price's aspect
+ * ratio and stretched to fill its wrapper via preserveAspectRatio="none",
+ * so it scales with whatever text it's laid over.
+ */
+function StrikeStroke({ dark = false }: { dark?: boolean }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 100 40"
+      preserveAspectRatio="none"
+      className="pointer-events-none absolute"
+      style={{ left: "-8%", right: "-8%", top: "-22%", bottom: "-22%", width: "116%", height: "144%" }}
+    >
+      <path
+        d="M 92 4 Q 97 3 94 9 L 11 35 Q 5 39 3 34 Q 2 30 8 27 L 87 1 Q 91 0 92 4 Z"
+        fill={dark ? WINE_ON_DARK : WINE}
+      />
+    </svg>
   );
 }
 
@@ -141,9 +195,8 @@ export function PriceTag({
     return (
       <span
         className={cn(
-          "font-serif font-bold",
+          "font-serif font-bold text-primary",
           SIZE_CLASSES[size],
-          dark ? "text-white" : "text-foreground",
           className,
         )}
       >
@@ -159,20 +212,20 @@ export function PriceTag({
         className,
       )}
     >
+      {/* Gold like every other regular price on the page, crossed out by a
+          hand-drawn wine-red brush stroke (see StrikeStroke) rather than a
+          plain CSS line-through — the deal price next to it carries the
+          wine-red instead. */}
       <span
         className={cn(
-          "font-normal line-through",
+          "relative inline-block font-normal text-primary",
           REGULAR_STRIKE_SIZE_CLASSES[size],
-          // Wine red rather than the destructive/pure-red accent — reads
-          // as "struck through" without being harsh next to the gold sale
-          // price. Lightened a touch on dark (navy) backgrounds so it
-          // stays visible there too.
-          dark ? "text-[#c98a92]" : "text-[#7c2d3a]",
         )}
       >
         {regularPrice}
+        <StrikeStroke dark={dark} />
       </span>
-      <BrushPrice value={salePrice} size={size} />
+      <BrushPrice value={salePrice} size={size} tone="wine" dark={dark} />
     </span>
   );
 }
