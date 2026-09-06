@@ -26,7 +26,7 @@ export default function App() {
               <Route path="/services" element={<Services />} />
               <Route path="/process" element={<Process />} />
               <Route path="/inquire" element={<Inquire />} />
-              <Route path="/book" element={<Book />} />
+              <Route path="/book-consult" element={<Book />} />
               <Route path="/admin" element={<Admin />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             </Route>

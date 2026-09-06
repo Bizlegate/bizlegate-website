@@ -579,7 +579,7 @@ export const PAGE_SCHEMAS: PageSchema[] = [
       {
         title: "Hero",
         description:
-          "The /book sales page is hidden behind the Book toggle above the language tabs until you turn it on. English-only — this page is not part of the Chinese site.",
+          "The /book-consult sales page is hidden behind the Book toggle above the language tabs until you turn it on. English-only — this page is not part of the Chinese site.",
         textFields: [
           {
             key: "book.hero.eyebrow",

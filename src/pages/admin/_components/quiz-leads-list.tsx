@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/empty.tsx";
 import { QUIZ_RESULTS } from "@/pages/book/_lib/quiz-data.ts";
 
-/** Admin view of leads captured by the /book page's "Office Politics
+/** Admin view of leads captured by the /book-consult page's "Office Politics
  * Self-Diagnostic" quiz — see convex/quiz.ts. */
 export default function QuizLeadsList() {
   const leads = useQuery(api.quiz.list, {});
@@ -37,8 +37,8 @@ export default function QuizLeadsList() {
           </EmptyMedia>
           <EmptyTitle>No quiz leads yet</EmptyTitle>
           <EmptyDescription>
-            Emails captured from the /book page's self-diagnostic quiz will
-            appear here.
+            Emails captured from the /book-consult page's self-diagnostic quiz
+            will appear here.
           </EmptyDescription>
         </EmptyHeader>
       </Empty>

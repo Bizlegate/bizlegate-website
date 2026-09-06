@@ -10,7 +10,7 @@ import { ContentContext } from "@/hooks/use-content.ts";
 export const BOOK_ENABLED_KEY = "site.bookEnabled";
 
 /**
- * Admin-only switch for the /book sales page. Defaults OFF (unlike the zh
+ * Admin-only switch for the /book-consult sales page. Defaults OFF (unlike the zh
  * toggle, which defaults ON) — this is a brand-new page that hasn't
  * launched yet, so it should stay hidden behind a "coming soon" placeholder
  * until the admin is ready to send traffic to it.
@@ -41,11 +41,11 @@ export default function BookSiteToggle() {
           <BookOpen className="size-4" />
         </div>
         <div>
-          <Label className="text-sm font-medium">書籍銷售頁面(/book)</Label>
+          <Label className="text-sm font-medium">書籍銷售頁面(/book-consult)</Label>
           <p className="mt-1 max-w-md text-sm text-muted-foreground">
             {enabled
-              ? "頁面目前是公開狀態,任何人打開 /book 都看得到完整銷售頁。"
-              : "頁面目前是隱藏狀態,打開 /book 只會看到「即將推出」,看不到任何內容——適合先在後台把文案調好,準備好再打開。"}
+              ? "頁面目前是公開狀態,任何人打開 /book-consult 都看得到完整銷售頁。"
+              : "頁面目前是隱藏狀態,打開 /book-consult 只會看到「即將推出」,看不到任何內容——適合先在後台把文案調好,準備好再打開。"}
           </p>
         </div>
       </div>
