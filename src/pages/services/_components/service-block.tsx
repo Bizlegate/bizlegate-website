@@ -62,7 +62,7 @@ export default function ServiceBlock({
     <ul className="space-y-3">
       {bullets.map((b) => (
         <li key={b.key} className="flex gap-3">
-          <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+          <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-secondary text-primary">
             <Check className="size-3.5" />
           </span>
           <span className="text-sm leading-relaxed text-foreground/90">

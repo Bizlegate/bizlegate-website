@@ -14,8 +14,15 @@ export default function ServicesCta() {
   );
 
   return (
-    <section className="bg-[#0A1B2A]">
-      <div className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
+    <section className="relative overflow-hidden bg-[#0A1B2A]">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.12]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 12% 20%, #C5A059 0, transparent 42%), radial-gradient(circle at 88% 10%, #C5A059 0, transparent 38%)",
+        }}
+      />
+      <div className="relative mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
         <h2 className="font-serif text-3xl font-bold tracking-tight text-white sm:text-4xl">
           {title}
         </h2>

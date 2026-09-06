@@ -31,7 +31,7 @@ export default function LocalGuide() {
             const Icon = b.icon;
             return (
               <div key={b.key} className="flex gap-4">
-                <div className="mt-1 inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+                <div className="mt-1 inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
                   <Icon className="size-5" />
                 </div>
                 <div>
