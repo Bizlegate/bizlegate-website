@@ -19,13 +19,18 @@ export default function PainPoints() {
           return (
             <div
               key={point.key}
-              className="group rounded-xl border border-primary/10 bg-card p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_12px_32px_-8px_rgba(197,160,89,0.25)]"
+              // Warm champagne-gold card (the site's --accent token, same
+              // treatment as the /book page's pricing cards) instead of a
+              // plain white card — this is the actual "more gold" ask, not
+              // a thin accent line. border-primary at rest (not a faint
+              // tint) keeps the gold reading as a deliberate premium cue
+              // rather than a subtle afterthought.
+              className="group rounded-xl border border-primary bg-accent p-7 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-10px_rgba(197,160,89,0.45)]"
             >
               <div className="mb-5 inline-flex size-12 items-center justify-center rounded-lg bg-secondary text-primary">
                 <Icon className="size-6" />
               </div>
-              <div className="mb-4 h-px w-10 bg-gradient-to-r from-primary/70 to-transparent" />
-              <h3 className="font-serif text-xl font-semibold text-card-foreground">
+              <h3 className="font-serif text-xl font-semibold text-accent-foreground">
                 {get(`home.pain.${point.key}.title`, point.title)}
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
