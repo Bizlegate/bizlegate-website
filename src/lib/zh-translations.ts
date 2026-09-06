@@ -12,10 +12,10 @@
  */
 export const ZH_TRANSLATIONS: Record<string, string> = {
   // ---- Home ----
-  "home.hero.eyebrow": "美國 · 台灣 · 吉隆坡",
+  "home.hero.eyebrow": "美國 · 台灣",
   "home.hero.title": "通往台灣商務的頂級門戶",
   "home.hero.subtitle":
-    "Bizlegate 是專精美台商務出訪規劃的頂尖顧問公司。我們為重要企業訪問提供在地引薦與後勤統籌,並安排低調奢華的生活起居,讓您的代表團從落地到啟程都從容自信。我們也提供獨家的吉隆坡商務門路;若您的業務目標涵蓋更廣泛的亞洲市場,歡迎諮詢我們的策略顧問服務。",
+    "Bizlegate 是專精美台商務出訪規劃的頂尖顧問公司。我們為重要企業訪問提供在地引薦與後勤統籌,並安排低調奢華的生活起居,讓您的代表團從落地到啟程都從容自信。",
   "home.hero.tagline": "直接人脈引薦、精簡高效執行、無需操心的舒適體驗。",
   "home.pain.eyebrow": "現實的挑戰",
   "home.pain.title": "打入台灣市場,不該這麼困難。",

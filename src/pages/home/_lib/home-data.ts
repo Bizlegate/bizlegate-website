@@ -3,7 +3,7 @@ import { Camera, PlaneTakeoff, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export const HERO_DEFAULTS = {
-  eyebrow: "US · Taiwan · Southeast Asia",
+  eyebrow: "US · Taiwan",
   title: "The elite gateway to Taiwan business.",
   subtitle:
     "Bizlegate is a premier US–Taiwan business travel architecture firm. We anchor high-stakes corporate visits and curate quiet-luxury living, so your delegation moves with confidence from touchdown to takeoff.",

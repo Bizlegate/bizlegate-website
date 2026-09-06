@@ -33,13 +33,13 @@ export const UI_STRINGS = {
   footer: {
     navigate: { en: "Navigate", zh: "網站導覽" },
     description: {
-      en: "Premier US–Taiwan business travel architecture. Direct access, lean execution, and effortless comfort for elite executives crossing the US–Taiwan and Southeast Asia corridor.",
-      zh: "頂尖的美台商務出訪規劃服務。為往來美國、台灣與東南亞的企業高層,提供直接的人脈引薦、精簡高效的執行,以及無需操心的舒適體驗。",
+      en: "Premier US–Taiwan business travel architecture. Direct access, lean execution, and effortless comfort for elite executives crossing the US–Taiwan corridor.",
+      zh: "頂尖的美台商務出訪規劃服務。為往來美國與台灣的企業高層,提供直接的人脈引薦、精簡高效的執行,以及無需操心的舒適體驗。",
     },
     rights: { en: "All rights reserved.", zh: "版權所有,翻印必究。" },
     locations: {
-      en: "Taipei · Kuala Lumpur · United States",
-      zh: "台北 · 吉隆坡 · 美國",
+      en: "Taipei · United States",
+      zh: "台北 · 美國",
     },
   },
   form: {
