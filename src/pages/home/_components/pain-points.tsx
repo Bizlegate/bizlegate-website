@@ -19,11 +19,12 @@ export default function PainPoints() {
           return (
             <div
               key={point.key}
-              className="group rounded-xl border border-border bg-card p-7 transition-shadow hover:shadow-md"
+              className="group rounded-xl border border-primary/10 bg-card p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_12px_32px_-8px_rgba(197,160,89,0.25)]"
             >
               <div className="mb-5 inline-flex size-12 items-center justify-center rounded-lg bg-secondary text-primary">
                 <Icon className="size-6" />
               </div>
+              <div className="mb-4 h-px w-10 bg-gradient-to-r from-primary/70 to-transparent" />
               <h3 className="font-serif text-xl font-semibold text-card-foreground">
                 {get(`home.pain.${point.key}.title`, point.title)}
               </h3>
