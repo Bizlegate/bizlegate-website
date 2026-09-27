@@ -22,6 +22,10 @@ import BookQuizDialog from "./_components/book-quiz-dialog.tsx";
 export default function Book() {
   const { content } = useContext(ContentContext);
   const enabled = content?.["site.bookEnabled"] === "true";
+  // See ConsultingSiteToggle — defaults OFF, independent of the page-level
+  // site.bookEnabled flag above, so the book can be on sale while the
+  // consulting tiers stay hidden.
+  const consultingEnabled = content?.["site.consultingEnabled"] === "true";
 
   // Lock this route to the light theme regardless of the visitor's OS
   // dark-mode preference — see the `.book-page` rule in index.css for why
@@ -45,10 +49,10 @@ export default function Book() {
       <BookHero />
       <BookValueStack />
       <BookStructure />
-      <BookConsulting />
+      {consultingEnabled && <BookConsulting />}
       <BookPreviewCta />
       <BookFinalCta />
-      <BookConsultingSale />
+      {consultingEnabled && <BookConsultingSale />}
       <BookExitModals />
       <BookQuizDialog />
     </>

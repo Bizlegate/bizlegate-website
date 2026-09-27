@@ -28,9 +28,11 @@ import { PAGE_SCHEMAS, PAGE_SCHEMAS_ZH } from "./_lib/content-schema.ts";
 import ContentEditor from "./_components/content-editor.tsx";
 import SubmissionsList from "./_components/submissions-list.tsx";
 import QuizLeadsList from "./_components/quiz-leads-list.tsx";
+import BookAccessPanel from "./_components/book-access-panel.tsx";
 import MembersManager from "./_components/members-manager.tsx";
 import ZhSiteToggle from "./_components/zh-site-toggle.tsx";
 import BookSiteToggle from "./_components/book-site-toggle.tsx";
+import ConsultingSiteToggle from "./_components/consulting-site-toggle.tsx";
 
 function LoadingState() {
   return (
@@ -95,6 +97,9 @@ function AdminDashboard() {
             <TabsTrigger value="quizLeads" className="cursor-pointer">
               Quiz Leads
             </TabsTrigger>
+            <TabsTrigger value="bookAccess" className="cursor-pointer">
+              Book Access
+            </TabsTrigger>
             <TabsTrigger value="members" className="cursor-pointer">
               Team
             </TabsTrigger>
@@ -103,6 +108,7 @@ function AdminDashboard() {
           <TabsContent value="content">
             <ZhSiteToggle />
             <BookSiteToggle />
+            <ConsultingSiteToggle />
             <Tabs defaultValue="en">
               <TabsList className="mb-6">
                 <TabsTrigger value="en" className="cursor-pointer">
@@ -166,6 +172,10 @@ function AdminDashboard() {
 
           <TabsContent value="quizLeads">
             <QuizLeadsList />
+          </TabsContent>
+
+          <TabsContent value="bookAccess">
+            <BookAccessPanel />
           </TabsContent>
 
           <TabsContent value="members">

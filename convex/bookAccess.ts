@@ -10,6 +10,30 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const LANGUAGE = v.union(v.literal("en"), v.literal("zh"), v.literal("both"));
 
+const PRODUCT = v.union(
+  v.literal("book"),
+  v.literal("consulting-two"),
+  v.literal("consulting-five"),
+  v.literal("consulting-ten"),
+);
+type Product = "book" | "consulting-two" | "consulting-five" | "consulting-ten";
+
+const PRODUCT_LABEL: Record<Product, string> = {
+  book: "Be the Outsmarter (book)",
+  "consulting-two": "Consulting — Two-Pack",
+  "consulting-five": "Consulting — Five-Pack",
+  "consulting-ten": "Consulting — Ten-Pack",
+};
+
+// Fallback Wise "request money" links, used until an admin sets a
+// bookPaymentLinks row for that product from /admin → Book Access. Safe to
+// hardcode here — this file only runs on the Convex backend, never in the
+// public site bundle (same reasoning as bookContentData.ts), so this never
+// leaks to a page a visitor could load before submitting a purchase notice.
+const DEFAULT_PAYMENT_LINKS: Partial<Record<Product, string>> = {
+  book: "https://wise.com/pay/r/IOIcililVJZeXeg",
+};
+
 function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
 }
@@ -38,16 +62,24 @@ function chaptersFor(language: "en" | "zh") {
 /**
  * Public: a buyer reports that they've sent the manual bank transfer for the
  * book (and/or a consulting pack) and is waiting to be granted /library
- * access. This does NOT verify the deposit — the admin reconciles the bank
- * statement by hand and calls grantAccess once the transfer actually shows
- * up. See claude/16_payment_processor_decision.md for why this is manual.
+ * access (book) or contacted to start their consulting exchange. This does
+ * NOT verify the deposit — the admin reconciles the bank/Wise statement by
+ * hand. See claude/16_payment_processor_decision.md for why this is manual.
+ *
+ * Returns the Wise payment link for the chosen product so the buyer can pay
+ * right away — deliberately returned here rather than stored anywhere a
+ * public page query would fetch it, so the link (which shows the account
+ * holder's name — see 16_payment_processor_decision.md) is only ever seen
+ * by someone who has already told us they intend to buy, never by a casual
+ * site visitor or a search engine crawling the public pages.
  */
 export const submitPurchaseNotice = mutation({
   args: {
     email: v.string(),
     name: v.optional(v.string()),
     note: v.optional(v.string()),
-    requestedLanguage: LANGUAGE,
+    product: PRODUCT,
+    requestedLanguage: v.optional(LANGUAGE),
   },
   handler: async (ctx, args) => {
     const email = normalizeEmail(args.email);
@@ -57,12 +89,19 @@ export const submitPurchaseNotice = mutation({
         message: "Please enter a valid email address.",
       });
     }
+    if (args.product === "book" && !args.requestedLanguage) {
+      throw new ConvexError({
+        code: "BAD_REQUEST",
+        message: "Please choose which language edition you'd like.",
+      });
+    }
 
     const id = await ctx.db.insert("bookPurchaseNotices", {
       email,
       name: args.name?.trim() || undefined,
       note: args.note?.trim() || undefined,
-      requestedLanguage: args.requestedLanguage,
+      product: args.product,
+      requestedLanguage: args.product === "book" ? args.requestedLanguage : undefined,
       status: "pending",
     });
 
@@ -73,11 +112,18 @@ export const submitPurchaseNotice = mutation({
         email,
         name: args.name?.trim() || undefined,
         note: args.note?.trim() || undefined,
+        product: PRODUCT_LABEL[args.product],
         requestedLanguage: args.requestedLanguage,
       },
     );
 
-    return id;
+    const override = await ctx.db
+      .query("bookPaymentLinks")
+      .withIndex("by_product", (q) => q.eq("product", args.product))
+      .unique();
+    const wiseLink = override?.wiseLink ?? DEFAULT_PAYMENT_LINKS[args.product];
+
+    return { noticeId: id, wiseLink };
   },
 });
 
@@ -190,6 +236,62 @@ export const listGrants = query({
   handler: async (ctx) => {
     await requireAdmin(ctx);
     return await ctx.db.query("bookAccess").order("desc").collect();
+  },
+});
+
+// Admin: the current effective payment link per product — the admin's own
+// override if one has been set, otherwise the hardcoded default. Lets the
+// admin panel show what's actually in effect right now.
+export const listPaymentLinks = query({
+  args: {},
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+    const overrides = await ctx.db.query("bookPaymentLinks").collect();
+    const overrideByProduct = new Map(overrides.map((o) => [o.product, o]));
+    const products: Product[] = [
+      "book",
+      "consulting-two",
+      "consulting-five",
+      "consulting-ten",
+    ];
+    return products.map((product) => {
+      const override = overrideByProduct.get(product);
+      return {
+        product,
+        label: PRODUCT_LABEL[product],
+        wiseLink: override?.wiseLink ?? DEFAULT_PAYMENT_LINKS[product] ?? "",
+        isOverride: override !== undefined,
+      };
+    });
+  },
+});
+
+// Admin: set (or clear, with an empty string) the payment link override for
+// a product. Takes effect immediately for the next purchase notice.
+export const setPaymentLink = mutation({
+  args: { product: PRODUCT, wiseLink: v.string() },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    const trimmed = args.wiseLink.trim();
+    const existing = await ctx.db
+      .query("bookPaymentLinks")
+      .withIndex("by_product", (q) => q.eq("product", args.product))
+      .unique();
+
+    if (!trimmed) {
+      if (existing) await ctx.db.delete(existing._id);
+      return null;
+    }
+
+    if (existing) {
+      await ctx.db.patch(existing._id, { wiseLink: trimmed });
+    } else {
+      await ctx.db.insert("bookPaymentLinks", {
+        product: args.product,
+        wiseLink: trimmed,
+      });
+    }
+    return null;
   },
 });
 

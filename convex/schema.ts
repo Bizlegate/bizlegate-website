@@ -71,9 +71,9 @@ export default defineSchema({
     answers: v.array(v.string()),
   }).index("by_email", ["email"]),
 
-  // A buyer's notice that they've sent a manual bank transfer for the book
-  // (and/or a consulting pack) and are waiting for the admin to verify the
-  // deposit and grant access. See convex/bookAccess.ts.
+  // A buyer's notice that they've sent a manual bank transfer and are
+  // waiting for the admin to verify the deposit and act on it. See
+  // convex/bookAccess.ts.
   bookPurchaseNotices: defineTable({
     email: v.string(),
     name: v.optional(v.string()),
@@ -81,13 +81,22 @@ export default defineSchema({
     // is manually reconciled by the admin against the actual bank deposit,
     // not trusted or auto-charged.
     note: v.optional(v.string()),
-    // Which reading-language access the buyer is requesting. "both" covers
-    // someone who bought both language editions (or a consulting pack that
-    // bundles both).
-    requestedLanguage: v.union(
-      v.literal("en"),
-      v.literal("zh"),
-      v.literal("both"),
+    // Which product this notice is for. Only "book" ever leads to a
+    // bookAccess grant (/library access) — the three consulting tiers are
+    // an email-guidance service handled by the admin by hand once payment
+    // is confirmed, so they're tracked here just so nothing falls through
+    // the cracks, not wired into the access-grant flow at all.
+    product: v.union(
+      v.literal("book"),
+      v.literal("consulting-two"),
+      v.literal("consulting-five"),
+      v.literal("consulting-ten"),
+    ),
+    // Which reading-language access the buyer is requesting. Only
+    // meaningful when product === "book" — "both" covers someone who
+    // bought both language editions.
+    requestedLanguage: v.optional(
+      v.union(v.literal("en"), v.literal("zh"), v.literal("both")),
     ),
     status: v.union(
       v.literal("pending"),
@@ -97,6 +106,23 @@ export default defineSchema({
   })
     .index("by_email", ["email"])
     .index("by_status", ["status"]),
+
+  // The Wise "request money" link shown to a buyer right after they submit
+  // a purchase notice for a given product — never rendered on any public
+  // page, only returned by the submitPurchaseNotice mutation's response
+  // (see bookAccess.ts). One row per product; admin-editable from /admin →
+  // Book Access so the link can be rotated or a consulting-tier link added
+  // without a code deploy. A hardcoded fallback in bookAccess.ts covers the
+  // case where no row exists yet for a product.
+  bookPaymentLinks: defineTable({
+    product: v.union(
+      v.literal("book"),
+      v.literal("consulting-two"),
+      v.literal("consulting-five"),
+      v.literal("consulting-ten"),
+    ),
+    wiseLink: v.string(),
+  }).index("by_product", ["product"]),
 
   // Grants access to the gated /library online-reading page. One row per
   // buyer email. `language` is fixed at grant time by the admin to match

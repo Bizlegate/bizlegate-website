@@ -15,6 +15,23 @@ import type { LibraryCredentials } from "./library-login.tsx";
 
 type Language = "en" | "zh";
 
+// Mirrors the shape returned by convex/bookAccess.ts's getChapters (itself
+// re-exporting the BookChapter shape from the server-only
+// convex/bookContentData.ts — deliberately redeclared here instead of
+// imported, since that file must never be imported from client code, see
+// its header comment). Declaring this explicitly keeps this component
+// type-safe even at a moment when convex/_generated/api.d.ts hasn't been
+// regenerated yet (e.g. before `npx convex dev` has been run after adding
+// bookAccess.ts) — without it, TS falls back to `any` for the query result
+// and every .map() callback below trips noImplicitAny.
+type ChapterBlock = { type: "p" | "subhead" | "takeaway"; text: string };
+type Chapter = {
+  number: number;
+  title: string;
+  part: string;
+  blocks: ChapterBlock[];
+};
+
 export default function LibraryReader({
   creds,
   grantLanguage,
@@ -33,7 +50,7 @@ export default function LibraryReader({
     email: creds.email,
     code: creds.code,
     language,
-  });
+  }) as Chapter[] | undefined;
 
   // Jump back to chapter one whenever the reader switches language — the two
   // editions aren't guaranteed to line up chapter-for-chapter in the UI, and

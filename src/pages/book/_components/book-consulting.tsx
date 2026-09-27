@@ -1,4 +1,3 @@
-import { toast } from "sonner";
 import { Mail, MessagesSquare, Crown } from "lucide-react";
 import { Section, SectionHeading } from "@/components/layout/section.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -9,17 +8,22 @@ import {
   BOOK_CONSULTING_CTA,
 } from "../_lib/book-data.ts";
 import { CARD_GOLD } from "./price-tag.tsx";
+import PurchaseDialog, { type Product } from "./purchase-dialog.tsx";
 
 /**
  * The second product on this page — email-based 1:1 guidance, sold
  * alongside the book itself, shown here at regular price. The same three
  * tiers repeat at the bottom of the page at sale price — see
- * book-consulting-sale.tsx. No checkout wired up yet, same placeholder
- * pattern as the book's buy buttons (see book-hero.tsx).
+ * book-consulting-sale.tsx. Uses the same manual bank-transfer flow as the
+ * book's buy button (see book-hero.tsx / purchase-dialog.tsx) — a
+ * consulting purchase never grants /library access, it just notifies the
+ * admin to start the email exchange once payment is confirmed.
  */
-function handleConsultingClick(tierTitle: string) {
-  toast.info(`${tierTitle} checkout is coming soon — thanks for your patience.`);
-}
+const TIER_PRODUCT: Record<string, Product> = {
+  two: "consulting-two",
+  five: "consulting-five",
+  ten: "consulting-ten",
+};
 
 // One icon per tier, echoing the depth of engagement (a single exchange ->
 // an extended back-and-forth -> ongoing support) — same "icon in a dark
@@ -120,14 +124,12 @@ export default function BookConsulting() {
                   sale-priced repeat of this grid (book-consulting-sale.tsx)
                   already uses the filled default button on the same card
                   and reads fine — this just matches it. */}
-              <Button
-                className="mt-6 cursor-pointer"
-                onClick={() =>
-                  handleConsultingClick(get(`book.consulting.${tier.key}.title`, tier.title))
-                }
+              <PurchaseDialog
+                product={TIER_PRODUCT[tier.key]}
+                productLabel={get(`book.consulting.${tier.key}.title`, tier.title)}
               >
-                {ctaLabel}
-              </Button>
+                <Button className="mt-6 cursor-pointer">{ctaLabel}</Button>
+              </PurchaseDialog>
             </div>
           );
         })}

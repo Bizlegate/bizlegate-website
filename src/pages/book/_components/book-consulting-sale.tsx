@@ -1,4 +1,3 @@
-import { toast } from "sonner";
 import { Mail, MessagesSquare, Crown } from "lucide-react";
 import { Section, SectionHeading } from "@/components/layout/section.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -9,6 +8,7 @@ import {
   BOOK_CONSULTING_CTA,
 } from "../_lib/book-data.ts";
 import { PriceTag } from "./price-tag.tsx";
+import PurchaseDialog, { type Product } from "./purchase-dialog.tsx";
 
 /**
  * The same three consulting tiers as BookConsulting (mid-page), repeated
@@ -16,11 +16,13 @@ import { PriceTag } from "./price-tag.tsx";
  * alongside the book's own sale-priced final CTA. Always shows the sale
  * price — unlike the book's single sale-price toggle, there's no on/off
  * switch here; the per-tier salePrice values in BOOK_CONSULTING_TIERS are
- * what's displayed.
+ * what's displayed. Same manual bank-transfer flow as book-consulting.tsx.
  */
-function handleConsultingClick(tierTitle: string) {
-  toast.info(`${tierTitle} checkout is coming soon — thanks for your patience.`);
-}
+const TIER_PRODUCT: Record<string, Product> = {
+  two: "consulting-two",
+  five: "consulting-five",
+  ten: "consulting-ten",
+};
 
 // Keep in sync with the same map in book-consulting.tsx — see the comment
 // there.
@@ -105,16 +107,12 @@ export default function BookConsultingSale() {
               <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
                 {get(`book.consulting.${tier.key}.body`, tier.body)}
               </p>
-              <Button
-                className="mt-6 cursor-pointer"
-                onClick={() =>
-                  handleConsultingClick(
-                    get(`book.consulting.${tier.key}.title`, tier.title),
-                  )
-                }
+              <PurchaseDialog
+                product={TIER_PRODUCT[tier.key]}
+                productLabel={get(`book.consulting.${tier.key}.title`, tier.title)}
               >
-                {ctaLabel}
-              </Button>
+                <Button className="mt-6 cursor-pointer">{ctaLabel}</Button>
+              </PurchaseDialog>
             </div>
           );
         })}

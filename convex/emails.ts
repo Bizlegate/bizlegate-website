@@ -145,19 +145,23 @@ export const sendPurchaseNoticeNotification = internalAction({
     email: v.string(),
     name: v.optional(v.string()),
     note: v.optional(v.string()),
-    requestedLanguage: v.union(v.literal("en"), v.literal("zh"), v.literal("both")),
+    product: v.string(),
+    requestedLanguage: v.optional(
+      v.union(v.literal("en"), v.literal("zh"), v.literal("both")),
+    ),
   },
   handler: async (_ctx, args) => {
     const html = `
       <div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;">
         <div style="background:#0A1B2A;padding:24px 28px;border-radius:8px 8px 0 0;">
           <h1 style="margin:0;color:#C5A059;font-size:20px;">New Purchase Notice — Be the Outsmarter</h1>
-          <p style="margin:6px 0 0;color:#cbd5e1;font-size:13px;">A buyer says they've sent a manual bank transfer and is waiting for /library access. Verify the deposit, then grant access from /admin → Book Access.</p>
+          <p style="margin:6px 0 0;color:#cbd5e1;font-size:13px;">A buyer says they've sent a manual bank transfer. Verify the deposit, then act on it from /admin → Book Access (grant /library access for the book, or reach out to start the exchange for a consulting pack).</p>
         </div>
         <table style="width:100%;border-collapse:collapse;background:#ffffff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;">
           ${row("Email", `<a href="mailto:${escapeHtml(args.email)}" style="color:#0A1B2A;">${escapeHtml(args.email)}</a>`)}
           ${args.name ? row("Name", escapeHtml(args.name)) : ""}
-          ${row("Requested language", REQUESTED_LANGUAGE_LABELS[args.requestedLanguage] ?? args.requestedLanguage)}
+          ${row("Product", escapeHtml(args.product))}
+          ${args.requestedLanguage ? row("Requested language", REQUESTED_LANGUAGE_LABELS[args.requestedLanguage] ?? args.requestedLanguage) : ""}
           ${args.note ? row("Note from buyer", escapeHtml(args.note).replace(/\n/g, "<br/>")) : ""}
         </table>
       </div>

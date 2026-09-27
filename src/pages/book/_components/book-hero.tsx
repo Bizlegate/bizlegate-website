@@ -1,4 +1,3 @@
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button.tsx";
 import { useContentText, useMediaValue } from "@/hooks/use-content.ts";
 import {
@@ -10,17 +9,7 @@ import Book3dCover from "./book-3d-cover.tsx";
 import { markBuyClicked } from "../_lib/use-exit-intent.ts";
 import { useBookPrice } from "../_lib/use-book-price.ts";
 import { PriceTag } from "./price-tag.tsx";
-
-/**
- * The buy button doesn't have a real checkout wired up yet (payment
- * platform still being decided — see revenue plan). It looks and behaves
- * like a real button so the page can be reviewed as-is; clicking it shows a
- * toast instead of a dead link until checkout is connected.
- */
-function handleBuyClick() {
-  markBuyClicked();
-  toast.info("Checkout is coming soon — thanks for your patience.");
-}
+import PurchaseDialog from "./purchase-dialog.tsx";
 
 export default function BookHero() {
   const eyebrow = useContentText("book.hero.eyebrow", BOOK_HERO_DEFAULTS.eyebrow);
@@ -77,9 +66,11 @@ export default function BookHero() {
               size="xl"
               dark
             />
-            <Button size="lg" className="cursor-pointer" onClick={handleBuyClick}>
-              {buyLabel}
-            </Button>
+            <PurchaseDialog product="book" productLabel={title}>
+              <Button size="lg" className="cursor-pointer" onClick={markBuyClicked}>
+                {buyLabel}
+              </Button>
+            </PurchaseDialog>
             <p className="text-xs text-white/50">{priceNote}</p>
           </div>
         </div>
