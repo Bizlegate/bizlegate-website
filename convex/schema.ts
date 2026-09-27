@@ -79,24 +79,30 @@ export default defineSchema({
     name: v.optional(v.string()),
     // What the buyer says they paid for / how much — free text, since this
     // is manually reconciled by the admin against the actual bank deposit,
-    // not trusted or auto-charged.
+    // not trusted or auto-charged. For book-deluxe this doubles as the
+    // buyer's description of what they're working through (see goalDate /
+    // imageStyle below).
     note: v.optional(v.string()),
-    // Which product this notice is for. Only "book" ever leads to a
-    // bookAccess grant (/library access) — the three consulting tiers are
-    // an email-guidance service handled by the admin by hand once payment
-    // is confirmed, so they're tracked here just so nothing falls through
-    // the cracks, not wired into the access-grant flow at all.
+    // Which of the three book tiers this notice is for — every one of them
+    // leads to a bookAccess grant (/library access), just to a different
+    // set of chapters (see CHAPTER_ACCESS_FOR_PRODUCT in bookAccess.ts).
     product: v.union(
-      v.literal("book"),
-      v.literal("consulting-two"),
-      v.literal("consulting-five"),
-      v.literal("consulting-ten"),
+      v.literal("book-sample"),
+      v.literal("book-full"),
+      v.literal("book-deluxe"),
     ),
-    // Which reading-language access the buyer is requesting. Only
-    // meaningful when product === "book" — "both" covers someone who
-    // bought both language editions.
+    // Which reading-language access the buyer is requesting — "both"
+    // covers someone who bought both language editions.
     requestedLanguage: v.optional(
       v.union(v.literal("en"), v.literal("zh"), v.literal("both")),
+    ),
+    // book-deluxe only: the buyer's target/goal-achievement date and which
+    // visual style they want for the custom desktop wallpaper. The admin
+    // makes the wallpaper by hand from these plus the `note` field above —
+    // there's no automated generation or delivery pipeline for it.
+    goalDate: v.optional(v.string()),
+    imageStyle: v.optional(
+      v.union(v.literal("glam"), v.literal("professional")),
     ),
     status: v.union(
       v.literal("pending"),
@@ -111,15 +117,14 @@ export default defineSchema({
   // a purchase notice for a given product — never rendered on any public
   // page, only returned by the submitPurchaseNotice mutation's response
   // (see bookAccess.ts). One row per product; admin-editable from /admin →
-  // Book Access so the link can be rotated or a consulting-tier link added
+  // Book Access so the link can be rotated or a new tier's link added
   // without a code deploy. A hardcoded fallback in bookAccess.ts covers the
   // case where no row exists yet for a product.
   bookPaymentLinks: defineTable({
     product: v.union(
-      v.literal("book"),
-      v.literal("consulting-two"),
-      v.literal("consulting-five"),
-      v.literal("consulting-ten"),
+      v.literal("book-sample"),
+      v.literal("book-full"),
+      v.literal("book-deluxe"),
     ),
     wiseLink: v.string(),
   }).index("by_product", ["product"]),
@@ -132,6 +137,14 @@ export default defineSchema({
     email: v.string(),
     code: v.string(),
     language: v.union(v.literal("en"), v.literal("zh"), v.literal("both")),
+    // Which chapters this grant unlocks — "sample" is the two-chapter
+    // taster tier ($10, see SAMPLE_CHAPTERS_KEY in bookAccess.ts), "full"
+    // is all 30 chapters (both the $42.39 and $83.59 tiers grant "full").
+    // Optional so any row from before this field existed still validates —
+    // treated as "full" in code when absent.
+    chapterAccess: v.optional(
+      v.union(v.literal("sample"), v.literal("full")),
+    ),
     active: v.boolean(),
     // The purchase notice this grant was issued from, if any (manual grants
     // made without a prior notice — e.g. a comp copy — can omit this).

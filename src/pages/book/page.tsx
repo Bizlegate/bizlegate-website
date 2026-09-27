@@ -1,8 +1,7 @@
 import { useContext, useEffect } from "react";
 import { ContentContext } from "@/hooks/use-content.ts";
 import BookHero from "./_components/book-hero.tsx";
-import BookConsulting from "./_components/book-consulting.tsx";
-import BookConsultingSale from "./_components/book-consulting-sale.tsx";
+import BookTiers from "./_components/book-tiers.tsx";
 import BookValueStack from "./_components/book-value-stack.tsx";
 import BookStructure from "./_components/book-structure.tsx";
 import BookPreviewCta from "./_components/book-preview-cta.tsx";
@@ -18,14 +17,16 @@ import BookQuizDialog from "./_components/book-quiz-dialog.tsx";
  * traffic — see ZhSiteToggle for the same pattern applied to the Chinese
  * site. English-only / US-market only by design (see the revenue plan);
  * this page does not use the zh bilingual hooks.
+ *
+ * The former separate "consulting" offer (Two/Five/Ten-Pack email guidance)
+ * is retired as of the 2026-09-27 pricing pivot — see
+ * claude/00_project_status.md. book-consulting.tsx, book-consulting-sale.tsx
+ * and admin/_components/consulting-site-toggle.tsx still exist on disk but
+ * are no longer imported anywhere; safe to delete by hand whenever.
  */
 export default function Book() {
   const { content } = useContext(ContentContext);
   const enabled = content?.["site.bookEnabled"] === "true";
-  // See ConsultingSiteToggle — defaults OFF, independent of the page-level
-  // site.bookEnabled flag above, so the book can be on sale while the
-  // consulting tiers stay hidden.
-  const consultingEnabled = content?.["site.consultingEnabled"] === "true";
 
   // Lock this route to the light theme regardless of the visitor's OS
   // dark-mode preference — see the `.book-page` rule in index.css for why
@@ -49,10 +50,9 @@ export default function Book() {
       <BookHero />
       <BookValueStack />
       <BookStructure />
-      {consultingEnabled && <BookConsulting />}
+      <BookTiers />
       <BookPreviewCta />
       <BookFinalCta />
-      {consultingEnabled && <BookConsultingSale />}
       <BookExitModals />
       <BookQuizDialog />
     </>

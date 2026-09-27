@@ -18,10 +18,9 @@ import {
   BOOK_STRUCTURE_DEFAULTS,
   BOOK_STRUCTURE_LAYERS,
   BOOK_QUOTE_DEFAULTS,
-  BOOK_CONSULTING_DEFAULTS,
-  BOOK_CONSULTING_TIERS,
-  BOOK_CONSULTING_CTA,
-  BOOK_CONSULTING_SALE_DEFAULTS,
+  BOOK_TIERS,
+  BOOK_TIERS_SECTION_DEFAULTS,
+  BOOK_TIERS_CTA,
   BOOK_EXIT_PREVIEW_DEFAULTS,
   BOOK_AUTHOR_NOTE_PARAGRAPHS,
   BOOK_SALE_PRICE_KEY,
@@ -634,92 +633,58 @@ export const PAGE_SCHEMAS: PageSchema[] = [
         ],
       },
       {
-        title: "Consulting service (3 tiers)",
+        title: "Three-tier pricing",
         description:
-          "The email-based 1:1 guidance offer. These three tiers appear TWICE on the page — at regular price mid-page, and again at sale price near the bottom (see the 'Consulting — sale section' group below) — title/body/regular-price/sale-price here are shared by both, only the sale section's own eyebrow/title/subtitle differ.",
+          "The three book tiers (replaces the old single price + separate consulting tiers — see claude/00_project_status.md, 2026-09-27). Tier 2's price reuses the Hero's Regular/Sale price fields above rather than having its own — edit those to change Tier 2's price. Tier 1 and Tier 3 prices are set here. Which chapters Tier 1 actually unlocks is set in /admin → Book Access → \"Tier 1 — which chapters\", not here.",
         textFields: [
           {
-            key: "book.consulting.eyebrow",
-            label: "Eyebrow (regular-price section)",
+            key: "book.tiers.eyebrow",
+            label: "Eyebrow",
             kind: "text",
-            fallback: BOOK_CONSULTING_DEFAULTS.eyebrow,
+            fallback: BOOK_TIERS_SECTION_DEFAULTS.eyebrow,
           },
           {
-            key: "book.consulting.title",
-            label: "Section title (regular-price section)",
+            key: "book.tiers.title",
+            label: "Section title",
             kind: "text",
-            fallback: BOOK_CONSULTING_DEFAULTS.title,
+            fallback: BOOK_TIERS_SECTION_DEFAULTS.title,
           },
           {
-            key: "book.consulting.subtitle",
-            label: "Section subtitle (regular-price section)",
+            key: "book.tiers.subtitle",
+            label: "Section subtitle",
             kind: "textarea",
-            fallback: BOOK_CONSULTING_DEFAULTS.subtitle,
+            fallback: BOOK_TIERS_SECTION_DEFAULTS.subtitle,
           },
           {
-            key: "book.consulting.cta",
-            label: "Buy button label (all tiers, both sections)",
+            key: "book.tiers.cta",
+            label: "Buy button label (all 3 tiers)",
             kind: "text",
-            fallback: BOOK_CONSULTING_CTA,
+            fallback: BOOK_TIERS_CTA,
           },
-          ...BOOK_CONSULTING_TIERS.flatMap((tier, i): TextField[] => [
+          ...BOOK_TIERS.flatMap((tier, i): TextField[] => [
             {
-              key: `book.consulting.${tier.key}.title`,
+              key: `book.tiers.${tier.key}.title`,
               label: `Tier ${i + 1} — Title`,
               kind: "text",
               fallback: tier.title,
             },
+            ...(tier.priceKey
+              ? [
+                  {
+                    key: tier.priceKey,
+                    label: `Tier ${i + 1} — Price`,
+                    kind: "text",
+                    fallback: tier.priceDefault ?? "",
+                  } satisfies TextField,
+                ]
+              : []),
             {
-              key: `book.consulting.${tier.key}.price`,
-              label: `Tier ${i + 1} — Regular price`,
-              kind: "text",
-              fallback: tier.price,
-            },
-            {
-              key: `book.consulting.${tier.key}.salePrice`,
-              label: `Tier ${i + 1} — Sale price (shown in the bottom sale section)`,
-              kind: "text",
-              fallback: tier.salePrice,
-            },
-            {
-              key: `book.consulting.${tier.key}.body`,
+              key: `book.tiers.${tier.key}.body`,
               label: `Tier ${i + 1} — Body`,
               kind: "textarea",
               fallback: tier.body,
             },
           ]),
-          {
-            key: "book.consulting.note",
-            label: "Footnote (e.g. no expiration) — regular-price section only",
-            kind: "text",
-            fallback: BOOK_CONSULTING_DEFAULTS.note,
-          },
-        ],
-        mediaFields: [],
-      },
-      {
-        title: "Consulting — sale section (bottom of page)",
-        description:
-          "The same 3 tiers repeated at sale price as the final push, right after the book's own sale-priced final CTA. Only this section's own heading text lives here — the tiers' title/body/prices are edited in 'Consulting service (3 tiers)' above.",
-        textFields: [
-          {
-            key: "book.consultingSale.eyebrow",
-            label: "Eyebrow",
-            kind: "text",
-            fallback: BOOK_CONSULTING_SALE_DEFAULTS.eyebrow,
-          },
-          {
-            key: "book.consultingSale.title",
-            label: "Section title",
-            kind: "text",
-            fallback: BOOK_CONSULTING_SALE_DEFAULTS.title,
-          },
-          {
-            key: "book.consultingSale.subtitle",
-            label: "Section subtitle",
-            kind: "textarea",
-            fallback: BOOK_CONSULTING_SALE_DEFAULTS.subtitle,
-          },
         ],
         mediaFields: [],
       },

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from "convex/react";
-import { BookOpen, ChevronLeft, ChevronRight, LogOut } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, LogOut, Sparkles } from "lucide-react";
 import { api } from "@/convex/_generated/api.js";
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -35,10 +36,15 @@ type Chapter = {
 export default function LibraryReader({
   creds,
   grantLanguage,
+  chapterAccess,
   onSignOut,
 }: {
   creds: LibraryCredentials;
   grantLanguage: "en" | "zh" | "both";
+  /** "sample" = the $10 tier's two chapters only; getChapters already
+   * narrows the returned array server-side, this is only used here to show
+   * the upsell banner below. */
+  chapterAccess: "sample" | "full";
   onSignOut: () => void;
 }) {
   const [language, setLanguage] = useState<Language>(
@@ -114,6 +120,18 @@ export default function LibraryReader({
           </Button>
         </div>
       </div>
+
+      {chapterAccess === "sample" && (
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-sm">
+          <span className="flex items-center gap-2 text-foreground">
+            <Sparkles className="size-4 text-primary" />
+            You have access to 2 sample chapters.
+          </span>
+          <Button asChild size="sm" variant="secondary" className="cursor-pointer">
+            <Link to="/book-consult">Get the full book</Link>
+          </Button>
+        </div>
+      )}
 
       {chapters === undefined ? (
         <div className="space-y-3">

@@ -1,21 +1,20 @@
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button.tsx";
 import { useContentText } from "@/hooks/use-content.ts";
 import { BOOK_CTA_DEFAULTS, BOOK_HERO_DEFAULTS } from "../_lib/book-data.ts";
 import { markBuyClicked } from "../_lib/use-exit-intent.ts";
 import { useBookPrice } from "../_lib/use-book-price.ts";
 import { PriceTag } from "./price-tag.tsx";
-
-function handleBuyClick() {
-  markBuyClicked();
-  toast.info("Checkout is coming soon — thanks for your patience.");
-}
+import PurchaseDialog from "./purchase-dialog.tsx";
 
 /**
- * The book's final CTA — this is the slot that carries whatever sale price
- * is currently active (see BOOK_SALE_PRICE_KEY in book-data.ts). Swap that
- * one admin field to the deeper holiday-sale price during a major
- * promotion and this section picks it up automatically.
+ * The book's final CTA — carries the same $42.39 price as the hero (see
+ * book-hero.tsx) as a last reinforcement at the bottom of the page. Swap
+ * BOOK_SALE_PRICE_KEY in book-data.ts to a deeper holiday-sale price during
+ * a major promotion and both this section and the hero pick it up
+ * automatically. The button opens the same purchase flow as the hero and
+ * the book-tiers grid's middle card — previously this only showed a
+ * "coming soon" toast, a leftover from before the manual-transfer flow
+ * shipped; fixed here to actually let someone buy.
  */
 export default function BookFinalCta() {
   const title = useContentText("book.cta.title", BOOK_CTA_DEFAULTS.title);
@@ -43,9 +42,11 @@ export default function BookFinalCta() {
             size="xl"
             dark
           />
-          <Button size="lg" className="cursor-pointer" onClick={handleBuyClick}>
-            {buyLabel}
-          </Button>
+          <PurchaseDialog product="book-full" productLabel={title}>
+            <Button size="lg" className="cursor-pointer" onClick={markBuyClicked}>
+              {buyLabel}
+            </Button>
+          </PurchaseDialog>
         </div>
       </div>
     </section>

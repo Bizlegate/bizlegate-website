@@ -1,28 +1,42 @@
 import { ConvexError, v } from "convex/values";
 import { internal } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
+import type { MutationCtx, QueryCtx } from "./_generated/server";
 import { requireAdmin } from "./authz";
-import { EN_CHAPTERS, ZH_CHAPTERS } from "./bookContentData";
+import { EN_CHAPTERS, ZH_CHAPTERS, type BookChapter } from "./bookContentData";
 
 // Very forgiving email shape check — same pattern as quiz.ts. Real
 // deliverability is handled downstream by Resend.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const LANGUAGE = v.union(v.literal("en"), v.literal("zh"), v.literal("both"));
+const CHAPTER_ACCESS = v.union(v.literal("sample"), v.literal("full"));
+const IMAGE_STYLE = v.union(v.literal("glam"), v.literal("professional"));
 
+// The three book tiers (see claude/00_project_status.md, 2026-09-27 pricing
+// pivot — this replaces the earlier single book price + separate consulting
+// tiers). Every tier grants /library access; they differ only in which
+// chapters that access covers and (for "book-deluxe") an extra hand-made
+// deliverable.
 const PRODUCT = v.union(
-  v.literal("book"),
-  v.literal("consulting-two"),
-  v.literal("consulting-five"),
-  v.literal("consulting-ten"),
+  v.literal("book-sample"),
+  v.literal("book-full"),
+  v.literal("book-deluxe"),
 );
-type Product = "book" | "consulting-two" | "consulting-five" | "consulting-ten";
+type Product = "book-sample" | "book-full" | "book-deluxe";
+type ChapterAccess = "sample" | "full";
 
 const PRODUCT_LABEL: Record<Product, string> = {
-  book: "Be the Outsmarter (book)",
-  "consulting-two": "Consulting — Two-Pack",
-  "consulting-five": "Consulting — Five-Pack",
-  "consulting-ten": "Consulting — Ten-Pack",
+  "book-sample": "Be the Outsmarter — Two Key Chapters ($10)",
+  "book-full": "Be the Outsmarter — Full Book ($42.39)",
+  "book-deluxe": "Be the Outsmarter — Full Book + Custom Desktop ($83.59)",
+};
+
+// Every product grants /library access — this is just which slice of it.
+const CHAPTER_ACCESS_FOR_PRODUCT: Record<Product, ChapterAccess> = {
+  "book-sample": "sample",
+  "book-full": "full",
+  "book-deluxe": "full",
 };
 
 // Fallback Wise "request money" links, used until an admin sets a
@@ -30,9 +44,36 @@ const PRODUCT_LABEL: Record<Product, string> = {
 // hardcode here — this file only runs on the Convex backend, never in the
 // public site bundle (same reasoning as bookContentData.ts), so this never
 // leaks to a page a visitor could load before submitting a purchase notice.
+// Only "book-full" has a confirmed link so far (carried over from the
+// single-tier price this replaced) — "book-sample" and "book-deluxe" need
+// their own fixed-amount Wise links created and pasted into the Book Access
+// admin panel before those two tiers will show a "Pay now" button (until
+// then, a buyer who picks one just sees "we'll email you shortly").
 const DEFAULT_PAYMENT_LINKS: Partial<Record<Product, string>> = {
-  book: "https://wise.com/pay/r/IOIcililVJZeXeg",
+  "book-full": "https://wise.com/pay/r/IOIcililVJZeXeg",
 };
+
+// Which two chapters the $10 "book-sample" tier unlocks — admin-editable
+// from /admin → Book Access (a plain comma-separated list of chapter
+// numbers stored under this content key, reusing the site's generic
+// content table) so the pair can change without a code deploy. Falls back
+// to this placeholder pair until the admin sets the real ones.
+const SAMPLE_CHAPTERS_KEY = "book.sample.chapterNumbers";
+const SAMPLE_CHAPTERS_DEFAULT = "1,2";
+
+async function getSampleChapterNumbers(
+  ctx: QueryCtx | MutationCtx,
+): Promise<number[]> {
+  const row = await ctx.db
+    .query("content")
+    .withIndex("by_key", (q) => q.eq("key", SAMPLE_CHAPTERS_KEY))
+    .unique();
+  const raw = row?.value.trim() || SAMPLE_CHAPTERS_DEFAULT;
+  return raw
+    .split(",")
+    .map((s) => Number(s.trim()))
+    .filter((n) => Number.isFinite(n));
+}
 
 function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
@@ -53,18 +94,27 @@ function generateAccessCode(): string {
   return code;
 }
 
-// Returns the full chapter set for a language, or throws if that language
-// isn't valid content (defensive — schema/union should already prevent this).
-function chaptersFor(language: "en" | "zh") {
-  return language === "en" ? EN_CHAPTERS : ZH_CHAPTERS;
+// Returns the full chapter set for a language, then narrows it to just the
+// configured sample pair when the grant is a "sample" access. Throws if the
+// language isn't valid content (defensive — schema/union should already
+// prevent this).
+async function chaptersFor(
+  ctx: QueryCtx | MutationCtx,
+  language: "en" | "zh",
+  chapterAccess: ChapterAccess,
+): Promise<BookChapter[]> {
+  const all = language === "en" ? EN_CHAPTERS : ZH_CHAPTERS;
+  if (chapterAccess === "full") return all;
+  const sampleNumbers = await getSampleChapterNumbers(ctx);
+  return all.filter((c) => sampleNumbers.includes(c.number));
 }
 
 /**
- * Public: a buyer reports that they've sent the manual bank transfer for the
- * book (and/or a consulting pack) and is waiting to be granted /library
- * access (book) or contacted to start their consulting exchange. This does
- * NOT verify the deposit — the admin reconciles the bank/Wise statement by
- * hand. See claude/16_payment_processor_decision.md for why this is manual.
+ * Public: a buyer reports that they've sent the manual bank transfer for one
+ * of the three book tiers and is waiting to be granted /library access. This
+ * does NOT verify the deposit — the admin reconciles the bank/Wise statement
+ * by hand. See claude/16_payment_processor_decision.md for why this is
+ * manual.
  *
  * Returns the Wise payment link for the chosen product so the buyer can pay
  * right away — deliberately returned here rather than stored anywhere a
@@ -79,7 +129,9 @@ export const submitPurchaseNotice = mutation({
     name: v.optional(v.string()),
     note: v.optional(v.string()),
     product: PRODUCT,
-    requestedLanguage: v.optional(LANGUAGE),
+    requestedLanguage: LANGUAGE,
+    goalDate: v.optional(v.string()),
+    imageStyle: v.optional(IMAGE_STYLE),
   },
   handler: async (ctx, args) => {
     const email = normalizeEmail(args.email);
@@ -89,11 +141,25 @@ export const submitPurchaseNotice = mutation({
         message: "Please enter a valid email address.",
       });
     }
-    if (args.product === "book" && !args.requestedLanguage) {
-      throw new ConvexError({
-        code: "BAD_REQUEST",
-        message: "Please choose which language edition you'd like.",
-      });
+    if (args.product === "book-deluxe") {
+      if (!args.goalDate?.trim()) {
+        throw new ConvexError({
+          code: "BAD_REQUEST",
+          message: "Please share your goal-achievement date.",
+        });
+      }
+      if (!args.imageStyle) {
+        throw new ConvexError({
+          code: "BAD_REQUEST",
+          message: "Please choose a style for your desktop image.",
+        });
+      }
+      if (!args.note?.trim()) {
+        throw new ConvexError({
+          code: "BAD_REQUEST",
+          message: "Please tell us what you're working through right now.",
+        });
+      }
     }
 
     const id = await ctx.db.insert("bookPurchaseNotices", {
@@ -101,7 +167,9 @@ export const submitPurchaseNotice = mutation({
       name: args.name?.trim() || undefined,
       note: args.note?.trim() || undefined,
       product: args.product,
-      requestedLanguage: args.product === "book" ? args.requestedLanguage : undefined,
+      requestedLanguage: args.requestedLanguage,
+      goalDate: args.product === "book-deluxe" ? args.goalDate?.trim() : undefined,
+      imageStyle: args.product === "book-deluxe" ? args.imageStyle : undefined,
       status: "pending",
     });
 
@@ -114,6 +182,8 @@ export const submitPurchaseNotice = mutation({
         note: args.note?.trim() || undefined,
         product: PRODUCT_LABEL[args.product],
         requestedLanguage: args.requestedLanguage,
+        goalDate: args.product === "book-deluxe" ? args.goalDate?.trim() : undefined,
+        imageStyle: args.product === "book-deluxe" ? args.imageStyle : undefined,
       },
     );
 
@@ -161,6 +231,10 @@ export const grantAccess = mutation({
   args: {
     email: v.string(),
     language: LANGUAGE,
+    // Defaults to "full" (comp copies and manual grants are almost always
+    // the full book) — the admin panel passes "sample" explicitly when
+    // granting from a book-sample purchase notice.
+    chapterAccess: v.optional(CHAPTER_ACCESS),
     sourceNoticeId: v.optional(v.id("bookPurchaseNotices")),
   },
   handler: async (ctx, args) => {
@@ -175,6 +249,7 @@ export const grantAccess = mutation({
     }
 
     const code = generateAccessCode();
+    const chapterAccess: ChapterAccess = args.chapterAccess ?? "full";
 
     const existing = await ctx.db
       .query("bookAccess")
@@ -185,6 +260,7 @@ export const grantAccess = mutation({
       await ctx.db.patch(existing._id, {
         code,
         language: args.language,
+        chapterAccess,
         active: true,
         sourceNoticeId: args.sourceNoticeId ?? existing.sourceNoticeId,
       });
@@ -193,6 +269,7 @@ export const grantAccess = mutation({
         email,
         code,
         language: args.language,
+        chapterAccess,
         active: true,
         sourceNoticeId: args.sourceNoticeId,
       });
@@ -206,6 +283,7 @@ export const grantAccess = mutation({
       email,
       code,
       language: args.language,
+      chapterAccess,
     });
 
     return { email, code };
@@ -248,12 +326,7 @@ export const listPaymentLinks = query({
     await requireAdmin(ctx);
     const overrides = await ctx.db.query("bookPaymentLinks").collect();
     const overrideByProduct = new Map(overrides.map((o) => [o.product, o]));
-    const products: Product[] = [
-      "book",
-      "consulting-two",
-      "consulting-five",
-      "consulting-ten",
-    ];
+    const products: Product[] = ["book-sample", "book-full", "book-deluxe"];
     return products.map((product) => {
       const override = overrideByProduct.get(product);
       return {
@@ -295,11 +368,50 @@ export const setPaymentLink = mutation({
   },
 });
 
+// Admin: read the current sample-tier chapter numbers (comma-separated,
+// e.g. "1,2") and the default that's in effect until one is set.
+export const getSampleChapterSetting = query({
+  args: {},
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+    const row = await ctx.db
+      .query("content")
+      .withIndex("by_key", (q) => q.eq("key", SAMPLE_CHAPTERS_KEY))
+      .unique();
+    return { value: row?.value ?? "", default: SAMPLE_CHAPTERS_DEFAULT };
+  },
+});
+
+// Admin: set which chapter numbers the $10 sample tier unlocks (a plain
+// comma-separated list, e.g. "5,12"). Empty clears the override and falls
+// back to SAMPLE_CHAPTERS_DEFAULT.
+export const setSampleChapterSetting = mutation({
+  args: { value: v.string() },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    const trimmed = args.value.trim();
+    const existing = await ctx.db
+      .query("content")
+      .withIndex("by_key", (q) => q.eq("key", SAMPLE_CHAPTERS_KEY))
+      .unique();
+    if (!trimmed) {
+      if (existing) await ctx.db.delete(existing._id);
+      return null;
+    }
+    if (existing) {
+      await ctx.db.patch(existing._id, { value: trimmed });
+    } else {
+      await ctx.db.insert("content", { key: SAMPLE_CHAPTERS_KEY, value: trimmed });
+    }
+    return null;
+  },
+});
+
 // Public: the /library login form calls this with what the buyer typed.
-// Deliberately returns only {ok, language} — never any book content, and
-// never reveals *why* a check failed (wrong email vs wrong code vs revoked
-// all look identical) so a wrong guess can't be used to enumerate valid
-// buyer emails.
+// Deliberately returns only {ok, language, chapterAccess} — never any book
+// content, and never reveals *why* a check failed (wrong email vs wrong
+// code vs revoked all look identical) so a wrong guess can't be used to
+// enumerate valid buyer emails.
 export const verifyAccess = query({
   args: { email: v.string(), code: v.string() },
   handler: async (ctx, args) => {
@@ -312,16 +424,21 @@ export const verifyAccess = query({
     if (!grant || !grant.active) {
       return { ok: false as const };
     }
-    return { ok: true as const, language: grant.language };
+    return {
+      ok: true as const,
+      language: grant.language,
+      chapterAccess: grant.chapterAccess ?? "full",
+    };
   },
 });
 
 // Public: the actual gated content read. Re-checks the grant on every call
 // (no session token, no localStorage-trusted flag) so a revoked or
 // mistyped credential can never pull real chapter text, and a buyer who
-// only paid for one language can never fetch the other — the requested
-// `language` must be exactly what the grant allows (or the grant must be
-// "both").
+// only paid for one language — or the two-chapter sample — can never fetch
+// more than that: the requested `language` must be exactly what the grant
+// allows (or the grant must be "both"), and the returned chapters are
+// narrowed to the sample pair unless the grant is "full".
 export const getChapters = query({
   args: {
     email: v.string(),
@@ -350,6 +467,6 @@ export const getChapters = query({
       });
     }
 
-    return chaptersFor(args.language);
+    return chaptersFor(ctx, args.language, grant.chapterAccess ?? "full");
   },
 });

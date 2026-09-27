@@ -32,7 +32,6 @@ import BookAccessPanel from "./_components/book-access-panel.tsx";
 import MembersManager from "./_components/members-manager.tsx";
 import ZhSiteToggle from "./_components/zh-site-toggle.tsx";
 import BookSiteToggle from "./_components/book-site-toggle.tsx";
-import ConsultingSiteToggle from "./_components/consulting-site-toggle.tsx";
 
 function LoadingState() {
   return (
@@ -108,7 +107,6 @@ function AdminDashboard() {
           <TabsContent value="content">
             <ZhSiteToggle />
             <BookSiteToggle />
-            <ConsultingSiteToggle />
             <Tabs defaultValue="en">
               <TabsList className="mb-6">
                 <TabsTrigger value="en" className="cursor-pointer">

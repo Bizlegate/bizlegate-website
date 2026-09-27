@@ -192,3 +192,82 @@ export const BOOK_CTA_DEFAULTS = {
   title: "Get the playbook.",
   body: "One-time purchase, instant download, read it on your desk or your phone before your next meeting.",
 };
+
+// ---- Three-tier pricing (replaces the old single book price + separate
+// consulting tiers — see claude/00_project_status.md, 2026-09-27 pricing
+// pivot). All three grant /library access; "full" reuses the existing
+// BOOK_HERO_DEFAULTS.price / BOOK_SALE_PRICE_KEY pair (still $45 struck
+// through to $42.39) rather than a new price field, since it's the same
+// price this replaces. The other two are flat prices with their own CMS
+// keys. Placing the "full" tier in the middle and highlighting it is the
+// same "anchor the outer two, remove the decision friction of an unranked
+// three-way choice" pattern the old consulting grid used (see
+// HIGHLIGHTED_TIER in book-consulting.tsx) — the reasoning carries over
+// even though that file itself is no longer used.
+export const BOOK_TIER_SAMPLE_PRICE_KEY = "book.tier.sample.price";
+export const BOOK_TIER_SAMPLE_PRICE_DEFAULT = "$10";
+export const BOOK_TIER_DELUXE_PRICE_KEY = "book.tier.deluxe.price";
+export const BOOK_TIER_DELUXE_PRICE_DEFAULT = "$83.59";
+
+export const BOOK_TIERS_SECTION_DEFAULTS = {
+  eyebrow: "Choose Your Format",
+  title: "Get exactly what you need.",
+  subtitle:
+    "Every option unlocks online reading at bizlegate.com/library — no download, no app, sign in with your email and access code.",
+};
+
+// Deliberately NOT `as const` / a tuple — every entry shares one uniform
+// shape (with priceKey/priceDefault left undefined for "full", which prices
+// itself separately via useBookPrice() in book-tiers.tsx) so TypeScript
+// treats BOOK_TIERS as a plain Tier[] and .map() doesn't need per-element
+// discriminated-union narrowing to read `highlighted` / `priceKey`.
+export type BookTier = {
+  key: "sample" | "full" | "deluxe";
+  title: string;
+  body: string;
+  highlighted: boolean;
+  priceKey?: string;
+  priceDefault?: string;
+};
+
+export const BOOK_TIERS: BookTier[] = [
+  {
+    key: "sample",
+    title: "Two Key Chapters",
+    body: "A taste of the playbook — two chapters, picked to stand on their own. Good for trying the book before committing to the whole thing.",
+    highlighted: false,
+    priceKey: BOOK_TIER_SAMPLE_PRICE_KEY,
+    priceDefault: BOOK_TIER_SAMPLE_PRICE_DEFAULT,
+  },
+  {
+    key: "full",
+    title: "The Complete Playbook",
+    body: "All 30 chapters — the full field manual, cover to cover.",
+    // This tier's price is rendered separately via useBookPrice() (see
+    // book-tiers.tsx), reusing the existing regular/sale price pair
+    // instead of a flat one — priceKey/priceDefault stay unset.
+    highlighted: true,
+  },
+  {
+    key: "deluxe",
+    title: "Complete Playbook + Custom Desktop",
+    body: "All 30 chapters, plus a custom desktop wallpaper built around your own goal date and a one-line reminder written for your specific situation.",
+    highlighted: false,
+    priceKey: BOOK_TIER_DELUXE_PRICE_KEY,
+    priceDefault: BOOK_TIER_DELUXE_PRICE_DEFAULT,
+  },
+];
+
+export const BOOK_TIERS_CTA = "Get Started";
+
+// Tier 3 (book-deluxe) collects two extra fields beyond the usual
+// name/email/note — see purchase-dialog.tsx.
+export const BOOK_DELUXE_FORM_DEFAULTS = {
+  goalDateLabel: "Your goal-achievement date",
+  imageStyleLabel: "Desktop image style",
+  imageStyleGlam: "With character artwork",
+  imageStyleProfessional: "Professional only (no artwork)",
+  noteLabel: "What are you working through right now?",
+  notePlaceholder:
+    "Tell us the situation you're in — this becomes your personalized reminder line.",
+};

@@ -19,14 +19,6 @@ export default function BookHero() {
     BOOK_HERO_DEFAULTS.subtitle,
   );
   const { regularPrice, salePrice, onSale } = useBookPrice();
-  // The hero is the book's first price mention on the page — it shows the
-  // plain price with the same big brushed-calligraphy weight a sale price
-  // gets further down, not a struck-through compare price (that's reserved
-  // for the final CTA / exit popup / quiz result, further down the page).
-  // Strip a trailing ".00" so a whole-dollar price ($45.00) reads as the
-  // clean "$45" the brush digits were designed for; a price with real
-  // cents would still display in full.
-  const heroPrice = regularPrice.replace(/\.00$/, "");
   const priceNote = useContentText(
     "book.hero.priceNote",
     BOOK_HERO_DEFAULTS.priceNote,
@@ -58,15 +50,21 @@ export default function BookHero() {
             {subtitle}
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 md:items-start">
+            {/* The site's real, always-charged price — moved up from the
+                final CTA (where it used to be the only place a visitor saw
+                the actual $42.39 next to the $45 list price) so the very
+                first price mention on the page already shows the deal,
+                instead of a plain $45 that only turns into a discount once
+                someone scrolls to the bottom. See PurchaseDialog / the
+                book-tiers grid below for the other two tiers. */}
             <PriceTag
-              regularPrice={heroPrice}
+              regularPrice={regularPrice}
               salePrice={salePrice}
               onSale={onSale}
-              variant="brushOnly"
               size="xl"
               dark
             />
-            <PurchaseDialog product="book" productLabel={title}>
+            <PurchaseDialog product="book-full" productLabel={title}>
               <Button size="lg" className="cursor-pointer" onClick={markBuyClicked}>
                 {buyLabel}
               </Button>

@@ -24,14 +24,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog.tsx";
+import { useEffectiveLang } from "@/hooks/use-content.ts";
+import { BOOK_DELUXE_FORM_DEFAULTS } from "../_lib/book-data.ts";
 
-export type Product =
-  | "book"
-  | "consulting-two"
-  | "consulting-five"
-  | "consulting-ten";
+// The three book tiers — see claude/00_project_status.md (2026-09-27
+// pricing pivot). All three grant /library access; "book-sample" unlocks
+// two chapters, "book-full" and "book-deluxe" unlock all thirty.
+export type Product = "book-sample" | "book-full" | "book-deluxe";
 
-type Language = "en" | "zh" | "both";
+type ImageStyle = "glam" | "professional";
 
 /**
  * "Buy" flow for the manual bank-transfer model (see
@@ -56,10 +57,21 @@ export default function PurchaseDialog({
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [note, setNote] = useState("");
-  const [language, setLanguage] = useState<Language>("en");
+  const [goalDate, setGoalDate] = useState("");
+  const [imageStyle, setImageStyle] = useState<ImageStyle>("professional");
   const [submitting, setSubmitting] = useState(false);
   const [wiseLink, setWiseLink] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+
+  const isDeluxe = product === "book-deluxe";
+
+  // The book edition a buyer gets is decided by which language version of
+  // the site they're actually reading right now, not by asking them to
+  // pick — a "Both English + 中文" option only makes sense to someone
+  // fluent in both, and we aren't selling a bundled bilingual edition. An
+  // admin can still grant "both" (or switch someone's language) by hand
+  // from /admin -> Book Access for a one-off case.
+  const effectiveLang = useEffectiveLang();
 
   const submitNotice = useMutation(api.bookAccess.submitPurchaseNotice);
 
@@ -67,7 +79,8 @@ export default function PurchaseDialog({
     setEmail("");
     setName("");
     setNote("");
-    setLanguage("en");
+    setGoalDate("");
+    setImageStyle("professional");
     setSubmitting(false);
     setWiseLink(null);
     setSubmitted(false);
@@ -84,6 +97,14 @@ export default function PurchaseDialog({
       toast.error("Please enter your email address.");
       return;
     }
+    if (isDeluxe && !goalDate.trim()) {
+      toast.error("Please share your goal-achievement date.");
+      return;
+    }
+    if (isDeluxe && !note.trim()) {
+      toast.error("Please tell us what you're working through right now.");
+      return;
+    }
     setSubmitting(true);
     try {
       const result = await submitNotice({
@@ -91,7 +112,9 @@ export default function PurchaseDialog({
         name: name.trim() || undefined,
         note: note.trim() || undefined,
         product,
-        requestedLanguage: product === "book" ? language : undefined,
+        requestedLanguage: effectiveLang,
+        goalDate: isDeluxe ? goalDate.trim() : undefined,
+        imageStyle: isDeluxe ? imageStyle : undefined,
       });
       setWiseLink(result.wiseLink ?? null);
       setSubmitted(true);
@@ -168,34 +191,58 @@ export default function PurchaseDialog({
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-              {product === "book" && (
-                <div className="space-y-1.5">
-                  <Label>Which edition?</Label>
-                  <Select
-                    value={language}
-                    onValueChange={(v) => setLanguage(v as Language)}
-                  >
-                    <SelectTrigger className="w-full cursor-pointer">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="en">English</SelectItem>
-                      <SelectItem value="zh">中文</SelectItem>
-                      <SelectItem value="both">
-                        Both English + 中文
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              {isDeluxe && (
+                <>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="purchase-goal-date">
+                      {BOOK_DELUXE_FORM_DEFAULTS.goalDateLabel}
+                    </Label>
+                    <Input
+                      id="purchase-goal-date"
+                      type="date"
+                      required
+                      value={goalDate}
+                      onChange={(e) => setGoalDate(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>{BOOK_DELUXE_FORM_DEFAULTS.imageStyleLabel}</Label>
+                    <Select
+                      value={imageStyle}
+                      onValueChange={(v) => setImageStyle(v as ImageStyle)}
+                    >
+                      <SelectTrigger className="w-full cursor-pointer">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="professional">
+                          {BOOK_DELUXE_FORM_DEFAULTS.imageStyleProfessional}
+                        </SelectItem>
+                        <SelectItem value="glam">
+                          {BOOK_DELUXE_FORM_DEFAULTS.imageStyleGlam}
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </>
               )}
               <div className="space-y-1.5">
-                <Label htmlFor="purchase-note">Note (optional)</Label>
+                <Label htmlFor="purchase-note">
+                  {isDeluxe
+                    ? BOOK_DELUXE_FORM_DEFAULTS.noteLabel
+                    : "Note (optional)"}
+                </Label>
                 <Textarea
                   id="purchase-note"
-                  rows={2}
+                  rows={isDeluxe ? 3 : 2}
+                  required={isDeluxe}
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  placeholder="Anything we should know"
+                  placeholder={
+                    isDeluxe
+                      ? BOOK_DELUXE_FORM_DEFAULTS.notePlaceholder
+                      : "Anything we should know"
+                  }
                   className="resize-none"
                 />
               </div>

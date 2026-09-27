@@ -44,6 +44,7 @@ export default function Library() {
       <LibraryReader
         creds={creds}
         grantLanguage={verify.language}
+        chapterAccess={verify.chapterAccess}
         onSignOut={clear}
       />
     );
