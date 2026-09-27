@@ -195,15 +195,19 @@ export const BOOK_CTA_DEFAULTS = {
 
 // ---- Three-tier pricing (replaces the old single book price + separate
 // consulting tiers — see claude/00_project_status.md, 2026-09-27 pricing
-// pivot). All three grant /library access; "full" reuses the existing
+// pivot, and the 2026-09-27 follow-up removing the "Most Popular" styling).
+// All three grant /library access; "full" reuses the existing
 // BOOK_HERO_DEFAULTS.price / BOOK_SALE_PRICE_KEY pair (still $45 struck
 // through to $42.39) rather than a new price field, since it's the same
 // price this replaces. The other two are flat prices with their own CMS
-// keys. Placing the "full" tier in the middle and highlighting it is the
-// same "anchor the outer two, remove the decision friction of an unranked
-// three-way choice" pattern the old consulting grid used (see
-// HIGHLIGHTED_TIER in book-consulting.tsx) — the reasoning carries over
-// even though that file itself is no longer used.
+// keys. The old consulting grid highlighted its middle tier with a "Most
+// Popular" badge and raised card (see HIGHLIGHTED_TIER in the now-retired
+// book-consulting.tsx) to nudge buyers toward it — deliberately dropped
+// here per the client: she wants buyers comparing these three purely on
+// their own merits, with no card visually favored over the others.
+// `highlighted` is kept on the type/data (rather than deleted) in case a
+// non-visual use for it shows up later, but book-tiers.tsx no longer reads
+// it for styling.
 export const BOOK_TIER_SAMPLE_PRICE_KEY = "book.tier.sample.price";
 export const BOOK_TIER_SAMPLE_PRICE_DEFAULT = "$10";
 export const BOOK_TIER_DELUXE_PRICE_KEY = "book.tier.deluxe.price";
@@ -246,7 +250,7 @@ export const BOOK_TIERS: BookTier[] = [
     // This tier's price is rendered separately via useBookPrice() (see
     // book-tiers.tsx), reusing the existing regular/sale price pair
     // instead of a flat one — priceKey/priceDefault stay unset.
-    highlighted: true,
+    highlighted: false,
   },
   {
     key: "deluxe",

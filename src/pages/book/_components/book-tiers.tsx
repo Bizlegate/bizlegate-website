@@ -4,17 +4,31 @@ import { Button } from "@/components/ui/button.tsx";
 import { useContentGetter, useContentText } from "@/hooks/use-content.ts";
 import { BOOK_TIERS, BOOK_TIERS_SECTION_DEFAULTS, BOOK_TIERS_CTA } from "../_lib/book-data.ts";
 import { useBookPrice } from "../_lib/use-book-price.ts";
-import { PriceTag, CARD_GOLD } from "./price-tag.tsx";
+import { CARD_GOLD } from "./price-tag.tsx";
 import PurchaseDialog, { type Product } from "./purchase-dialog.tsx";
 
 /**
  * The book's three-tier pricing grid — replaces the old single book price
  * (still available on its own further up, at the hero) plus the separate
  * consulting tiers (see claude/00_project_status.md, 2026-09-27 pricing
- * pivot: consulting is retired, this reuses the same "three cards, middle
- * one highlighted" layout that book-consulting.tsx used). All three grant
- * /library access — they differ in which chapters that covers, and whether
- * a hand-made custom desktop wallpaper is included.
+ * pivot). All three grant /library access — they differ in which chapters
+ * that covers, and whether a hand-made custom desktop wallpaper is
+ * included.
+ *
+ * Deliberately un-opinionated layout (2026-09-27 follow-up): the original
+ * version of this grid reused the old consulting page's "highlight the
+ * middle tier" treatment (raised card, thicker border, a "Most Popular"
+ * badge) plus the site's ornate brushed-calligraphy price digits (see
+ * BrushPrice in price-tag.tsx) on the middle tier only, while the other two
+ * used plain font-serif numerals. The client asked for both to go: buyers
+ * should compare these three purely on their own merits, and the visual
+ * mismatch between the middle card's hand-drawn digits and the outer two
+ * cards' plain serif numerals (whose old-style figures made a digit like
+ * "8" read as an odd, uneven height next to its neighbors) made it worse.
+ * All three cards now share one flat, identical treatment via TierPrice
+ * below — same border, same alignment, no badge — including tier "full"'s
+ * strike-through sale price, which now renders as plain text instead of
+ * brushed digits.
  */
 const TIER_PRODUCT: Record<string, Product> = {
   sample: "book-sample",
@@ -59,23 +73,15 @@ export default function BookTiers() {
       <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-3">
         {BOOK_TIERS.map((tier) => {
           const Icon = TIER_ICONS[tier.key];
-          const highlighted = tier.highlighted;
           const tierTitle = get(`book.tiers.${tier.key}.title`, tier.title);
           const tierBody = get(`book.tiers.${tier.key}.body`, tier.body);
           return (
+            // Same border/background/padding for every card, on purpose —
+            // see the header comment above.
             <div
               key={tier.key}
-              className={
-                highlighted
-                  ? "relative flex flex-col rounded-xl border-2 border-primary bg-accent p-7 shadow-lg sm:-translate-y-2"
-                  : "flex flex-col rounded-xl border border-border bg-accent p-7"
-              }
+              className="flex flex-col rounded-xl border border-border bg-accent p-7"
             >
-              {highlighted && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary-foreground">
-                  Most Popular
-                </span>
-              )}
               <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
                 <Icon className="size-5" />
               </div>
@@ -84,18 +90,12 @@ export default function BookTiers() {
               </h3>
               <div className="mt-2">
                 {tier.key === "full" ? (
-                  <PriceTag
-                    regularPrice={regularPrice}
-                    salePrice={salePrice}
-                    onSale={onSale}
-                    onCard
-                    size="md"
+                  <TierPrice
+                    price={salePrice}
+                    wasPrice={onSale ? regularPrice : undefined}
                   />
                 ) : (
-                  <TierPrice
-                    priceKey={tier.priceKey!}
-                    priceDefault={tier.priceDefault!}
-                  />
+                  <TierPrice price={get(tier.priceKey!, tier.priceDefault!)} />
                 )}
               </div>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
@@ -115,22 +115,37 @@ export default function BookTiers() {
   );
 }
 
-// Small helper so the two flat-priced tiers (sample, deluxe) read the same
-// CMS-editable price and render it in the same style as the "full" tier's
-// PriceTag — see CARD_GOLD in price-tag.tsx for why this specific gold
-// (rather than the default --primary gold) is used directly on this card
-// background.
+// One shared, deliberately plain price display for all three cards — see
+// the header comment above for why this replaced the brushed-calligraphy
+// treatment that used to be on the "full" tier only. `lining-nums` forces
+// uniform-height (lining) figures instead of the serif face's default
+// old-style figures, which is what made a digit like "8" read as oddly
+// tall next to its neighbors — the mismatch the client flagged.
 function TierPrice({
-  priceKey,
-  priceDefault,
+  price,
+  wasPrice,
 }: {
-  priceKey: string;
-  priceDefault: string;
+  price: string;
+  /** The struck-through original price — only passed for a tier currently
+   * on sale (just "full", when onSale is true). */
+  wasPrice?: string;
 }) {
-  const price = useContentText(priceKey, priceDefault);
   return (
-    <span className="font-serif text-3xl font-bold" style={{ color: CARD_GOLD }}>
-      {price}
+    <span className="flex flex-wrap items-baseline gap-x-2">
+      {wasPrice && (
+        <span
+          className="lining-nums text-lg font-normal line-through decoration-2"
+          style={{ color: CARD_GOLD, textDecorationColor: CARD_GOLD }}
+        >
+          {wasPrice}
+        </span>
+      )}
+      <span
+        className="lining-nums font-serif text-3xl font-bold"
+        style={{ color: CARD_GOLD }}
+      >
+        {price}
+      </span>
     </span>
   );
 }
