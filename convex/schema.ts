@@ -70,4 +70,47 @@ export default defineSchema({
     ),
     answers: v.array(v.string()),
   }).index("by_email", ["email"]),
+
+  // A buyer's notice that they've sent a manual bank transfer for the book
+  // (and/or a consulting pack) and are waiting for the admin to verify the
+  // deposit and grant access. See convex/bookAccess.ts.
+  bookPurchaseNotices: defineTable({
+    email: v.string(),
+    name: v.optional(v.string()),
+    // What the buyer says they paid for / how much — free text, since this
+    // is manually reconciled by the admin against the actual bank deposit,
+    // not trusted or auto-charged.
+    note: v.optional(v.string()),
+    // Which reading-language access the buyer is requesting. "both" covers
+    // someone who bought both language editions (or a consulting pack that
+    // bundles both).
+    requestedLanguage: v.union(
+      v.literal("en"),
+      v.literal("zh"),
+      v.literal("both"),
+    ),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("granted"),
+      v.literal("dismissed"),
+    ),
+  })
+    .index("by_email", ["email"])
+    .index("by_status", ["status"]),
+
+  // Grants access to the gated /library online-reading page. One row per
+  // buyer email. `language` is fixed at grant time by the admin to match
+  // what was actually paid for — the reading page never exposes a language
+  // the buyer didn't pay for (see 16_payment_processor_decision.md).
+  bookAccess: defineTable({
+    email: v.string(),
+    code: v.string(),
+    language: v.union(v.literal("en"), v.literal("zh"), v.literal("both")),
+    active: v.boolean(),
+    // The purchase notice this grant was issued from, if any (manual grants
+    // made without a prior notice — e.g. a comp copy — can omit this).
+    sourceNoticeId: v.optional(v.id("bookPurchaseNotices")),
+  })
+    .index("by_email", ["email"])
+    .index("by_email_code", ["email", "code"]),
 });

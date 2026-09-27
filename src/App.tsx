@@ -8,6 +8,7 @@ import Services from "./pages/services/page.tsx";
 import Process from "./pages/process/page.tsx";
 import Inquire from "./pages/inquire/page.tsx";
 import Book from "./pages/book/page.tsx";
+import Library from "./pages/library/page.tsx";
 import Admin from "./pages/admin/page.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -27,6 +28,7 @@ export default function App() {
               <Route path="/process" element={<Process />} />
               <Route path="/inquire" element={<Inquire />} />
               <Route path="/book-consult" element={<Book />} />
+              <Route path="/library" element={<Library />} />
               <Route path="/admin" element={<Admin />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             </Route>

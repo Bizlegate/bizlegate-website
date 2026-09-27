@@ -134,6 +134,101 @@ const QUIZ_RESULT_TITLES: Record<string, string> = {
   D: "Not Yet Entrenched",
 };
 
+const REQUESTED_LANGUAGE_LABELS: Record<string, string> = {
+  en: "English",
+  zh: "Chinese (中文)",
+  both: "English + Chinese (both)",
+};
+
+export const sendPurchaseNoticeNotification = internalAction({
+  args: {
+    email: v.string(),
+    name: v.optional(v.string()),
+    note: v.optional(v.string()),
+    requestedLanguage: v.union(v.literal("en"), v.literal("zh"), v.literal("both")),
+  },
+  handler: async (_ctx, args) => {
+    const html = `
+      <div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;">
+        <div style="background:#0A1B2A;padding:24px 28px;border-radius:8px 8px 0 0;">
+          <h1 style="margin:0;color:#C5A059;font-size:20px;">New Purchase Notice — Be the Outsmarter</h1>
+          <p style="margin:6px 0 0;color:#cbd5e1;font-size:13px;">A buyer says they've sent a manual bank transfer and is waiting for /library access. Verify the deposit, then grant access from /admin → Book Access.</p>
+        </div>
+        <table style="width:100%;border-collapse:collapse;background:#ffffff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;">
+          ${row("Email", `<a href="mailto:${escapeHtml(args.email)}" style="color:#0A1B2A;">${escapeHtml(args.email)}</a>`)}
+          ${args.name ? row("Name", escapeHtml(args.name)) : ""}
+          ${row("Requested language", REQUESTED_LANGUAGE_LABELS[args.requestedLanguage] ?? args.requestedLanguage)}
+          ${args.note ? row("Note from buyer", escapeHtml(args.note).replace(/\n/g, "<br/>")) : ""}
+        </table>
+      </div>
+    `;
+
+    try {
+      await sendEmail({
+        from: SENDER_EMAIL,
+        to: OWNER_EMAIL,
+        replyTo: args.email,
+        subject: `New purchase notice — ${args.email}`,
+        html,
+      });
+    } catch (error) {
+      console.error("Failed to send purchase notice notification email:", error);
+    }
+  },
+});
+
+const ACCESS_LANGUAGE_LABELS: Record<string, string> = {
+  en: "the English edition",
+  zh: "the Chinese edition (中文版)",
+  both: "both the English and Chinese editions",
+};
+
+export const sendBookAccessEmail = internalAction({
+  args: {
+    email: v.string(),
+    code: v.string(),
+    language: v.union(v.literal("en"), v.literal("zh"), v.literal("both")),
+  },
+  handler: async (_ctx, args) => {
+    const html = `
+      <div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;">
+        <div style="background:#0A1B2A;padding:24px 28px;border-radius:8px 8px 0 0;">
+          <h1 style="margin:0;color:#C5A059;font-size:20px;">Your copy of Be the Outsmarter is ready</h1>
+          <p style="margin:6px 0 0;color:#cbd5e1;font-size:13px;">Read it online any time — no download, no app.</p>
+        </div>
+        <div style="background:#ffffff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;padding:24px 28px;">
+          <p style="font-size:14px;color:#0A1B2A;margin:0 0 16px;">
+            Your access covers ${ACCESS_LANGUAGE_LABELS[args.language] ?? args.language}. Go to
+            <a href="https://bizlegate.com/library" style="color:#0A1B2A;font-weight:bold;">bizlegate.com/library</a>
+            and sign in with:
+          </p>
+          <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+            ${row("Email", escapeHtml(args.email))}
+            ${row("Access code", `<span style="font-family:monospace;font-size:16px;letter-spacing:1px;">${escapeHtml(args.code)}</span>`)}
+          </table>
+          <p style="font-size:12px;color:#64748b;margin:0;">
+            Keep this code private — it's tied to your email address and unlocks your paid copy of the book.
+            If you ever lose it, just reply to this email and we'll issue a new one.
+          </p>
+        </div>
+      </div>
+    `;
+
+    try {
+      await sendEmail({
+        from: SENDER_EMAIL,
+        to: args.email,
+        replyTo: OWNER_EMAIL,
+        subject: "Your access code for Be the Outsmarter",
+        html,
+      });
+    } catch (error) {
+      console.error("Failed to send book access email:", error);
+      throw error;
+    }
+  },
+});
+
 export const sendQuizLeadNotification = internalAction({
   args: {
     email: v.string(),
