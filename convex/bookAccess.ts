@@ -14,15 +14,20 @@ const CHAPTER_ACCESS = v.union(v.literal("sample"), v.literal("full"));
 const IMAGE_STYLE = v.union(v.literal("glam"), v.literal("professional"));
 
 // The original three book tiers (see claude/00_project_status.md, 2026-09-27
-// pricing pivot) plus the Office Original merch items added in the
-// 2026-10-09 /shop pivot. Every book-* tier grants /library access; they
-// differ only in which chapters that access covers and (for "book-deluxe")
-// an extra hand-made deliverable. The merch items (wallpaper, print-book,
-// tiger-figurine, tail-ring) never grant /library access — they're
-// hand-fulfilled and marked done via markNoticeFulfilled below. "wallpaper"
-// shares book-deluxe's goalDate/imageStyle/note collection since it's the
-// same hand-made deliverable, just sold on its own now instead of only
-// bundled with the full book.
+// pricing pivot) plus the Office Original merch items and pre-made bundles
+// added in the 2026-10-09 /shop pivot. Every book-* tier grants /library
+// access; they differ only in which chapters that access covers and (for
+// "book-deluxe") an extra hand-made deliverable. The merch items (wallpaper,
+// print-book, tiger-figurine, tail-ring) and the two bundles never grant
+// /library access — they're hand-fulfilled and marked done via
+// markNoticeFulfilled below. "wallpaper" shares book-deluxe's
+// goalDate/imageStyle/note collection since it's the same hand-made
+// deliverable, just sold on its own now instead of only bundled with the
+// full book. "bundle-starter"/"bundle-collector" are pre-made combination
+// packages — the alternative to a shopping cart (see shop-data.ts); each is
+// one purchasable product with one combined price, bought through the same
+// flow as everything else, and what's actually inside a bundle is plain CMS
+// text on the frontend, not tracked here at all.
 const PRODUCT = v.union(
   v.literal("book-sample"),
   v.literal("book-full"),
@@ -31,6 +36,8 @@ const PRODUCT = v.union(
   v.literal("print-book"),
   v.literal("tiger-figurine"),
   v.literal("tail-ring"),
+  v.literal("bundle-starter"),
+  v.literal("bundle-collector"),
 );
 type Product =
   | "book-sample"
@@ -39,7 +46,9 @@ type Product =
   | "wallpaper"
   | "print-book"
   | "tiger-figurine"
-  | "tail-ring";
+  | "tail-ring"
+  | "bundle-starter"
+  | "bundle-collector";
 type ChapterAccess = "sample" | "full";
 
 const PRODUCT_LABEL: Record<Product, string> = {
@@ -50,6 +59,8 @@ const PRODUCT_LABEL: Record<Product, string> = {
   "print-book": "Be the Outsmarter — Printed Copy",
   "tiger-figurine": "Office Original — 虎爺擺飾 (Tiger General Figurine)",
   "tail-ring": "Office Original — 尾戒 (Tail Ring)",
+  "bundle-starter": "/shop — Starter Bundle",
+  "bundle-collector": "/shop — Collector Bundle",
 };
 
 // Only the book-* tiers grant /library access — this is just which slice of
@@ -70,11 +81,16 @@ const WALLPAPER_PRODUCTS: ReadonlySet<Product> = new Set([
 ]);
 
 // Physical items that need a shipping address collected on the
-// purchase-notice form (see claude/00_project_status.md, 2026-10-09).
+// purchase-notice form (see claude/00_project_status.md, 2026-10-09). Both
+// bundles are treated as physical too — each is expected to include at
+// least one physical item (the exact contents are plain CMS text, not
+// tracked here), so always collecting an address is the safe default.
 const PHYSICAL_PRODUCTS: ReadonlySet<Product> = new Set([
   "print-book",
   "tiger-figurine",
   "tail-ring",
+  "bundle-starter",
+  "bundle-collector",
 ]);
 
 // Fallback Wise "request money" links, used until an admin sets a
@@ -407,6 +423,8 @@ export const listPaymentLinks = query({
       "print-book",
       "tiger-figurine",
       "tail-ring",
+      "bundle-starter",
+      "bundle-collector",
     ];
     return products.map((product) => {
       const override = overrideByProduct.get(product);

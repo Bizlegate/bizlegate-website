@@ -28,10 +28,13 @@ import { useEffectiveLang } from "@/hooks/use-content.ts";
 import { BOOK_DELUXE_FORM_DEFAULTS } from "../_lib/book-data.ts";
 
 // The three original book tiers (see claude/00_project_status.md,
-// 2026-09-27 pricing pivot) plus the Office Original merch items added in
-// the 2026-10-09 /shop pivot. Every book-* tier grants /library access
-// ("book-sample" unlocks two chapters, "book-full"/"book-deluxe" unlock all
-// thirty); the merch items never do (see convex/bookAccess.ts).
+// 2026-09-27 pricing pivot) plus the Office Original merch items and
+// pre-made bundles added in the 2026-10-09 /shop pivot. Every book-* tier
+// grants /library access ("book-sample" unlocks two chapters,
+// "book-full"/"book-deluxe" unlock all thirty); the merch items and
+// bundles never do (see convex/bookAccess.ts). A bundle is bought through
+// this exact same single-item dialog as everything else — see
+// shop-sections.tsx for why there's no shopping cart.
 export type Product =
   | "book-sample"
   | "book-full"
@@ -39,7 +42,9 @@ export type Product =
   | "wallpaper"
   | "print-book"
   | "tiger-figurine"
-  | "tail-ring";
+  | "tail-ring"
+  | "bundle-starter"
+  | "bundle-collector";
 
 type ImageStyle = "glam" | "professional";
 
@@ -59,11 +64,14 @@ const BOOK_PRODUCTS: ReadonlySet<Product> = new Set([
   "book-deluxe",
 ]);
 
-// Physical merch items collect a shipping address.
+// Physical merch items collect a shipping address — both bundles too,
+// since each is expected to include at least one physical item.
 const NEEDS_SHIPPING: ReadonlySet<Product> = new Set([
   "print-book",
   "tiger-figurine",
   "tail-ring",
+  "bundle-starter",
+  "bundle-collector",
 ]);
 
 /**

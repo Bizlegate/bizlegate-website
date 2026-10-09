@@ -91,6 +91,11 @@ export default defineSchema({
     // Office Original merch items added in the 2026-10-09 /shop pivot (see
     // claude/00_project_status.md) — none of these grant /library access;
     // they're hand-fulfilled and marked done via markNoticeFulfilled below.
+    // "bundle-starter"/"bundle-collector" are pre-made combination packages
+    // (added the same day, as the alternative to a shopping cart) — each is
+    // its own single purchasable product with one combined price, bought
+    // through the exact same flow as everything else; which items are
+    // actually inside a bundle is plain CMS text, not tracked here.
     product: v.union(
       v.literal("book-sample"),
       v.literal("book-full"),
@@ -99,6 +104,8 @@ export default defineSchema({
       v.literal("print-book"),
       v.literal("tiger-figurine"),
       v.literal("tail-ring"),
+      v.literal("bundle-starter"),
+      v.literal("bundle-collector"),
     ),
     // Which reading-language access the buyer is requesting — "both"
     // covers someone who bought both language editions. Only meaningful for
@@ -149,6 +156,8 @@ export default defineSchema({
       v.literal("print-book"),
       v.literal("tiger-figurine"),
       v.literal("tail-ring"),
+      v.literal("bundle-starter"),
+      v.literal("bundle-collector"),
     ),
     wiseLink: v.string(),
   }).index("by_product", ["product"]),

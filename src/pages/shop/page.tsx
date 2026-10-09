@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Section, SectionHeading } from "@/components/layout/section.tsx";
 import { useContentText } from "@/hooks/use-content.ts";
-import ShopGrid from "./_components/shop-grid.tsx";
+import ShopSections from "./_components/shop-sections.tsx";
 import { SHOP_HERO_DEFAULTS } from "./_lib/shop-data.ts";
 
 /**
@@ -37,11 +37,15 @@ export default function Shop() {
   }, []);
 
   return (
-    <Section>
-      <SectionHeading eyebrow={eyebrow} title={title} description={subtitle} />
-      <div className="mt-12">
-        <ShopGrid />
-      </div>
-    </Section>
+    <>
+      <Section>
+        <SectionHeading
+          eyebrow={eyebrow}
+          title={title}
+          description={subtitle}
+        />
+      </Section>
+      <ShopSections />
+    </>
   );
 }

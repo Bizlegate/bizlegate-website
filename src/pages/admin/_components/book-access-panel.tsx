@@ -45,7 +45,9 @@ type Product =
   | "wallpaper"
   | "print-book"
   | "tiger-figurine"
-  | "tail-ring";
+  | "tail-ring"
+  | "bundle-starter"
+  | "bundle-collector";
 
 const LANGUAGE_LABEL: Record<Language, string> = {
   en: "English",
@@ -61,6 +63,8 @@ const PRODUCT_LABEL: Record<Product, string> = {
   "print-book": "/shop — Printed Copy",
   "tiger-figurine": "/shop — 虎爺擺飾 (Tiger Figurine)",
   "tail-ring": "/shop — 尾戒 (Tail Ring)",
+  "bundle-starter": "/shop — Starter Bundle",
+  "bundle-collector": "/shop — Collector Bundle",
 };
 
 // The three tiers that grant /library access — used to auto-pick the right

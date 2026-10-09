@@ -36,7 +36,12 @@ import {
   BOOK_PERSONA_FRUSTRATED_KEY,
   BOOK_PERSONA_FRUSTRATED_DEFAULT,
 } from "@/pages/book/_lib/book-data.ts";
-import { SHOP_HERO_DEFAULTS, SHOP_ITEMS } from "@/pages/shop/_lib/shop-data.ts";
+import {
+  SHOP_HERO_DEFAULTS,
+  SHOP_ITEMS,
+  SHOP_BUNDLES,
+  SHOP_BUNDLES_HEADING,
+} from "@/pages/shop/_lib/shop-data.ts";
 
 export type TextFieldKind = "text" | "textarea";
 
@@ -885,8 +890,14 @@ export const PAGE_SCHEMAS: PageSchema[] = [
       {
         title: "Products",
         description:
-          "Every item shown on /shop, in order. The digital book reuses the Book page's Hero price fields above rather than having its own — edit those to change its price. Every other item's price here is a placeholder — set the real one whenever it's ready; there's no separate on/off switch, the price shown is whatever's set here.",
+          "Every item shown on /shop, in order, each as its own full promotional section (image placeholder + headline + body + highlights + price) — not a small card. The digital book reuses the Book page's Hero price fields above rather than having its own — edit those to change its price. Every other item's price here is a placeholder — set the real one whenever it's ready; there's no separate on/off switch, the price shown is whatever's set here. The 2-3 short \"why this\" highlight lines under each item aren't editable here — they're in src/pages/shop/_lib/shop-data.ts.",
         textFields: SHOP_ITEMS.flatMap((item): TextField[] => [
+          {
+            key: `shop.${item.key}.tagline`,
+            label: `${item.title} — Small label above the title`,
+            kind: "text",
+            fallback: item.tagline,
+          },
           {
             key: `shop.${item.key}.title`,
             label: `${item.title} — Title`,
@@ -910,6 +921,64 @@ export const PAGE_SCHEMAS: PageSchema[] = [
             fallback: item.body,
           },
         ]),
+        mediaFields: [],
+      },
+      {
+        title: "Bundle deals",
+        description:
+          "Pre-made combination packages — the alternative to a shopping cart (see claude/00_project_status.md, 2026-10-09). Each bundle is bought as a single item, same as everything above. Decide what goes in each bundle and describe it in the \"What's included\" field below — that's plain text, nothing elsewhere in the code needs to change when the contents change. Prices here are placeholders ($0) until real bundles are decided.",
+        textFields: [
+          {
+            key: "shop.bundles.eyebrow",
+            label: "Section eyebrow",
+            kind: "text",
+            fallback: SHOP_BUNDLES_HEADING.eyebrow,
+          },
+          {
+            key: "shop.bundles.title",
+            label: "Section title",
+            kind: "text",
+            fallback: SHOP_BUNDLES_HEADING.title,
+          },
+          {
+            key: "shop.bundles.subtitle",
+            label: "Section subtitle",
+            kind: "textarea",
+            fallback: SHOP_BUNDLES_HEADING.subtitle,
+          },
+          ...SHOP_BUNDLES.flatMap((bundle): TextField[] => [
+            {
+              key: `shop.${bundle.key}.tagline`,
+              label: `${bundle.title} — Small label above the title`,
+              kind: "text",
+              fallback: bundle.tagline,
+            },
+            {
+              key: `shop.${bundle.key}.title`,
+              label: `${bundle.title} — Title`,
+              kind: "text",
+              fallback: bundle.title,
+            },
+            {
+              key: bundle.priceKey,
+              label: `${bundle.title} — Price`,
+              kind: "text",
+              fallback: bundle.priceDefault,
+            },
+            {
+              key: `shop.${bundle.key}.body`,
+              label: `${bundle.title} — Body`,
+              kind: "textarea",
+              fallback: bundle.body,
+            },
+            {
+              key: bundle.whatIncludedKey,
+              label: `${bundle.title} — What's included`,
+              kind: "textarea",
+              fallback: bundle.whatIncludedDefault,
+            },
+          ]),
+        ],
         mediaFields: [],
       },
     ],
