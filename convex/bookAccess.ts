@@ -13,31 +13,69 @@ const LANGUAGE = v.union(v.literal("en"), v.literal("zh"), v.literal("both"));
 const CHAPTER_ACCESS = v.union(v.literal("sample"), v.literal("full"));
 const IMAGE_STYLE = v.union(v.literal("glam"), v.literal("professional"));
 
-// The three book tiers (see claude/00_project_status.md, 2026-09-27 pricing
-// pivot — this replaces the earlier single book price + separate consulting
-// tiers). Every tier grants /library access; they differ only in which
-// chapters that access covers and (for "book-deluxe") an extra hand-made
-// deliverable.
+// The original three book tiers (see claude/00_project_status.md, 2026-09-27
+// pricing pivot) plus the Office Original merch items added in the
+// 2026-10-09 /shop pivot. Every book-* tier grants /library access; they
+// differ only in which chapters that access covers and (for "book-deluxe")
+// an extra hand-made deliverable. The merch items (wallpaper, print-book,
+// tiger-figurine, tail-ring) never grant /library access — they're
+// hand-fulfilled and marked done via markNoticeFulfilled below. "wallpaper"
+// shares book-deluxe's goalDate/imageStyle/note collection since it's the
+// same hand-made deliverable, just sold on its own now instead of only
+// bundled with the full book.
 const PRODUCT = v.union(
   v.literal("book-sample"),
   v.literal("book-full"),
   v.literal("book-deluxe"),
+  v.literal("wallpaper"),
+  v.literal("print-book"),
+  v.literal("tiger-figurine"),
+  v.literal("tail-ring"),
 );
-type Product = "book-sample" | "book-full" | "book-deluxe";
+type Product =
+  | "book-sample"
+  | "book-full"
+  | "book-deluxe"
+  | "wallpaper"
+  | "print-book"
+  | "tiger-figurine"
+  | "tail-ring";
 type ChapterAccess = "sample" | "full";
 
 const PRODUCT_LABEL: Record<Product, string> = {
   "book-sample": "Be the Outsmarter — Two Key Chapters ($10)",
   "book-full": "Be the Outsmarter — Full Book ($42.39)",
   "book-deluxe": "Be the Outsmarter — Full Book + Custom Desktop ($83.59)",
+  wallpaper: "Office Original — Custom Desktop Wallpaper",
+  "print-book": "Be the Outsmarter — Printed Copy",
+  "tiger-figurine": "Office Original — 虎爺擺飾 (Tiger General Figurine)",
+  "tail-ring": "Office Original — 尾戒 (Tail Ring)",
 };
 
-// Every product grants /library access — this is just which slice of it.
-const CHAPTER_ACCESS_FOR_PRODUCT: Record<Product, ChapterAccess> = {
+// Only the book-* tiers grant /library access — this is just which slice of
+// it. A product with no entry here (any merch item) never grants access;
+// the admin panel uses `product in CHAPTER_ACCESS_FOR_PRODUCT` to decide
+// whether to show "Grant access" or "Mark fulfilled" for a pending notice.
+const CHAPTER_ACCESS_FOR_PRODUCT: Partial<Record<Product, ChapterAccess>> = {
   "book-sample": "sample",
   "book-full": "full",
   "book-deluxe": "full",
 };
+
+// Products that need the hand-made-wallpaper fields (goalDate, imageStyle,
+// and a required note) collected on the purchase-notice form.
+const WALLPAPER_PRODUCTS: ReadonlySet<Product> = new Set([
+  "book-deluxe",
+  "wallpaper",
+]);
+
+// Physical items that need a shipping address collected on the
+// purchase-notice form (see claude/00_project_status.md, 2026-10-09).
+const PHYSICAL_PRODUCTS: ReadonlySet<Product> = new Set([
+  "print-book",
+  "tiger-figurine",
+  "tail-ring",
+]);
 
 // Fallback Wise "request money" links, used until an admin sets a
 // bookPaymentLinks row for that product from /admin → Book Access. Safe to
@@ -45,10 +83,10 @@ const CHAPTER_ACCESS_FOR_PRODUCT: Record<Product, ChapterAccess> = {
 // public site bundle (same reasoning as bookContentData.ts), so this never
 // leaks to a page a visitor could load before submitting a purchase notice.
 // Only "book-full" has a confirmed link so far (carried over from the
-// single-tier price this replaced) — "book-sample" and "book-deluxe" need
-// their own fixed-amount Wise links created and pasted into the Book Access
-// admin panel before those two tiers will show a "Pay now" button (until
-// then, a buyer who picks one just sees "we'll email you shortly").
+// single-tier price this replaced) — every other product needs its own
+// fixed-amount Wise link created and pasted into the Book Access admin
+// panel before it will show a "Pay now" button (until then, a buyer who
+// picks one just sees "we'll email you shortly").
 const DEFAULT_PAYMENT_LINKS: Partial<Record<Product, string>> = {
   "book-full": "https://wise.com/pay/r/IOIcililVJZeXeg",
 };
@@ -129,9 +167,10 @@ export const submitPurchaseNotice = mutation({
     name: v.optional(v.string()),
     note: v.optional(v.string()),
     product: PRODUCT,
-    requestedLanguage: LANGUAGE,
+    requestedLanguage: v.optional(LANGUAGE),
     goalDate: v.optional(v.string()),
     imageStyle: v.optional(IMAGE_STYLE),
+    shippingAddress: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const email = normalizeEmail(args.email);
@@ -141,7 +180,7 @@ export const submitPurchaseNotice = mutation({
         message: "Please enter a valid email address.",
       });
     }
-    if (args.product === "book-deluxe") {
+    if (WALLPAPER_PRODUCTS.has(args.product)) {
       if (!args.goalDate?.trim()) {
         throw new ConvexError({
           code: "BAD_REQUEST",
@@ -161,6 +200,15 @@ export const submitPurchaseNotice = mutation({
         });
       }
     }
+    if (PHYSICAL_PRODUCTS.has(args.product) && !args.shippingAddress?.trim()) {
+      throw new ConvexError({
+        code: "BAD_REQUEST",
+        message: "Please enter a shipping address.",
+      });
+    }
+
+    const includeWallpaperFields = WALLPAPER_PRODUCTS.has(args.product);
+    const includeShipping = PHYSICAL_PRODUCTS.has(args.product);
 
     const id = await ctx.db.insert("bookPurchaseNotices", {
       email,
@@ -168,8 +216,9 @@ export const submitPurchaseNotice = mutation({
       note: args.note?.trim() || undefined,
       product: args.product,
       requestedLanguage: args.requestedLanguage,
-      goalDate: args.product === "book-deluxe" ? args.goalDate?.trim() : undefined,
-      imageStyle: args.product === "book-deluxe" ? args.imageStyle : undefined,
+      goalDate: includeWallpaperFields ? args.goalDate?.trim() : undefined,
+      imageStyle: includeWallpaperFields ? args.imageStyle : undefined,
+      shippingAddress: includeShipping ? args.shippingAddress?.trim() : undefined,
       status: "pending",
     });
 
@@ -182,8 +231,9 @@ export const submitPurchaseNotice = mutation({
         note: args.note?.trim() || undefined,
         product: PRODUCT_LABEL[args.product],
         requestedLanguage: args.requestedLanguage,
-        goalDate: args.product === "book-deluxe" ? args.goalDate?.trim() : undefined,
-        imageStyle: args.product === "book-deluxe" ? args.imageStyle : undefined,
+        goalDate: includeWallpaperFields ? args.goalDate?.trim() : undefined,
+        imageStyle: includeWallpaperFields ? args.imageStyle : undefined,
+        shippingAddress: includeShipping ? args.shippingAddress?.trim() : undefined,
       },
     );
 
@@ -200,7 +250,16 @@ export const submitPurchaseNotice = mutation({
 // Admin: list purchase notices, newest first. Optionally filter by status
 // (e.g. just "pending" for the default admin view).
 export const listPurchaseNotices = query({
-  args: { status: v.optional(v.union(v.literal("pending"), v.literal("granted"), v.literal("dismissed"))) },
+  args: {
+    status: v.optional(
+      v.union(
+        v.literal("pending"),
+        v.literal("granted"),
+        v.literal("fulfilled"),
+        v.literal("dismissed"),
+      ),
+    ),
+  },
   handler: async (ctx, args) => {
     await requireAdmin(ctx);
     const all = await ctx.db
@@ -218,6 +277,20 @@ export const dismissPurchaseNotice = mutation({
   handler: async (ctx, args) => {
     await requireAdmin(ctx);
     await ctx.db.patch(args.noticeId, { status: "dismissed" });
+    return null;
+  },
+});
+
+// Admin: mark a non-library notice (any merch item — wallpaper, print-book,
+// tiger-figurine, tail-ring) as hand-fulfilled once the admin has shipped or
+// delivered it themselves. Unlike grantAccess, this never sends an email —
+// there's no automated delivery for a physical item or a hand-made
+// wallpaper, so there's nothing to notify the buyer about from here.
+export const markNoticeFulfilled = mutation({
+  args: { noticeId: v.id("bookPurchaseNotices") },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    await ctx.db.patch(args.noticeId, { status: "fulfilled" });
     return null;
   },
 });
@@ -326,7 +399,15 @@ export const listPaymentLinks = query({
     await requireAdmin(ctx);
     const overrides = await ctx.db.query("bookPaymentLinks").collect();
     const overrideByProduct = new Map(overrides.map((o) => [o.product, o]));
-    const products: Product[] = ["book-sample", "book-full", "book-deluxe"];
+    const products: Product[] = [
+      "book-sample",
+      "book-full",
+      "book-deluxe",
+      "wallpaper",
+      "print-book",
+      "tiger-figurine",
+      "tail-ring",
+    ];
     return products.map((product) => {
       const override = overrideByProduct.get(product);
       return {

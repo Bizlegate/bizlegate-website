@@ -38,7 +38,14 @@ import {
 
 type Language = "en" | "zh" | "both";
 type ChapterAccess = "sample" | "full";
-type Product = "book-sample" | "book-full" | "book-deluxe";
+type Product =
+  | "book-sample"
+  | "book-full"
+  | "book-deluxe"
+  | "wallpaper"
+  | "print-book"
+  | "tiger-figurine"
+  | "tail-ring";
 
 const LANGUAGE_LABEL: Record<Language, string> = {
   en: "English",
@@ -50,16 +57,26 @@ const PRODUCT_LABEL: Record<Product, string> = {
   "book-sample": "Tier 1 — Two Chapters ($10)",
   "book-full": "Tier 2 — Full Book ($42.39)",
   "book-deluxe": "Tier 3 — Full Book + Custom Desktop ($83.59)",
+  wallpaper: "/shop — Custom Desktop Wallpaper",
+  "print-book": "/shop — Printed Copy",
+  "tiger-figurine": "/shop — 虎爺擺飾 (Tiger Figurine)",
+  "tail-ring": "/shop — 尾戒 (Tail Ring)",
 };
 
-// The two tiers that always grant full access — used to auto-pick the
-// right chapterAccess when granting from a pending notice, so the admin
-// never has to remember which product means which.
-const CHAPTER_ACCESS_FOR_PRODUCT: Record<Product, ChapterAccess> = {
+// The three tiers that grant /library access — used to auto-pick the right
+// chapterAccess when granting from a pending notice, so the admin never has
+// to remember which product means which. A product with no entry here (any
+// /shop merch item) never grants library access — the panel shows "Mark
+// fulfilled" instead of "Grant access" for those (see PendingNotices).
+const CHAPTER_ACCESS_FOR_PRODUCT: Partial<Record<Product, ChapterAccess>> = {
   "book-sample": "sample",
   "book-full": "full",
   "book-deluxe": "full",
 };
+
+function isBookProduct(product: Product): boolean {
+  return product in CHAPTER_ACCESS_FOR_PRODUCT;
+}
 
 const IMAGE_STYLE_LABEL: Record<string, string> = {
   glam: "With character artwork",
@@ -97,6 +114,7 @@ function PendingNotices() {
     status: "pending",
   });
   const grant = useMutation(api.bookAccess.grantAccess);
+  const fulfill = useMutation(api.bookAccess.markNoticeFulfilled);
   const dismiss = useMutation(api.bookAccess.dismissPurchaseNotice);
   const [languageByNotice, setLanguageByNotice] = useState<
     Record<string, Language>
@@ -127,6 +145,23 @@ function PendingNotices() {
     }
   };
 
+  // For a /shop merch item — no /library access to grant, just a hand-made
+  // or hand-shipped item to mark done once it's actually been sent. Never
+  // emails the buyer (there's no automated delivery to confirm).
+  const handleFulfill = async (noticeId: string) => {
+    setBusyId(noticeId);
+    try {
+      await fulfill({
+        noticeId: noticeId as Parameters<typeof fulfill>[0]["noticeId"],
+      });
+      toast.success("Marked as fulfilled.");
+    } catch {
+      toast.error("Could not mark this notice fulfilled.");
+    } finally {
+      setBusyId(null);
+    }
+  };
+
   const handleDismiss = async (noticeId: string) => {
     setBusyId(noticeId);
     try {
@@ -149,14 +184,18 @@ function PendingNotices() {
         Pending purchase notices
       </h3>
       <p className="mt-1 text-sm text-muted-foreground">
-        Buyers who said they've sent the bank transfer. Check your Wise /
-        bank statement for a matching deposit before granting — this is the
-        one manual step the whole flow relies on. Every tier grants /library
-        access; Tier 1 only unlocks the two sample chapters (see the
-        chapter-numbers editor below), Tiers 2 and 3 unlock all thirty.
-        Tier 3 also needs a custom desktop wallpaper made by hand from the
-        goal date / style / note shown below — granting access here does
-        NOT send that, it's a separate step you do yourself.
+        Buyers who said they've sent the bank transfer, from /shop or the
+        book's tiers. Check your Wise / bank statement for a matching
+        deposit before acting on one — this is the one manual step the
+        whole flow relies on. The three book tiers grant /library access
+        ("Grant access" below); Tier 1 only unlocks the two sample chapters
+        (see the chapter-numbers editor below), Tiers 2 and 3 unlock all
+        thirty. Every other /shop item ("Mark fulfilled" below) is
+        hand-made or hand-shipped by you — a wallpaper or Tier 3 purchase
+        needs a custom desktop image made by hand from the goal date /
+        style / note shown below, and a physical item needs to be shipped
+        to the address shown; acting on a notice here does NOT send or ship
+        anything automatically, that's a separate step you do yourself.
       </p>
 
       {notices === undefined ? (
@@ -173,7 +212,7 @@ function PendingNotices() {
             </EmptyMedia>
             <EmptyTitle>Nothing pending</EmptyTitle>
             <EmptyDescription>
-              New purchase notices from /book-consult will show up here.
+              New purchase notices from /shop will show up here.
             </EmptyDescription>
           </EmptyHeader>
         </Empty>
@@ -199,6 +238,11 @@ function PendingNotices() {
                           : ""}
                       </p>
                     )}
+                    {notice.shippingAddress && (
+                      <p className="mt-1 whitespace-pre-line text-sm text-muted-foreground">
+                        Ship to: {notice.shippingAddress}
+                      </p>
+                    )}
                     {notice.note && (
                       <p className="mt-1 text-sm text-muted-foreground">
                         "{notice.note}"
@@ -214,37 +258,51 @@ function PendingNotices() {
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Select
-                      value={
-                        languageByNotice[notice._id] ??
-                        notice.requestedLanguage ??
-                        "en"
-                      }
-                      onValueChange={(v) =>
-                        setLanguageByNotice((prev) => ({
-                          ...prev,
-                          [notice._id]: v as Language,
-                        }))
-                      }
-                    >
-                      <SelectTrigger className="w-36 cursor-pointer">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="en">English</SelectItem>
-                        <SelectItem value="zh">中文</SelectItem>
-                        <SelectItem value="both">English + 中文</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Button
-                      size="sm"
-                      className="cursor-pointer"
-                      disabled={busyId === notice._id}
-                      onClick={() => handleGrant(notice._id, notice.email, product)}
-                    >
-                      <BadgeCheck className="size-4" />
-                      Grant access
-                    </Button>
+                    {isBookProduct(product) ? (
+                      <>
+                        <Select
+                          value={
+                            languageByNotice[notice._id] ??
+                            notice.requestedLanguage ??
+                            "en"
+                          }
+                          onValueChange={(v) =>
+                            setLanguageByNotice((prev) => ({
+                              ...prev,
+                              [notice._id]: v as Language,
+                            }))
+                          }
+                        >
+                          <SelectTrigger className="w-36 cursor-pointer">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="en">English</SelectItem>
+                            <SelectItem value="zh">中文</SelectItem>
+                            <SelectItem value="both">English + 中文</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <Button
+                          size="sm"
+                          className="cursor-pointer"
+                          disabled={busyId === notice._id}
+                          onClick={() => handleGrant(notice._id, notice.email, product)}
+                        >
+                          <BadgeCheck className="size-4" />
+                          Grant access
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        size="sm"
+                        className="cursor-pointer"
+                        disabled={busyId === notice._id}
+                        onClick={() => handleFulfill(notice._id)}
+                      >
+                        <BadgeCheck className="size-4" />
+                        Mark fulfilled
+                      </Button>
+                    )}
                     <Button
                       size="icon"
                       variant="ghost"
@@ -504,12 +562,13 @@ function PaymentLinksEditor() {
         Wise payment links
       </h3>
       <p className="mt-1 text-sm text-muted-foreground">
-        Shown to a buyer only after they submit their email on /book-consult
-        — never on any public page (see claude/16_payment_processor_decision.md).
-        Paste a Wise "request money" link per tier; leave blank to fall back
-        to the hardcoded default in convex/bookAccess.ts. Tier 2 ($42.39)
-        already has one — Tiers 1 and 3 need new fixed-amount links created
-        in Wise before those two tiers can show a "Pay now" button.
+        Shown to a buyer only after they submit their email on /shop — never
+        on any public page (see claude/16_payment_processor_decision.md).
+        Paste a Wise "request money" link per product; leave blank to fall
+        back to the hardcoded default in convex/bookAccess.ts. Tier 2 — Full
+        Book ($42.39) already has one — every other item needs its own
+        fixed-amount link created in Wise before it can show a "Pay now"
+        button.
       </p>
 
       {links === undefined ? (

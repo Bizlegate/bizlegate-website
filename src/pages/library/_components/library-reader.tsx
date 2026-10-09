@@ -128,7 +128,7 @@ export default function LibraryReader({
             You have access to 2 sample chapters.
           </span>
           <Button asChild size="sm" variant="secondary" className="cursor-pointer">
-            <Link to="/book-consult">Get the full book</Link>
+            <Link to="/shop">Get the full book</Link>
           </Button>
         </div>
       )}

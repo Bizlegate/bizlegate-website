@@ -79,34 +79,54 @@ export default defineSchema({
     name: v.optional(v.string()),
     // What the buyer says they paid for / how much — free text, since this
     // is manually reconciled by the admin against the actual bank deposit,
-    // not trusted or auto-charged. For book-deluxe this doubles as the
-    // buyer's description of what they're working through (see goalDate /
-    // imageStyle below).
+    // not trusted or auto-charged. For book-deluxe/wallpaper this doubles as
+    // the buyer's description of what they're working through (see goalDate
+    // / imageStyle below).
     note: v.optional(v.string()),
-    // Which of the three book tiers this notice is for — every one of them
+    // Which /shop item this notice is for. "book-sample"/"book-full"/
+    // "book-deluxe" are the original three book tiers — every one of them
     // leads to a bookAccess grant (/library access), just to a different
     // set of chapters (see CHAPTER_ACCESS_FOR_PRODUCT in bookAccess.ts).
+    // "wallpaper"/"print-book"/"tiger-figurine"/"tail-ring" are the
+    // Office Original merch items added in the 2026-10-09 /shop pivot (see
+    // claude/00_project_status.md) — none of these grant /library access;
+    // they're hand-fulfilled and marked done via markNoticeFulfilled below.
     product: v.union(
       v.literal("book-sample"),
       v.literal("book-full"),
       v.literal("book-deluxe"),
+      v.literal("wallpaper"),
+      v.literal("print-book"),
+      v.literal("tiger-figurine"),
+      v.literal("tail-ring"),
     ),
     // Which reading-language access the buyer is requesting — "both"
-    // covers someone who bought both language editions.
+    // covers someone who bought both language editions. Only meaningful for
+    // the book-* products.
     requestedLanguage: v.optional(
       v.union(v.literal("en"), v.literal("zh"), v.literal("both")),
     ),
-    // book-deluxe only: the buyer's target/goal-achievement date and which
-    // visual style they want for the custom desktop wallpaper. The admin
-    // makes the wallpaper by hand from these plus the `note` field above —
-    // there's no automated generation or delivery pipeline for it.
+    // book-deluxe and wallpaper only: the buyer's target/goal-achievement
+    // date and which visual style they want for the custom desktop
+    // wallpaper. The admin makes the wallpaper by hand from these plus the
+    // `note` field above — there's no automated generation or delivery
+    // pipeline for it.
     goalDate: v.optional(v.string()),
     imageStyle: v.optional(
       v.union(v.literal("glam"), v.literal("professional")),
     ),
+    // Physical items only (print-book, tiger-figurine, tail-ring) — where to
+    // ship the item. Collected on the same purchase-notice form rather than
+    // a separate logistics flow (see claude/00_project_status.md,
+    // 2026-10-09).
+    shippingAddress: v.optional(v.string()),
     status: v.union(
       v.literal("pending"),
       v.literal("granted"),
+      // Set by markNoticeFulfilled for a hand-fulfilled non-library order
+      // (merch, or a comp/manual case) — distinct from "granted", which
+      // specifically means a /library access code was issued.
+      v.literal("fulfilled"),
       v.literal("dismissed"),
     ),
   })
@@ -117,7 +137,7 @@ export default defineSchema({
   // a purchase notice for a given product — never rendered on any public
   // page, only returned by the submitPurchaseNotice mutation's response
   // (see bookAccess.ts). One row per product; admin-editable from /admin →
-  // Book Access so the link can be rotated or a new tier's link added
+  // Book Access so the link can be rotated or a new item's link added
   // without a code deploy. A hardcoded fallback in bookAccess.ts covers the
   // case where no row exists yet for a product.
   bookPaymentLinks: defineTable({
@@ -125,6 +145,10 @@ export default defineSchema({
       v.literal("book-sample"),
       v.literal("book-full"),
       v.literal("book-deluxe"),
+      v.literal("wallpaper"),
+      v.literal("print-book"),
+      v.literal("tiger-figurine"),
+      v.literal("tail-ring"),
     ),
     wiseLink: v.string(),
   }).index("by_product", ["product"]),

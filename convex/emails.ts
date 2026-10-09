@@ -154,16 +154,18 @@ export const sendPurchaseNoticeNotification = internalAction({
     requestedLanguage: v.optional(
       v.union(v.literal("en"), v.literal("zh"), v.literal("both")),
     ),
-    // book-deluxe only — see convex/bookAccess.ts.
+    // book-deluxe / wallpaper only — see convex/bookAccess.ts.
     goalDate: v.optional(v.string()),
     imageStyle: v.optional(v.union(v.literal("glam"), v.literal("professional"))),
+    // Physical items only (print-book, tiger-figurine, tail-ring).
+    shippingAddress: v.optional(v.string()),
   },
   handler: async (_ctx, args) => {
     const html = `
       <div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;">
         <div style="background:#0A1B2A;padding:24px 28px;border-radius:8px 8px 0 0;">
-          <h1 style="margin:0;color:#C5A059;font-size:20px;">New Purchase Notice — Be the Outsmarter</h1>
-          <p style="margin:6px 0 0;color:#cbd5e1;font-size:13px;">A buyer says they've sent a manual bank transfer. Verify the deposit, then act on it from /admin → Book Access (grant /library access — the sample tier unlocks two chapters, full/deluxe unlock all thirty).</p>
+          <h1 style="margin:0;color:#C5A059;font-size:20px;">New Purchase Notice — Bizlegate</h1>
+          <p style="margin:6px 0 0;color:#cbd5e1;font-size:13px;">A buyer says they've sent a manual bank transfer. Verify the deposit, then act on it from /admin → Book Access — "Grant access" for a book tier (/library access — the sample tier unlocks two chapters, full/deluxe unlock all thirty), or "Mark fulfilled" once a merch item has been hand-shipped/delivered.</p>
         </div>
         <table style="width:100%;border-collapse:collapse;background:#ffffff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;">
           ${row("Email", `<a href="mailto:${escapeHtml(args.email)}" style="color:#0A1B2A;">${escapeHtml(args.email)}</a>`)}
@@ -172,6 +174,7 @@ export const sendPurchaseNoticeNotification = internalAction({
           ${args.requestedLanguage ? row("Requested language", REQUESTED_LANGUAGE_LABELS[args.requestedLanguage] ?? args.requestedLanguage) : ""}
           ${args.goalDate ? row("Goal-achievement date", escapeHtml(args.goalDate)) : ""}
           ${args.imageStyle ? row("Desktop image style", IMAGE_STYLE_LABELS[args.imageStyle] ?? args.imageStyle) : ""}
+          ${args.shippingAddress ? row("Shipping address", escapeHtml(args.shippingAddress).replace(/\n/g, "<br/>")) : ""}
           ${args.note ? row("Note from buyer", escapeHtml(args.note).replace(/\n/g, "<br/>")) : ""}
         </table>
       </div>

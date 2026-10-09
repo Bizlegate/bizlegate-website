@@ -27,12 +27,44 @@ import {
 import { useEffectiveLang } from "@/hooks/use-content.ts";
 import { BOOK_DELUXE_FORM_DEFAULTS } from "../_lib/book-data.ts";
 
-// The three book tiers — see claude/00_project_status.md (2026-09-27
-// pricing pivot). All three grant /library access; "book-sample" unlocks
-// two chapters, "book-full" and "book-deluxe" unlock all thirty.
-export type Product = "book-sample" | "book-full" | "book-deluxe";
+// The three original book tiers (see claude/00_project_status.md,
+// 2026-09-27 pricing pivot) plus the Office Original merch items added in
+// the 2026-10-09 /shop pivot. Every book-* tier grants /library access
+// ("book-sample" unlocks two chapters, "book-full"/"book-deluxe" unlock all
+// thirty); the merch items never do (see convex/bookAccess.ts).
+export type Product =
+  | "book-sample"
+  | "book-full"
+  | "book-deluxe"
+  | "wallpaper"
+  | "print-book"
+  | "tiger-figurine"
+  | "tail-ring";
 
 type ImageStyle = "glam" | "professional";
+
+// "book-deluxe" and "wallpaper" both need the hand-made-wallpaper fields
+// below — book-deluxe bundles it with the full book, wallpaper sells the
+// same deliverable on its own.
+const NEEDS_WALLPAPER_FIELDS: ReadonlySet<Product> = new Set([
+  "book-deluxe",
+  "wallpaper",
+]);
+
+// Only the book-* tiers care about reading language (see effectiveLang
+// below) — merch items don't send a requestedLanguage at all.
+const BOOK_PRODUCTS: ReadonlySet<Product> = new Set([
+  "book-sample",
+  "book-full",
+  "book-deluxe",
+]);
+
+// Physical merch items collect a shipping address.
+const NEEDS_SHIPPING: ReadonlySet<Product> = new Set([
+  "print-book",
+  "tiger-figurine",
+  "tail-ring",
+]);
 
 /**
  * "Buy" flow for the manual bank-transfer model (see
@@ -59,18 +91,22 @@ export default function PurchaseDialog({
   const [note, setNote] = useState("");
   const [goalDate, setGoalDate] = useState("");
   const [imageStyle, setImageStyle] = useState<ImageStyle>("professional");
+  const [shippingAddress, setShippingAddress] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [wiseLink, setWiseLink] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
-  const isDeluxe = product === "book-deluxe";
+  const needsWallpaperFields = NEEDS_WALLPAPER_FIELDS.has(product);
+  const isBook = BOOK_PRODUCTS.has(product);
+  const needsShipping = NEEDS_SHIPPING.has(product);
 
   // The book edition a buyer gets is decided by which language version of
   // the site they're actually reading right now, not by asking them to
   // pick — a "Both English + 中文" option only makes sense to someone
   // fluent in both, and we aren't selling a bundled bilingual edition. An
   // admin can still grant "both" (or switch someone's language) by hand
-  // from /admin -> Book Access for a one-off case.
+  // from /admin -> Book Access for a one-off case. Only read/sent for the
+  // book-* tiers — merch items don't care about reading language.
   const effectiveLang = useEffectiveLang();
 
   const submitNotice = useMutation(api.bookAccess.submitPurchaseNotice);
@@ -81,6 +117,7 @@ export default function PurchaseDialog({
     setNote("");
     setGoalDate("");
     setImageStyle("professional");
+    setShippingAddress("");
     setSubmitting(false);
     setWiseLink(null);
     setSubmitted(false);
@@ -97,12 +134,16 @@ export default function PurchaseDialog({
       toast.error("Please enter your email address.");
       return;
     }
-    if (isDeluxe && !goalDate.trim()) {
+    if (needsWallpaperFields && !goalDate.trim()) {
       toast.error("Please share your goal-achievement date.");
       return;
     }
-    if (isDeluxe && !note.trim()) {
+    if (needsWallpaperFields && !note.trim()) {
       toast.error("Please tell us what you're working through right now.");
+      return;
+    }
+    if (needsShipping && !shippingAddress.trim()) {
+      toast.error("Please enter a shipping address.");
       return;
     }
     setSubmitting(true);
@@ -112,9 +153,10 @@ export default function PurchaseDialog({
         name: name.trim() || undefined,
         note: note.trim() || undefined,
         product,
-        requestedLanguage: effectiveLang,
-        goalDate: isDeluxe ? goalDate.trim() : undefined,
-        imageStyle: isDeluxe ? imageStyle : undefined,
+        requestedLanguage: isBook ? effectiveLang : undefined,
+        goalDate: needsWallpaperFields ? goalDate.trim() : undefined,
+        imageStyle: needsWallpaperFields ? imageStyle : undefined,
+        shippingAddress: needsShipping ? shippingAddress.trim() : undefined,
       });
       setWiseLink(result.wiseLink ?? null);
       setSubmitted(true);
@@ -191,7 +233,7 @@ export default function PurchaseDialog({
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-              {isDeluxe && (
+              {needsWallpaperFields && (
                 <>
                   <div className="space-y-1.5">
                     <Label htmlFor="purchase-goal-date">
@@ -226,20 +268,34 @@ export default function PurchaseDialog({
                   </div>
                 </>
               )}
+              {needsShipping && (
+                <div className="space-y-1.5">
+                  <Label htmlFor="purchase-shipping">Shipping address</Label>
+                  <Textarea
+                    id="purchase-shipping"
+                    rows={3}
+                    required
+                    value={shippingAddress}
+                    onChange={(e) => setShippingAddress(e.target.value)}
+                    placeholder="Name, street address, city, postal code, country"
+                    className="resize-none"
+                  />
+                </div>
+              )}
               <div className="space-y-1.5">
                 <Label htmlFor="purchase-note">
-                  {isDeluxe
+                  {needsWallpaperFields
                     ? BOOK_DELUXE_FORM_DEFAULTS.noteLabel
                     : "Note (optional)"}
                 </Label>
                 <Textarea
                   id="purchase-note"
-                  rows={isDeluxe ? 3 : 2}
-                  required={isDeluxe}
+                  rows={needsWallpaperFields ? 3 : 2}
+                  required={needsWallpaperFields}
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   placeholder={
-                    isDeluxe
+                    needsWallpaperFields
                       ? BOOK_DELUXE_FORM_DEFAULTS.notePlaceholder
                       : "Anything we should know"
                   }

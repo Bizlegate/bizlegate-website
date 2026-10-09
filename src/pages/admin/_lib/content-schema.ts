@@ -36,6 +36,7 @@ import {
   BOOK_PERSONA_FRUSTRATED_KEY,
   BOOK_PERSONA_FRUSTRATED_DEFAULT,
 } from "@/pages/book/_lib/book-data.ts";
+import { SHOP_HERO_DEFAULTS, SHOP_ITEMS } from "@/pages/shop/_lib/shop-data.ts";
 
 export type TextFieldKind = "text" | "textarea";
 
@@ -578,7 +579,7 @@ export const PAGE_SCHEMAS: PageSchema[] = [
       {
         title: "Hero",
         description:
-          "The /book-consult sales page is hidden behind the Book toggle above the language tabs until you turn it on. English-only — this page is not part of the Chinese site.",
+          "Retired from the live site as of the 2026-10-09 /shop pivot — /book-consult now redirects to /shop, and the digital book is sold there as a single simplified item instead. These fields are kept editable here only because the old three-tier book funnel page (book/page.tsx and friends) is still on disk, unrouted, in case any of it gets reused later.",
         textFields: [
           {
             key: "book.hero.eyebrow",
@@ -845,6 +846,74 @@ export const PAGE_SCHEMAS: PageSchema[] = [
       },
     ],
   },
+  {
+    id: "shop",
+    label: "Shop",
+    groups: [
+      {
+        title: "Hero",
+        description:
+          "The site's primary sales page (2026-10-09 /shop pivot — see claude/00_project_status.md). /book-consult now redirects here.",
+        textFields: [
+          {
+            key: "shop.hero.eyebrow",
+            label: "Eyebrow",
+            kind: "text",
+            fallback: SHOP_HERO_DEFAULTS.eyebrow,
+          },
+          {
+            key: "shop.hero.title",
+            label: "Title",
+            kind: "text",
+            fallback: SHOP_HERO_DEFAULTS.title,
+          },
+          {
+            key: "shop.hero.subtitle",
+            label: "Subtitle",
+            kind: "textarea",
+            fallback: SHOP_HERO_DEFAULTS.subtitle,
+          },
+          {
+            key: "shop.cta",
+            label: "Buy button label (every item)",
+            kind: "text",
+            fallback: "Get it",
+          },
+        ],
+        mediaFields: [],
+      },
+      {
+        title: "Products",
+        description:
+          "Every item shown on /shop, in order. The digital book reuses the Book page's Hero price fields above rather than having its own — edit those to change its price. Every other item's price here is a placeholder — set the real one whenever it's ready; there's no separate on/off switch, the price shown is whatever's set here.",
+        textFields: SHOP_ITEMS.flatMap((item): TextField[] => [
+          {
+            key: `shop.${item.key}.title`,
+            label: `${item.title} — Title`,
+            kind: "text",
+            fallback: item.title,
+          },
+          ...(item.priceKey
+            ? [
+                {
+                  key: item.priceKey,
+                  label: `${item.title} — Price`,
+                  kind: "text",
+                  fallback: item.priceDefault ?? "",
+                } satisfies TextField,
+              ]
+            : []),
+          {
+            key: `shop.${item.key}.body`,
+            label: `${item.title} — Body`,
+            kind: "textarea",
+            fallback: item.body,
+          },
+        ]),
+        mediaFields: [],
+      },
+    ],
+  },
 ];
 
 /**
@@ -889,7 +958,9 @@ function toZhGroup(group: FieldGroup): FieldGroup {
 }
 
 export const PAGE_SCHEMAS_ZH: PageSchema[] = PAGE_SCHEMAS.filter(
-  (page) => page.id !== "book",
+  // "book" and "shop" are both English-only / US-market only by design (see
+  // the revenue plan) and don't participate in the zh bilingual system.
+  (page) => page.id !== "book" && page.id !== "shop",
 ).map((page) => ({
   ...page,
   groups: page.groups.map(toZhGroup),
