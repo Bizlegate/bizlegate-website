@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Section, SectionHeading } from "@/components/layout/section.tsx";
-import { useContentText } from "@/hooks/use-content.ts";
+import { ContentContext, useContentText } from "@/hooks/use-content.ts";
 import ShopSections from "./_components/shop-sections.tsx";
+import ShopComingSoon from "./_components/shop-coming-soon.tsx";
 import { SHOP_HERO_DEFAULTS } from "./_lib/shop-data.ts";
+import { SHOP_ENABLED_KEY } from "@/pages/admin/_components/shop-site-toggle.tsx";
 
 /**
  * The Office Original merch storefront — replaces /book-consult as the
@@ -11,8 +13,16 @@ import { SHOP_HERO_DEFAULTS } from "./_lib/shop-data.ts";
  * rendering the old three-tier book funnel, so any link already pointing
  * at /book-consult (the printed book's back cover, rendered Office
  * Original video end-cards) still lands somewhere real.
+ *
+ * Gated behind the site.shopEnabled admin flag (default ON — see
+ * ShopSiteToggle) so the admin can hide the storefront behind a "coming
+ * soon" placeholder while editing, without losing the /book-consult
+ * redirect target.
  */
 export default function Shop() {
+  const { content } = useContext(ContentContext);
+  const enabled = content?.[SHOP_ENABLED_KEY] !== "false";
+
   const eyebrow = useContentText(
     "shop.hero.eyebrow",
     SHOP_HERO_DEFAULTS.eyebrow,
@@ -35,6 +45,10 @@ export default function Shop() {
       document.documentElement.classList.remove("book-page");
     };
   }, []);
+
+  if (!enabled) {
+    return <ShopComingSoon />;
+  }
 
   return (
     <>

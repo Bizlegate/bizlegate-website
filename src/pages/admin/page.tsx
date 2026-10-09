@@ -31,7 +31,7 @@ import QuizLeadsList from "./_components/quiz-leads-list.tsx";
 import BookAccessPanel from "./_components/book-access-panel.tsx";
 import MembersManager from "./_components/members-manager.tsx";
 import ZhSiteToggle from "./_components/zh-site-toggle.tsx";
-import BookSiteToggle from "./_components/book-site-toggle.tsx";
+import ShopSiteToggle from "./_components/shop-site-toggle.tsx";
 
 function LoadingState() {
   return (
@@ -106,7 +106,7 @@ function AdminDashboard() {
 
           <TabsContent value="content">
             <ZhSiteToggle />
-            <BookSiteToggle />
+            <ShopSiteToggle />
             <Tabs defaultValue="en">
               <TabsList className="mb-6">
                 <TabsTrigger value="en" className="cursor-pointer">

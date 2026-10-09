@@ -10,10 +10,21 @@ import { ContentContext } from "@/hooks/use-content.ts";
 export const BOOK_ENABLED_KEY = "site.bookEnabled";
 
 /**
- * Admin-only switch for the /book-consult sales page. Defaults OFF (unlike the zh
- * toggle, which defaults ON) — this is a brand-new page that hasn't
- * launched yet, so it should stay hidden behind a "coming soon" placeholder
- * until the admin is ready to send traffic to it.
+ * RETIRED (2026-10-09 /shop pivot) — no longer imported anywhere. /book-
+ * consult now unconditionally redirects to /shop (see App.tsx), and the
+ * old three-tier book funnel this toggle gated (pages/book/page.tsx) has
+ * no route pointing at it anymore, so flipping this switch has zero
+ * visible effect on the live site. Replaced by ShopSiteToggle
+ * (admin/_components/shop-site-toggle.tsx, site.shopEnabled), which gates
+ * /shop itself. Left on disk per the site's "stub out, don't delete"
+ * convention — safe to delete by hand whenever, same as
+ * book-consulting.tsx.
+ *
+ * Original doc, for history: admin-only switch for the /book-consult
+ * sales page. Defaulted OFF (unlike the zh toggle, which defaults ON) —
+ * it was a brand-new page that hadn't launched yet, so it stayed hidden
+ * behind a "coming soon" placeholder until the admin was ready to send
+ * traffic to it.
  */
 export default function BookSiteToggle() {
   const { content } = useContext(ContentContext);
