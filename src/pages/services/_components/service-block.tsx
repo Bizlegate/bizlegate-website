@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import { EditableImage } from "@/components/media/editable-media.tsx";
-import { type MediaValue } from "@/hooks/use-content.ts";
+import { type MediaValue, useEffectiveLang } from "@/hooks/use-content.ts";
 import { type GalleryImage } from "../_lib/services-data.ts";
 import { cn } from "@/lib/utils.ts";
 
@@ -11,7 +11,12 @@ export type ServiceBlockProps = {
   eyebrow: string;
   title: string;
   description: string;
-  bullets: { key: string; text: string }[];
+  bullets: {
+    key: string;
+    text: string;
+    hideInZh?: boolean;
+    hideInEn?: boolean;
+  }[];
   image: MediaValue;
   imageAlt: string;
   /** Optional 2x2 gallery. When present, replaces the single image. */
@@ -42,6 +47,10 @@ export default function ServiceBlock({
   get,
 }: ServiceBlockProps) {
   const reversed = index % 2 === 1;
+  const lang = useEffectiveLang();
+  const visibleBullets = bullets.filter((b) =>
+    lang === "zh" ? !b.hideInZh : !b.hideInEn,
+  );
 
   const eyebrowEl = (
     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
@@ -60,7 +69,7 @@ export default function ServiceBlock({
   );
   const bulletsEl = (
     <ul className="space-y-3">
-      {bullets.map((b) => (
+      {visibleBullets.map((b) => (
         <li key={b.key} className="flex gap-3">
           <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-secondary text-primary">
             <Check className="size-3.5" />

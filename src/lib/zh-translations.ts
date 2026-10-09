@@ -63,6 +63,7 @@ export const ZH_TRANSLATIONS: Record<string, string> = {
   "services.living.title": "抵台即休息,全程維持最佳狀態。",
   "services.living.description":
     "會議室之外的時間,決定了您走進會議室時的狀態。我們統籌住宿、交通與生活起居,讓每次移動都不消耗您的專注力與精力。",
+  "services.living.flights": "協助安排來回機票與行程規劃。",
   "services.living.b1": "市中心精選的五星級住宿與私人管家式公寓。",
   "services.living.b2": "彈性包時或定點接送的專屬禮賓司機服務。",
   "services.living.b3": "台灣頂尖醫院的優先高階健檢安排。",

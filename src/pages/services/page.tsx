@@ -1,5 +1,5 @@
 import { Section } from "@/components/layout/section.tsx";
-import { useContentGetter } from "@/hooks/use-content.ts";
+import { useContentGetter, useEffectiveLang } from "@/hooks/use-content.ts";
 import ServicesHero from "./_components/services-hero.tsx";
 import ServiceBlock from "./_components/service-block.tsx";
 import ServicesCta from "./_components/services-cta.tsx";
@@ -7,13 +7,19 @@ import { SERVICES } from "./_lib/services-data.ts";
 
 export default function Services() {
   const get = useContentGetter();
+  const lang = useEffectiveLang();
+  // Cultural tours and the dining experience aren't offered to the
+  // Chinese-speaking audience (2026-10-09) — English is unaffected. See the
+  // hideInZh doc comment on ServiceData in services-data.ts.
+  const visibleServices =
+    lang === "zh" ? SERVICES.filter((s) => !s.hideInZh) : SERVICES;
 
   return (
     <>
       <ServicesHero />
       <Section className="bg-background">
         <div className="space-y-20 sm:space-y-28">
-          {SERVICES.map((service, index) => (
+          {visibleServices.map((service, index) => (
             <ServiceBlock
               key={service.baseKey}
               baseKey={service.baseKey}

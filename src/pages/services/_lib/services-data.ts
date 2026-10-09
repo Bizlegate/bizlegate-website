@@ -12,12 +12,26 @@ export type ServiceData = {
   eyebrow: string;
   title: string;
   description: string;
-  bullets: { key: string; text: string }[];
+  bullets: {
+    key: string;
+    text: string;
+    hideInZh?: boolean;
+    /** Shown on the Chinese site only — e.g. a service offered there but not on the English/US side. */
+    hideInEn?: boolean;
+  }[];
   /** Single hero-style image (used when gallery is absent). */
   image: MediaValue;
   imageAlt: string;
   /** Optional 2x2 gallery of four images. When present, replaces the single image. */
   gallery?: GalleryImage[];
+  /**
+   * Hides this entire service block on the Chinese site (English is
+   * unaffected — see useEffectiveLang in services/page.tsx). As of
+   * 2026-10-09 the client doesn't offer cultural tours or dining
+   * experiences to her Chinese-speaking audience, only to the US/English
+   * side.
+   */
+  hideInZh?: boolean;
 };
 
 export const SERVICES: ServiceData[] = [
@@ -59,6 +73,14 @@ export const SERVICES: ServiceData[] = [
       "The hours outside the boardroom decide how you show up inside it. We handle lodging, transport, and wellbeing so nothing between meetings costs you focus or energy.",
     bullets: [
       {
+        // zh-only (2026-10-09): the client can arrange round-trip flights
+        // for the Taiwan side of the delegation — not currently offered on
+        // the English/US side, so this bullet is hidden there.
+        key: "flights",
+        text: "Flight booking and itinerary coordination, arranged on request.",
+        hideInEn: true,
+      },
+      {
         key: "b1",
         text: "Five-star lodging and private serviced residences, matched to your schedule.",
       },
@@ -69,10 +91,14 @@ export const SERVICES: ServiceData[] = [
       {
         key: "b3",
         text: "Priority executive health checks at leading Taiwanese hospitals.",
+        // Not offered to the Chinese-speaking audience — see hideInZh doc
+        // comment on ServiceData above. English is unaffected.
+        hideInZh: true,
       },
       {
         key: "b4",
         text: "Championship golf and private recreation, arranged on request.",
+        hideInZh: true,
       },
     ],
     image: {
@@ -105,6 +131,9 @@ export const SERVICES: ServiceData[] = [
   },
   {
     baseKey: "services.culture",
+    // Not offered to the Chinese-speaking audience — see hideInZh doc
+    // comment on ServiceData above. English is unaffected.
+    hideInZh: true,
     eyebrow: "Refined Cultural Tours",
     title: "Taiwan, understood from the inside.",
     description:
@@ -157,6 +186,9 @@ export const SERVICES: ServiceData[] = [
   },
   {
     baseKey: "services.cuisine",
+    // Not offered to the Chinese-speaking audience — see hideInZh doc
+    // comment on ServiceData above. English is unaffected.
+    hideInZh: true,
     eyebrow: "Authentic Cuisine",
     title: "The table where deals warm up.",
     description:
