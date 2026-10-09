@@ -1,4 +1,4 @@
-import { Compass, Languages, CameraOff } from "lucide-react";
+import { Compass, UserSearch, MailX, Unlink } from "lucide-react";
 import { Camera, PlaneTakeoff, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -21,19 +21,28 @@ export type HomeCard = {
 
 export const PAIN_POINTS: HomeCard[] = [
   {
-    icon: Compass,
+    // zh copy (as of 2026-10-09) is about filtering/vetting partners and not
+    // knowing who to contact or how to reach them — UserSearch (was Compass).
+    icon: UserSearch,
     key: "unfamiliar",
     title: "You don't know where to knock.",
     body: "Taiwan's institutional landscape is opaque from the outside. Without the right door and the right introduction, even a well-funded visit stalls before it starts.",
   },
   {
-    icon: Languages,
+    // zh copy (as of 2026-10-09) is no longer about language barriers — it's
+    // about outreach going unanswered (don't know how to raise the other
+    // side's willingness to accept a meeting; worried messages just sink
+    // without a reply) — MailX (was Languages).
+    icon: MailX,
     key: "language",
     title: "The English doesn't quite make sense.",
     body: "Local websites are technically in English, but the logic, structure, and intent get lost in translation. You're left guessing what any of it actually means.",
   },
   {
-    icon: CameraOff,
+    // zh copy (as of 2026-10-09) is about superficial trade-show visits —
+    // real decision-makers don't show up on the floor and there's little
+    // follow-up after the event — Unlink (was CameraOff).
+    icon: Unlink,
     key: "tradeshow",
     title: "Trade shows rarely deliver.",
     body: "You spend real money, but it's mostly for show. The decision-makers you came to meet don't walk the exhibition floor, and there's no follow-through afterward.",
