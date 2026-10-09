@@ -36,6 +36,7 @@ export function AppAuthProvider({
   tokenEndpointProxy,
   scope = "openid profile email",
   redirect_uri,
+  extraQueryParams,
 }: {
   children: React.ReactNode;
   authority: string;
@@ -54,6 +55,11 @@ export function AppAuthProvider({
   tokenEndpointProxy: string;
   scope?: string;
   redirect_uri?: string;
+  // Extra params appended to the authorization redirect only (e.g. Google's
+  // access_type/prompt, used to request a refresh token — see the caller in
+  // components/providers/auth.tsx for why this matters for staying signed
+  // in).
+  extraQueryParams?: Record<string, string>;
 }) {
   const [userManager] = useState(() => {
     const settings: UserManagerSettings = {
@@ -64,6 +70,7 @@ export function AppAuthProvider({
       post_logout_redirect_uri: window.location.origin,
       response_type: "code",
       scope,
+      extraQueryParams,
       userStore: new WebStorageStateStore({ store: window.localStorage }),
       automaticSilentRenew: true,
       silentRequestTimeoutInSeconds: 20,
