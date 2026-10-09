@@ -34,7 +34,7 @@ export const UI_STRINGS = {
     navigate: { en: "Navigate", zh: "網站導覽" },
     description: {
       en: "Premier US–Taiwan business travel architecture. Direct access, lean execution, and effortless comfort for elite executives crossing the US–Taiwan corridor.",
-      zh: "頂尖的美台商務出訪規劃服務。為往來美國與台灣的企業高層,提供直接的人脈引薦、精簡高效的執行,以及無需操心的舒適體驗。",
+      zh: "頂尖的美台商務出訪規劃服務。為往來美國與台灣的企業高層安排實體參訪洽談，擅長精簡高效的執行，創造務實的舒心體驗。",
     },
     rights: { en: "All rights reserved.", zh: "版權所有,翻印必究。" },
     locations: {
