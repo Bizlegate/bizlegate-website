@@ -263,7 +263,16 @@ export const PAGE_SCHEMAS: PageSchema[] = [
             ),
           ],
           mediaFields: service.gallery
-            ? service.gallery.map(
+            ? // Merge gallery + galleryZh (deduped by key) so a zh-only slot
+              // like "flights" (see services-data.ts) is still editable from
+              // here even though it's absent from the English `gallery`.
+              [
+                ...service.gallery,
+                ...(service.galleryZh ?? []).filter(
+                  (zhImg) =>
+                    !service.gallery!.some((img) => img.key === zhImg.key),
+                ),
+              ].map(
                 (img, i): MediaField => ({
                   key: `${service.baseKey}.${img.key}`,
                   label: `Gallery image ${i + 1}`,

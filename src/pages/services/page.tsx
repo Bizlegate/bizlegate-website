@@ -31,6 +31,7 @@ export default function Services() {
               image={service.image}
               imageAlt={service.imageAlt}
               gallery={service.gallery}
+              galleryZh={service.galleryZh}
               get={get}
             />
           ))}

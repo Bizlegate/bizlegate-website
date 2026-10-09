@@ -25,6 +25,14 @@ export type ServiceData = {
   /** Optional 2x2 gallery of four images. When present, replaces the single image. */
   gallery?: GalleryImage[];
   /**
+   * Chinese-only replacement for `gallery` (English keeps `gallery`
+   * unchanged). Use this when the zh photo set itself needs to differ —
+   * different count, different subjects — not just different alt text; a
+   * plain count mismatch (e.g. 3 photos here) renders as a bento layout
+   * instead of a square grid, see ServiceBlock.
+   */
+  galleryZh?: GalleryImage[];
+  /**
    * Hides this entire service block on the Chinese site (English is
    * unaffected — see useEffectiveLang in services/page.tsx). As of
    * 2026-10-09 the client doesn't offer cultural tours or dining
@@ -126,6 +134,29 @@ export const SERVICES: ServiceData[] = [
         key: "image4",
         url: "https://images.unsplash.com/photo-1606443192517-919653213206?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900",
         alt: "Championship golf course",
+      },
+    ],
+    // zh (2026-10-09): drops the health-check/golf photos (those bullets
+    // are hidden in zh — see b3/b4 above), adds a flight photo for the new
+    // zh-only "flights" bullet, and keeps the hotel/chauffeur photos as-is.
+    // 3 photos, not 4 — ServiceBlock renders this as a bento layout
+    // (flights as the tall hero, hotel + chauffeur stacked beside it)
+    // rather than the English side's even 2x2 grid.
+    galleryZh: [
+      {
+        key: "flights",
+        url: "https://images.unsplash.com/photo-1718948764598-ae43cdb6f98f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900",
+        alt: "Airplane cabin interior",
+      },
+      {
+        key: "image1",
+        url: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900",
+        alt: "Five-star hotel suite",
+      },
+      {
+        key: "image2",
+        url: "https://images.unsplash.com/photo-1710343491609-0cbc6c14b92d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900",
+        alt: "Private chauffeur service",
       },
     ],
   },
