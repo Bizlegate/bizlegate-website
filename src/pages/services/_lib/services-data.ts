@@ -26,10 +26,13 @@ export type ServiceData = {
   gallery?: GalleryImage[];
   /**
    * Chinese-only replacement for `gallery` (English keeps `gallery`
-   * unchanged). Use this when the zh photo set itself needs to differ —
-   * different count, different subjects — not just different alt text; a
-   * plain count mismatch (e.g. 3 photos here) renders as a bento layout
-   * instead of a square grid, see ServiceBlock.
+   * unchanged, still laid out side-by-side with its text column). When set,
+   * ServiceBlock renders the zh version as a full-width stacked "banner"
+   * block instead — zh content here is short (3 bullets vs. English's 4),
+   * so pairing it against a tall image column leaves awkward empty space
+   * above/below the text (2026-10-09 feedback). The first image is the
+   * full-width hero banner; any remaining images render as a smaller
+   * supporting strip below the bullets.
    */
   galleryZh?: GalleryImage[];
   /**
@@ -144,9 +147,13 @@ export const SERVICES: ServiceData[] = [
     // rather than the English side's even 2x2 grid.
     galleryZh: [
       {
+        // Client-supplied photo (2026-10-09), not a stock placeholder —
+        // served from /public, not Unsplash. This is the full-width banner
+        // (see ServiceBlock's banner layout, used whenever galleryZh is
+        // set).
         key: "flights",
-        url: "https://images.unsplash.com/photo-1718948764598-ae43cdb6f98f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900",
-        alt: "Airplane cabin interior",
+        url: "/services/living-flight-takeoff.webp",
+        alt: "Airplane departing Taiwan Taoyuan International Airport at sunset",
       },
       {
         key: "image1",

@@ -34,15 +34,27 @@ export type ServiceBlockProps = {
 };
 
 /**
- * A single service category: media on one side, copy + bullet list on the
- * other. Alternates media side based on index for visual rhythm. The media is
- * either one large image or a gallery of photos.
+ * A single service category. Three layouts:
+ * - Single image: media on one side, copy + bullet list on the other.
+ *   Alternates side based on index for visual rhythm.
+ * - `gallery` (even photo count, typically 4): same side-by-side split, but
+ *   the media side is a square grid instead of one photo.
+ * - `galleryZh` (zh only — see the doc comment on ServiceData): a full-width
+ *   stacked "banner" layout instead of the side-by-side split. Used when the
+ *   zh copy is short enough that pairing it against a tall image column
+ *   would leave empty space above/below the text (2026-10-09). The first
+ *   photo is a wide hero banner; eyebrow/title/description sit centered
+ *   below it; bullets render as a row of equal cards (not a vertical list,
+ *   since there's no side column to fill); any remaining photos form a
+ *   smaller supporting strip at the bottom. One markup for all breakpoints —
+ *   nothing needs a separate mobile reorder since everything already stacks.
  *
- * Gallery blocks use two layouts: the desktop layout is unchanged, while the
- * mobile layout stacks the pieces in a dedicated order (title, photos,
- * bullets, then the paragraph). A 4-photo gallery renders as an even 2x2
- * grid; a 3-photo gallery renders as a bento (one tall hero photo beside two
- * stacked photos) so there's no empty fourth cell.
+ * The plain `gallery` layout itself still has two variants: the desktop
+ * layout is unchanged, while the mobile layout stacks the pieces in a
+ * dedicated order (title, photos, bullets, then the paragraph). A 4-photo
+ * gallery renders as an even 2x2 grid; a 3-photo gallery renders as a bento
+ * (one tall hero photo beside two stacked photos) so there's no empty
+ * fourth cell.
  */
 export default function ServiceBlock({
   baseKey,
@@ -62,7 +74,7 @@ export default function ServiceBlock({
   const visibleBullets = bullets.filter((b) =>
     lang === "zh" ? !b.hideInZh : !b.hideInEn,
   );
-  const effectiveGallery = lang === "zh" && galleryZh ? galleryZh : gallery;
+  const useBannerLayout = lang === "zh" && !!galleryZh;
 
   const eyebrowEl = (
     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
@@ -94,8 +106,62 @@ export default function ServiceBlock({
     </ul>
   );
 
-  // Gallery blocks: desktop layout unchanged, mobile reordered.
-  if (effectiveGallery) {
+  // Banner layout (zh, galleryZh only): everything stacks full-width
+  // instead of pairing a text column against an image column, so a short
+  // bullet list never ends up vertically centered in a lot of empty space.
+  if (useBannerLayout && galleryZh) {
+    const [hero, ...supporting] = galleryZh;
+    return (
+      <div className="space-y-8 sm:space-y-10">
+        <EditableImage
+          contentKey={`${baseKey}.${hero.key}`}
+          fallback={{ url: hero.url, type: "image" }}
+          alt={hero.alt}
+          className="aspect-[16/7] rounded-2xl border border-border shadow-sm sm:aspect-[21/9]"
+        />
+
+        <div className="mx-auto max-w-2xl text-center">
+          {eyebrowEl}
+          <div className="mt-3">{titleEl}</div>
+          <div className="mt-4">{descriptionEl}</div>
+        </div>
+
+        <ul className="grid gap-4 sm:grid-cols-3">
+          {visibleBullets.map((b) => (
+            <li
+              key={b.key}
+              className="flex flex-col items-center gap-3 rounded-xl border border-border bg-secondary/30 p-5 text-center"
+            >
+              <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-secondary text-primary">
+                <Check className="size-5" />
+              </span>
+              <span className="text-sm leading-relaxed text-foreground/90">
+                {get(`${baseKey}.${b.key}`, b.text)}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {supporting.length > 0 && (
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            {supporting.map((img) => (
+              <EditableImage
+                key={img.key}
+                contentKey={`${baseKey}.${img.key}`}
+                fallback={{ url: img.url, type: "image" }}
+                alt={img.alt}
+                className="aspect-[4/3] rounded-xl border border-border shadow-sm"
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Gallery blocks (English `gallery`, or a zh block with no galleryZh
+  // override): desktop layout unchanged, mobile reordered.
+  if (gallery) {
     const photo = (img: GalleryImage, extraClassName?: string) => (
       <EditableImage
         key={img.key}
@@ -109,15 +175,15 @@ export default function ServiceBlock({
     // 3 photos: bento layout (one tall hero + two stacked) so there's no
     // empty fourth cell. 4 photos (or any other count): even square grid.
     const galleryGrid = (className?: string) =>
-      effectiveGallery.length === 3 ? (
+      gallery.length === 3 ? (
         <div className={cn("grid grid-cols-2 grid-rows-2 gap-3 sm:gap-4", className)}>
-          {photo(effectiveGallery[0], "row-span-2")}
-          {photo(effectiveGallery[1], "aspect-square")}
-          {photo(effectiveGallery[2], "aspect-square")}
+          {photo(gallery[0], "row-span-2")}
+          {photo(gallery[1], "aspect-square")}
+          {photo(gallery[2], "aspect-square")}
         </div>
       ) : (
         <div className={cn("grid grid-cols-2 gap-3 sm:gap-4", className)}>
-          {effectiveGallery.map((img) => photo(img, "aspect-square"))}
+          {gallery.map((img) => photo(img, "aspect-square"))}
         </div>
       );
 
