@@ -32,10 +32,9 @@ export const UI_STRINGS = {
   },
   footer: {
     navigate: { en: "Navigate", zh: "網站導覽" },
-    description: {
-      en: "Premier US–Taiwan business travel architecture. Direct access, lean execution, and effortless comfort for elite executives crossing the US–Taiwan corridor.",
-      zh: "頂尖的美台商務出訪規劃服務。為往來美國與台灣的企業高層安排實體參訪洽談，擅長精簡高效的執行，創造務實的舒心體驗。",
-    },
+    // description moved to the CMS (useContentText("footer.description", …))
+    // so the user can edit it herself from /admin — see footer.tsx and
+    // admin/_lib/content-schema.ts "branding" > "Footer" (2026-10-09).
     rights: { en: "All rights reserved.", zh: "版權所有,翻印必究。" },
     locations: {
       en: "Taipei · United States",

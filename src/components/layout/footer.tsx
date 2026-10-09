@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useMediaValue } from "@/hooks/use-content.ts";
+import { useContentText, useMediaValue } from "@/hooks/use-content.ts";
 import { LOGO_KEY, LOGO_DEFAULT } from "@/lib/branding.ts";
 import { useUiText } from "@/lib/ui-strings.ts";
 
@@ -14,7 +14,14 @@ export default function Footer() {
     { to: "/inquire", label: useUiText("nav", "inquire") },
   ];
   const navigateLabel = useUiText("footer", "navigate");
-  const description = useUiText("footer", "description");
+  // Admin-editable (unlike the rest of the footer chrome) — see
+  // admin/_lib/content-schema.ts "branding" > "Footer" (2026-10-09, moved
+  // out of UI_STRINGS so the user can edit this one herself from /admin
+  // instead of asking for code changes each time).
+  const description = useContentText(
+    "footer.description",
+    "Premier US–Taiwan business travel architecture. Direct access, lean execution, and effortless comfort for elite executives crossing the US–Taiwan corridor.",
+  );
   const rights = useUiText("footer", "rights");
   const locations = useUiText("footer", "locations");
 
@@ -37,7 +44,12 @@ export default function Footer() {
               </span>
             </span>
           </div>
-          <p className="max-w-sm text-sm leading-relaxed text-white/60">
+          {/* Narrower than a plain max-w-sm (24rem) on purpose — at the
+              Chinese description's current length, the wider box wrapped
+              to 3 lines with just 1-2 lonely characters stranded on the
+              last line. ~2 fewer characters per line spreads the text more
+              evenly across the lines instead (2026-10-09). */}
+          <p className="max-w-[22rem] text-sm leading-relaxed text-white/60">
             {description}
           </p>
         </div>

@@ -94,6 +94,21 @@ export const PAGE_SCHEMAS: PageSchema[] = [
           },
         ],
       },
+      {
+        title: "Footer",
+        description:
+          "The short description shown bottom-left of the footer, under the logo, on every page.",
+        textFields: [
+          {
+            key: "footer.description",
+            label: "Description",
+            kind: "textarea",
+            fallback:
+              "Premier US–Taiwan business travel architecture. Direct access, lean execution, and effortless comfort for elite executives crossing the US–Taiwan corridor.",
+          },
+        ],
+        mediaFields: [],
+      },
     ],
   },
   {

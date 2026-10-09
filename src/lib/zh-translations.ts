@@ -167,4 +167,8 @@ export const ZH_TRANSLATIONS: Record<string, string> = {
   "inquire.success.title": "感謝您的諮詢。",
   "inquire.success.body":
     "我們已收到您的諮詢,所有資訊將嚴格保密。我們團隊將於 3 個工作天內親自回覆。",
+
+  // ---- Footer ----
+  "footer.description":
+    "頂尖的美台商務出訪規劃服務。為往來美國與台灣的企業高層安排實體參訪洽談，擅長精簡高效的執行，創造務實的舒心體驗。",
 };
