@@ -2,8 +2,14 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
 import { useContentText } from "@/hooks/use-content.ts";
+import { useUiText } from "@/lib/ui-strings.ts";
 
 export default function ServicesCta() {
+  // Reuses the same "Request Access" / "立即諮詢" label already defined for
+  // the navbar (UI_STRINGS.nav.requestAccess) rather than inventing a new
+  // one — this button was hardcoded in English only before, so it never
+  // translated on the zh site (2026-10-09 fix).
+  const requestAccessLabel = useUiText("nav", "requestAccess");
   const title = useContentText(
     "services.cta.title",
     "Tell us who you need to meet.",
@@ -32,7 +38,7 @@ export default function ServicesCta() {
         <div className="mt-8 flex justify-center">
           <Button asChild size="lg">
             <Link to="/inquire">
-              Request Access <ArrowRight className="size-4" />
+              {requestAccessLabel} <ArrowRight className="size-4" />
             </Link>
           </Button>
         </div>
