@@ -17,16 +17,21 @@ export const SHOP_ENABLED_KEY = "site.shopEnabled";
  * (see App.tsx), so turning this off also hides the page for anyone
  * following an old /book-consult link.
  *
- * Defaults ON (unlike the old book toggle, which defaulted off) because
- * /shop is already live when this ships — flipping the default to off
- * here would silently take down a page that's currently working.
+ * Defaults OFF as of the 2026-10-10 Bizlegate/Office Original separation
+ * decision (see the project's claude/22_shop_office_original_separation_
+ * strategy.md doc) — the plan going forward is to keep book/merch sales
+ * off bizlegate.com entirely and sell through Office Original's YouTube
+ * and Facebook native shopping instead, with Bizlegate appearing there
+ * only as a sponsor rather than as the same owner. /shop and /book-consult
+ * stay in the codebase as a fallback, just not shown by default anymore.
+ * Flip this on from here any time to bring either page back.
  */
 export default function ShopSiteToggle() {
   const { content } = useContext(ContentContext);
   const setContent = useMutation(api.content.setContent);
   const [saving, setSaving] = useState(false);
 
-  const enabled = content?.[SHOP_ENABLED_KEY] !== "false";
+  const enabled = content?.[SHOP_ENABLED_KEY] === "true";
 
   const handleChange = async (checked: boolean) => {
     setSaving(true);

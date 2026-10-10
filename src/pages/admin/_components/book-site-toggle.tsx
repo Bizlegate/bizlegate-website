@@ -10,21 +10,23 @@ import { ContentContext } from "@/hooks/use-content.ts";
 export const BOOK_ENABLED_KEY = "site.bookEnabled";
 
 /**
- * RETIRED (2026-10-09 /shop pivot) — no longer imported anywhere. /book-
- * consult now unconditionally redirects to /shop (see App.tsx), and the
- * old three-tier book funnel this toggle gated (pages/book/page.tsx) has
- * no route pointing at it anymore, so flipping this switch has zero
- * visible effect on the live site. Replaced by ShopSiteToggle
- * (admin/_components/shop-site-toggle.tsx, site.shopEnabled), which gates
- * /shop itself. Left on disk per the site's "stub out, don't delete"
- * convention — safe to delete by hand whenever, same as
- * book-consulting.tsx.
+ * Admin-only switch for the /book-consult sales page (the original
+ * three-tier book funnel — pages/book/page.tsx and friends).
  *
- * Original doc, for history: admin-only switch for the /book-consult
- * sales page. Defaulted OFF (unlike the zh toggle, which defaults ON) —
- * it was a brand-new page that hadn't launched yet, so it stayed hidden
- * behind a "coming soon" placeholder until the admin was ready to send
- * traffic to it.
+ * Briefly orphaned around the 2026-10-09 /shop pivot, when /book-consult
+ * was changed to unconditionally redirect to /shop and this toggle's
+ * target page lost its route. Restored on 2026-10-10: the user liked the
+ * original /book-consult page and didn't want it reduced to a redirect,
+ * so it's back as its own real route (see App.tsx) with this toggle
+ * controlling it independently of ShopSiteToggle/site.shopEnabled, which
+ * now controls only /shop. See
+ * claude/22_shop_office_original_separation_strategy.md — both pages are
+ * kept as fallbacks, hidden by default, switchable from /admin without
+ * code changes.
+ *
+ * Defaults OFF (unlike the zh toggle, which defaults ON) — consistent
+ * with the 2026-10-10 decision to keep book/merch sales off bizlegate.com
+ * by default in favor of Office Original's own channels.
  */
 export default function BookSiteToggle() {
   const { content } = useContext(ContentContext);

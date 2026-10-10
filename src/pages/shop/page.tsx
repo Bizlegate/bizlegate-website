@@ -14,14 +14,16 @@ import { SHOP_ENABLED_KEY } from "@/pages/admin/_components/shop-site-toggle.tsx
  * at /book-consult (the printed book's back cover, rendered Office
  * Original video end-cards) still lands somewhere real.
  *
- * Gated behind the site.shopEnabled admin flag (default ON — see
- * ShopSiteToggle) so the admin can hide the storefront behind a "coming
- * soon" placeholder while editing, without losing the /book-consult
- * redirect target.
+ * Gated behind the site.shopEnabled admin flag (default OFF as of the
+ * 2026-10-10 Bizlegate/Office Original separation decision — see
+ * claude/22_shop_office_original_separation_strategy.md and
+ * ShopSiteToggle) so the storefront stays hidden behind a "coming soon"
+ * placeholder by default, without losing the /book-consult redirect
+ * target or deleting any of the built page.
  */
 export default function Shop() {
   const { content } = useContext(ContentContext);
-  const enabled = content?.[SHOP_ENABLED_KEY] !== "false";
+  const enabled = content?.[SHOP_ENABLED_KEY] === "true";
 
   const eyebrow = useContentText(
     "shop.hero.eyebrow",
