@@ -60,7 +60,14 @@ export default function BookStructure() {
   );
 
   return (
-    <Section className="bg-secondary/40">
+    // Changed 2026-10-26 from bg-secondary/40 (a gray wash) to bg-accent —
+    // the site's pale champagne-gold token (L0.93, vs --primary's L0.72
+    // used on the tiers section below) — per the client's request for a
+    // lighter gold here specifically, not the deeper button-gold. Title
+    // (text-foreground) and body (text-muted-foreground) keep their
+    // existing colors — both already read fine against this near-white
+    // backdrop, same pairing used on the white card backgrounds elsewhere.
+    <Section className="bg-accent">
       <div className="mx-auto max-w-3xl text-center">
         <h2 className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           {title}
