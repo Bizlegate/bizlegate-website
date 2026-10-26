@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useQuery } from "convex/react";
 import {
   BookOpen,
@@ -20,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
+import PurchaseDialog from "@/pages/book/_components/purchase-dialog.tsx";
 import type { LibraryCredentials } from "./library-login.tsx";
 
 type Language = "en" | "zh";
@@ -168,9 +168,20 @@ export default function LibraryReader({
                 <Sparkles className="size-4 text-primary" />
                 You have access to 2 sample chapters.
               </span>
-              <Button asChild size="sm" variant="secondary" className="cursor-pointer">
-                <Link to="/shop">Get the full book</Link>
-              </Button>
+              {/* "book-upgrade" product, $32.39 (= $42.39 - $10 already
+                  paid), not a plain link to /book — a Tier 1 reader should
+                  never be asked to pay the full price again (decided with
+                  the client 2026-10-26). grantAccess upserts by email, so
+                  granting chapterAccess "full" here upgrades this same
+                  bookAccess row in place rather than creating a new one. */}
+              <PurchaseDialog
+                product="book-upgrade"
+                productLabel="the full book (upgrade — you've already paid $10)"
+              >
+                <Button size="sm" variant="secondary" className="cursor-pointer">
+                  Get the full book
+                </Button>
+              </PurchaseDialog>
             </div>
           )}
 

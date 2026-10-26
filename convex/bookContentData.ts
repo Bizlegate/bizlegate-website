@@ -37,11 +37,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "It proved to be the most exhausting hiring mistake of my career. She was self-centered, inefficient, and hostile to feedback. She showed up late, left early, and kept bailing on work at the last"
-      },
-      {
-        "type": "p",
-        "text": "minute, again and again, even on days she was supposed to be running the event herself. By trying to prove my \"open- mindedness,\" I had abandoned my most valuable asset: my judgment."
+        "text": "It proved to be the most exhausting hiring mistake of my career. She was self-centered, inefficient, and hostile to feedback. She showed up late, left early, and kept bailing on work at the last minute, again and again, even on days she was supposed to be running the event herself. By trying to prove my \"open- mindedness,\" I had abandoned my most valuable asset: my judgment."
       },
       {
         "type": "subhead",
@@ -76,11 +72,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "We once believed in a theory that everyone must have some kind of passion for \"their own thing,\" and they just need to find it and pour their passion into it, and then get a lifetime of fulfillment, happiness, and wealth coming along with it. As a manager, we tried so hard mentoring our colleagues in finding their own thing: we spent time talking to them, helping them clarify their thoughts and feelings, we rearranged tasks according to their wishes, and grasping any sign to convince ourselves, \"that might be potential.\" But one day, we still faced the cold hard truth: some people just have no passion for anything, but at the same"
-      },
-      {
-        "type": "p",
-        "text": "time, these people will do anything to stay in their position, I mean....anything but work!"
+        "text": "We once believed in a theory that everyone must have some kind of passion for \"their own thing,\" and they just need to find it and pour their passion into it, and then get a lifetime of fulfillment, happiness, and wealth coming along with it. As a manager, we tried so hard mentoring our colleagues in finding their own thing: we spent time talking to them, helping them clarify their thoughts and feelings, we rearranged tasks according to their wishes, and grasping any sign to convince ourselves, \"that might be potential.\" But one day, we still faced the cold hard truth: some people just have no passion for anything, but at the same time, these people will do anything to stay in their position, I mean....anything but work!"
       },
       {
         "type": "subhead",
@@ -127,11 +119,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "When companies hire talent with degrees from top schools and bold ideas to drive \"transformation,\" these hires can end up assuming their ideas should take precedence in any conflict with"
-      },
-      {
-        "type": "p",
-        "text": "their superior, convinced they were brought in to \"save\" the company from old tradition. Once their proposal gets denied, they go behind the boss and issue orders far beyond their authority. That's pure self-righteousness."
+        "text": "When companies hire talent with degrees from top schools and bold ideas to drive \"transformation,\" these hires can end up assuming their ideas should take precedence in any conflict with their superior, convinced they were brought in to \"save\" the company from old tradition. Once their proposal gets denied, they go behind the boss and issue orders far beyond their authority. That's pure self-righteousness."
       },
       {
         "type": "subhead",
@@ -166,11 +154,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "When the other type of employee is appointed to the same task, they also ask colleagues for support, but for raw materials, a starting point, a piece of advice, and do the actual work themselves. They'll even help their helpers: noticing the VIP list is out of date, and offering to help find the newest clients to add, then handing back an updated list. Hearing that some PR gifts are about to expire, they work out a way to use them all up this"
-      },
-      {
-        "type": "p",
-        "text": "round. To this type of employee, even asking for a favor feels like a debt worth repaying."
+        "text": "When the other type of employee is appointed to the same task, they also ask colleagues for support, but for raw materials, a starting point, a piece of advice, and do the actual work themselves. They'll even help their helpers: noticing the VIP list is out of date, and offering to help find the newest clients to add, then handing back an updated list. Hearing that some PR gifts are about to expire, they work out a way to use them all up this round. To this type of employee, even asking for a favor feels like a debt worth repaying."
       },
       {
         "type": "subhead",
@@ -217,11 +201,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "Under pressure, many managers either vent frustration down onto their team or quietly stoke conflict to relieve their own stress. The right managers filter the noise instead: they translate"
-      },
-      {
-        "type": "p",
-        "text": "harsh feedback from above into something the team can actually act on, without passing the sting along."
+        "text": "Under pressure, many managers either vent frustration down onto their team or quietly stoke conflict to relieve their own stress. The right managers filter the noise instead: they translate harsh feedback from above into something the team can actually act on, without passing the sting along."
       },
       {
         "type": "subhead",
@@ -417,11 +397,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "To eliminate accusations of micro-aggression or unfair targeting, frame these evaluations under the banner of professional training"
-      },
-      {
-        "type": "p",
-        "text": "and team development."
+        "text": "To eliminate accusations of micro-aggression or unfair targeting, frame these evaluations under the banner of professional training and team development."
       },
       {
         "type": "p",
@@ -464,11 +440,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "An employee who pushes back or articulates a divergent perspective may initially appear challenging to manage. Yet,"
-      },
-      {
-        "type": "p",
-        "text": "individuals who advocate for their intellectual conviction are precisely those who demonstrate high initiative and ownership. Their capacity for critical thinking enables them to drive initiatives independently without hand-holding, ultimately freeing up our capacity."
+        "text": "An employee who pushes back or articulates a divergent perspective may initially appear challenging to manage. Yet, individuals who advocate for their intellectual conviction are precisely those who demonstrate high initiative and ownership. Their capacity for critical thinking enables them to drive initiatives independently without hand-holding, ultimately freeing up our capacity."
       },
       {
         "type": "p",
@@ -609,11 +581,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "Watch for a star employee whose flawless work suddenly turns erratic, or a sudden spike in complaints against them, both signs of deliberate suppression. Leaders who rely on only few confidants are the easiest to be blindsided. Know your team's"
-      },
-      {
-        "type": "p",
-        "text": "work down to the details. Wherever a leader's understanding runs thin, that's exactly where a schemer moves in."
+        "text": "Watch for a star employee whose flawless work suddenly turns erratic, or a sudden spike in complaints against them, both signs of deliberate suppression. Leaders who rely on only few confidants are the easiest to be blindsided. Know your team's work down to the details. Wherever a leader's understanding runs thin, that's exactly where a schemer moves in."
       },
       {
         "type": "subhead",
@@ -848,11 +816,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "Newly appointed executives may naively dream of building a harmonious team, and reality often delivers a sharp wake-up call: a fragmented team is exhausting to manage, but an alliance of mediocrity usually does far more damage. They may even start telling their version of the story to other departments, and"
-      },
-      {
-        "type": "p",
-        "text": "this is also the worst kind of rumor: the kind that comes from our own team."
+        "text": "Newly appointed executives may naively dream of building a harmonious team, and reality often delivers a sharp wake-up call: a fragmented team is exhausting to manage, but an alliance of mediocrity usually does far more damage. They may even start telling their version of the story to other departments, and this is also the worst kind of rumor: the kind that comes from our own team."
       },
       {
         "type": "subhead",
@@ -942,11 +906,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "This also explains why the secretaries around almost every chairman are the ones nobody wants to deal with, and that turns out to be surprisingly useful. For truly important and urgent matters, people will break through all the difficulties that our"
-      },
-      {
-        "type": "p",
-        "text": "secretaries put in front of them, and find us; otherwise, they wouldn't try."
+        "text": "This also explains why the secretaries around almost every chairman are the ones nobody wants to deal with, and that turns out to be surprisingly useful. For truly important and urgent matters, people will break through all the difficulties that our secretaries put in front of them, and find us; otherwise, they wouldn't try."
       },
       {
         "type": "p",
@@ -989,11 +949,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "Leadership requires continuous observation, recalibration, stabilization, and forward movement. We must navigate"
-      },
-      {
-        "type": "p",
-        "text": "unmapped territory while keeping the target in sight, sometimes even redrawing flawed maps on the fly! Executive fatigue rarely stems from workload volume alone; it arises from clinging to the expectation of a nonexistent \"stable state.\" Accepting this reality instantly lightens the mental burden."
+        "text": "Leadership requires continuous observation, recalibration, stabilization, and forward movement. We must navigate unmapped territory while keeping the target in sight, sometimes even redrawing flawed maps on the fly! Executive fatigue rarely stems from workload volume alone; it arises from clinging to the expectation of a nonexistent \"stable state.\" Accepting this reality instantly lightens the mental burden."
       },
       {
         "type": "subhead",
@@ -1001,11 +957,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "Waiting for a fully staffed, perfectly aligned team before making a move is guaranteed to miss out on opportunities. Personnel turn over continuously. We will constantly hire, replace, and onboard staff; the only solution is to build an operational framework and SOPs that accommodate this revolving door, and actively relocate our time and resources by asking these questions:"
-      },
-      {
-        "type": "p",
-        "text": "Which priority urgently requires our direct intervention right now?"
+        "text": "Waiting for a fully staffed, perfectly aligned team before making a move is guaranteed to miss out on opportunities. Personnel turn over continuously. We will constantly hire, replace, and onboard staff; the only solution is to build an operational framework and SOPs that accommodate this revolving door, and actively relocate our time and resources by asking these questions: Which priority urgently requires our direct intervention right now?"
       },
       {
         "type": "p",
@@ -1056,11 +1008,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "Indispensability is a structural advantage: when our absence immediately and significantly impacts the organization's"
-      },
-      {
-        "type": "p",
-        "text": "operations or output. This structure consists of 3 dimensions:"
+        "text": "Indispensability is a structural advantage: when our absence immediately and significantly impacts the organization's operations or output. This structure consists of 3 dimensions:"
       },
       {
         "type": "p",
@@ -1107,11 +1055,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "An overly accommodating secretary easily becomes a liability. Agreeing to every incoming request fills the secretary's calendar with other people's priorities instead of ours. External inquiries"
-      },
-      {
-        "type": "p",
-        "text": "require an immediate and decisive refusal — delaying simply draws us into commitments we never intended to make."
+        "text": "An overly accommodating secretary easily becomes a liability. Agreeing to every incoming request fills the secretary's calendar with other people's priorities instead of ours. External inquiries require an immediate and decisive refusal — delaying simply draws us into commitments we never intended to make."
       },
       {
         "type": "subhead",
@@ -1256,11 +1200,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "The beginning is genuinely exhausting. On top of the daily workload, we have to build both external and internal"
-      },
-      {
-        "type": "p",
-        "text": "relationships from scratch, keep delivering results that stand out, manage our boss's personal expectations, untangle processes that never had any real structure, field the occasional complaint, handle staff turnover, and sometimes clean up after a bad hire or a colleague's jealous sabotage. Anyone who pulls all of that off in three years, and reaches a balanced state, is respected!"
+        "text": "The beginning is genuinely exhausting. On top of the daily workload, we have to build both external and internal relationships from scratch, keep delivering results that stand out, manage our boss's personal expectations, untangle processes that never had any real structure, field the occasional complaint, handle staff turnover, and sometimes clean up after a bad hire or a colleague's jealous sabotage. Anyone who pulls all of that off in three years, and reaches a balanced state, is respected!"
       },
       {
         "type": "subhead",
@@ -1307,11 +1247,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "We are especially prone to replaying the moments that didn't go perfectly: what we should have said when someone insulted us, the comeback that only occurred to us three hours too late. Left unchecked, this scene can run for eight hours a day. As we move"
-      },
-      {
-        "type": "p",
-        "text": "up, we have to develop this awareness by practice, to catch ourselves faster every time our head goes spiraling, and tell ourselves: Stop! Enough."
+        "text": "We are especially prone to replaying the moments that didn't go perfectly: what we should have said when someone insulted us, the comeback that only occurred to us three hours too late. Left unchecked, this scene can run for eight hours a day. As we move up, we have to develop this awareness by practice, to catch ourselves faster every time our head goes spiraling, and tell ourselves: Stop! Enough."
       },
       {
         "type": "subhead",
@@ -1346,11 +1282,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "Negative energy behaves less like a stain to scrub out and more like weight added to one side of a scale in our mind. Trying to remove it directly, by staying in the argument, venting to whoever will listen, or plotting how to clear our name, usually just adds more negativity on the same side of the scale; on the other hand, we must deliberately go toward whatever, or whoever, makes us feel valued, capable, and loved. We keep"
-      },
-      {
-        "type": "p",
-        "text": "adding weight to the positive side, again and again, until the scale finally tips toward the positive."
+        "text": "Negative energy behaves less like a stain to scrub out and more like weight added to one side of a scale in our mind. Trying to remove it directly, by staying in the argument, venting to whoever will listen, or plotting how to clear our name, usually just adds more negativity on the same side of the scale; on the other hand, we must deliberately go toward whatever, or whoever, makes us feel valued, capable, and loved. We keep adding weight to the positive side, again and again, until the scale finally tips toward the positive."
       },
       {
         "type": "subhead",
@@ -1397,11 +1329,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "However, it's impossible to establish substantial outcomes without staying long enough in the same company, and that means: the jumping has to stop at a certain point. And a high salary makes it easy for us to land in the first round when layoffs"
-      },
-      {
-        "type": "p",
-        "text": "come. Pursuing a career looks glamorous, but it carries its own risk: finding ourselves unemployed in midlife."
+        "text": "However, it's impossible to establish substantial outcomes without staying long enough in the same company, and that means: the jumping has to stop at a certain point. And a high salary makes it easy for us to land in the first round when layoffs come. Pursuing a career looks glamorous, but it carries its own risk: finding ourselves unemployed in midlife."
       },
       {
         "type": "subhead",
@@ -1448,11 +1376,7 @@ export const EN_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "Money is often just the ticket that propels the rest of the list forward: it funds the business, pays for making change in the world, and allows us to take care of the people we love and watch them smile. For most of us, work is only ever a means to a"
-      },
-      {
-        "type": "p",
-        "text": "set of life goals, which is why, every time we catch ourselves in a work problem, stepping back to that bigger picture helps us ask whether this particular fight deserves our time, our thought, our emotion, and our health."
+        "text": "Money is often just the ticket that propels the rest of the list forward: it funds the business, pays for making change in the world, and allows us to take care of the people we love and watch them smile. For most of us, work is only ever a means to a set of life goals, which is why, every time we catch ourselves in a work problem, stepping back to that bigger picture helps us ask whether this particular fight deserves our time, our thought, our emotion, and our health."
       },
       {
         "type": "subhead",
@@ -1478,7 +1402,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "團隊擴編的過程中，形形色色的心態會不 斷挑戰我們的做事原則。 隨著職位越爬越高，我們開始需要跨部門管理，也必然會 面對團隊規模擴張、但可用人才卻跟不上的窘境。站在這 個十字路口，我們不禁自問：是不是該放寬招募標準了？ 或者說得好聽一點，是不是該給各種不同的人一個機會， 只要對方說願意加入就好？"
+        "text": "團隊擴編的過程中，形形色色的心態會不斷挑戰我們的做事原則。 隨著職位越爬越高，我們開始需要跨部門管理，也必然會面對團隊規模擴張、但可用人才卻跟不上的窘境。站在這個十字路口，我們不禁自問：是不是該放寬招募標準了？ 或者說得好聽一點，是不是該給各種不同的人一個機會， 只要對方說願意加入就好？"
       },
       {
         "type": "subhead",
@@ -1486,11 +1410,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "職涯早期，在人才極度短缺的時候，我面試過一位應徵 者：她穿著剪裁銳利的套裝、濃妝、誇張的假睫毛、高聳 的高跟鞋，還噴了很重的香水。對我來說，稍微打扮是應 有的禮貌，但過度打扮，通常代表著缺乏自信，想用外表 來掩飾些什麼。她的眼神也一直飄忽不定。儘管如此，我 還是壓下了這個直覺，說服自己身為主管應該要有更大的 格局、尊重多元，於是錄用了她。 結果證明，這是我職涯中最耗神的一次用人失誤。她自我 中心、效率低落、聽不進任何回饋，上班遲到早退，還一 次又一次在最後一刻放鴿子，即便是輪到她親自主持活動"
-      },
-      {
-        "type": "p",
-        "text": "的那幾天也不例外。為了證明自己「夠開放」，我拋棄了自 己最寶貴的資產：判斷力。"
+        "text": "職涯早期，在人才極度短缺的時候，我面試過一位應徵者：她穿著剪裁銳利的套裝、濃妝、誇張的假睫毛、高聳的高跟鞋，還噴了很重的香水。對我來說，稍微打扮是應有的禮貌，但過度打扮，通常代表著缺乏自信，想用外表來掩飾些什麼。她的眼神也一直飄忽不定。儘管如此，我還是壓下了這個直覺，說服自己身為主管應該要有更大的格局、尊重多元，於是錄用了她。 結果證明，這是我職涯中最耗神的一次用人失誤。她自我中心、效率低落、聽不進任何回饋，上班遲到早退，還一次又一次在最後一刻放鴿子，即便是輪到她親自主持活動的那幾天也不例外。為了證明自己「夠開放」，我拋棄了自己最寶貴的資產：判斷力。"
       },
       {
         "type": "subhead",
@@ -1498,7 +1418,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "這就是為什麼直覺如此重要。一旦用錯了人，要收拾殘局 從來不簡單。光是要證明對方表現不佳，就得花上大量時 間：蒐集整理郵件、記錄來回溝通內容，還要證明輔導改 善的嘗試已經進行了好幾個月卻毫無進展。每一次的嘗試 都得留下會議紀錄和簽名存證，才能站得住腳。過程中的 種種摩擦不斷累積，耗費大量時間和精力，卻對實際工作 毫無幫助。更別提，資遣一個問題員工，還可能伴隨嚴重 的法律成本。 在團隊組建的早期階段，一次用錯人就可能打亂整個團隊 的節奏。所以，直覺不該被壓抑，它只是多年經驗累積而 成的快速模式辨識能力。"
+        "text": "這就是為什麼直覺如此重要。一旦用錯了人，要收拾殘局從來不簡單。光是要證明對方表現不佳，就得花上大量時間：蒐集整理郵件、記錄來回溝通內容，還要證明輔導改善的嘗試已經進行了好幾個月卻毫無進展。每一次的嘗試都得留下會議紀錄和簽名存證，才能站得住腳。過程中的種種摩擦不斷累積，耗費大量時間和精力，卻對實際工作毫無幫助。更別提，資遣一個問題員工，還可能伴隨嚴重的法律成本。 在團隊組建的早期階段，一次用錯人就可能打亂整個團隊的節奏。所以，直覺不該被壓抑，它只是多年經驗累積而成的快速模式辨識能力。"
       },
       {
         "type": "takeaway",
@@ -1513,7 +1433,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "有些人來上班，只求穩定的一份薪水；有 些人來上班，則是要把職涯做到頂點。 感情裡，有些爭吵是為了讓關係變得更緊密，有些爭吵則 注定會把關係推向終點。據說，人在吵架之前心裡早已有 了答案，爭吵不過是把彼此導向那個早已決定好的結局。 職場的邏輯也差不多：每個應徵者早在踏進面試間之前， 甚至更早之前，就已經決定好了自己這趟旅程的結局。"
+        "text": "有些人來上班，只求穩定的一份薪水；有些人來上班，則是要把職涯做到頂點。 感情裡，有些爭吵是為了讓關係變得更緊密，有些爭吵則注定會把關係推向終點。據說，人在吵架之前心裡早已有了答案，爭吵不過是把彼此導向那個早已決定好的結局。 職場的邏輯也差不多：每個應徵者早在踏進面試間之前， 甚至更早之前，就已經決定好了自己這趟旅程的結局。"
       },
       {
         "type": "subhead",
@@ -1521,7 +1441,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "我們曾經相信一種說法：每個人心中都藏著屬於「自己的 那件事」，只要找到它、投入熱情，幸福、成就與財富自然 會隨之而來。身為主管，我們也曾拼盡全力協助同仁找到 屬於他們的那件事：花時間與他們談心，幫他們釐清想法 與感受，依照他們的意願重新調整工作內容，抓住任何一 絲跡象就說服自己「這個人搞不好真的有潛力」。但終究有 一天，我們得面對殘酷的現實：有些人對任何事都提不起 勁，他們會用盡一切辦法留在自己的位子上……除了「把 工作做好」以外的一切辦法！"
+        "text": "我們曾經相信一種說法：每個人心中都藏著屬於「自己的那件事」，只要找到它、投入熱情，幸福、成就與財富自然會隨之而來。身為主管，我們也曾拼盡全力協助同仁找到屬於他們的那件事：花時間與他們談心，幫他們釐清想法與感受，依照他們的意願重新調整工作內容，抓住任何一絲跡象就說服自己「這個人搞不好真的有潛力」。但終究有一天，我們得面對殘酷的現實：有些人對任何事都提不起勁，他們會用盡一切辦法留在自己的位子上……除了「把工作做好」以外的一切辦法！"
       },
       {
         "type": "subhead",
@@ -1529,11 +1449,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "有些人會用「我還在學習」當作藉口，日復一日交不出任 何成果。公司不是收容所，它的存在是為了達成目標。公 司也不是學校，雖然它會給人學習的空間，但學習不能當 成一份全職工作。對那些只進不出、只吸收不產出的人來 說，他們該做的其實是繳學費，而不是領薪水。所以，面 試時若聽到有人說「我是來這裡學習的」，務必提高警覺。 第一個月看到的樣子，就是這個人往後在公司裡的樣子， 不會再有別的可能。 有些人來面試，是為了逃避人生此刻的困境：可能是為了 一份薪水，也可能是為了不想在親友面前因失業而丟臉； 而有些人來面試，是為了讓自己和家人的生活更上一層 樓，這種人，才是真正準備好承擔責任、全力投入的人。"
+        "text": "有些人會用「我還在學習」當作藉口，日復一日交不出任何成果。公司不是收容所，它的存在是為了達成目標。公司也不是學校，雖然它會給人學習的空間，但學習不能當成一份全職工作。對那些只進不出、只吸收不產出的人來說，他們該做的其實是繳學費，而不是領薪水。所以，面試時若聽到有人說「我是來這裡學習的」，務必提高警覺。 第一個月看到的樣子，就是這個人往後在公司裡的樣子， 不會再有別的可能。 有些人來面試，是為了逃避人生此刻的困境：可能是為了一份薪水，也可能是為了不想在親友面前因失業而丟臉； 而有些人來面試，是為了讓自己和家人的生活更上一層樓，這種人，才是真正準備好承擔責任、全力投入的人。"
       },
       {
         "type": "p",
-        "text": "真正渴望讓人生更上一層樓的人，交出的成果不 只成就自己，也會同時成就團隊與公司。"
+        "text": "真正渴望讓人生更上一層樓的人，交出的成果不只成就自己，也會同時成就團隊與公司。"
       }
     ]
   },
@@ -1544,7 +1464,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "「換位子，也要換腦袋。」這句話雖然老 套，卻一針見血。 企業在拔擢主管時，通常會審核經驗、專業能力與領導潛 力。但有一個關鍵因素卻經常被忽略，而忽略的代價往往 不小：這個人是否具備與新職位相匹配的當責份量？ 不妨想想一個簡單的測試：當突發事件迫使某人臨時多放 一天假，他的第一反應是什麼？是「太好了！放假！」，還 是「這會造成多少損失，我們該怎麼把傷害降到最低？」"
+        "text": "「換位子，也要換腦袋。」這句話雖然老套，卻一針見血。 企業在拔擢主管時，通常會審核經驗、專業能力與領導潛力。但有一個關鍵因素卻經常被忽略，而忽略的代價往往不小：這個人是否具備與新職位相匹配的當責份量？ 不妨想想一個簡單的測試：當突發事件迫使某人臨時多放一天假，他的第一反應是什麼？是「太好了！放假！」，還是「這會造成多少損失，我們該怎麼把傷害降到最低？」"
       },
       {
         "type": "subhead",
@@ -1552,7 +1472,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "有些主管，升遷升的只是職稱。職務說明變了，但骨子裡 的反射動作沒變：五點準時打卡下班、把問題丟給別人解 決、能不到班，最好！授權與當責之間的落差，總是在公 司最需要他們的時候暴露無遺。"
+        "text": "有些主管，升遷升的只是職稱。職務說明變了，但骨子裡的反射動作沒變：五點準時打卡下班、把問題丟給別人解決、能不到班，最好！授權與當責之間的落差，總是在公司最需要他們的時候暴露無遺。"
       },
       {
         "type": "subhead",
@@ -1560,11 +1480,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "許多老牌企業，成長到陷入了瓶頸，喜歡聘用頂尖名校畢 業生，告訴他們：「我們很期待你的加入，給我們帶來新氣 象，公司要轉型，就需要你們帶來改變！」於是這些新人"
-      },
-      {
-        "type": "p",
-        "text": "會認定，自己的想法是最好的，即便與上級不同，即便與 公司政策相反，更加肯定了自己就是來「拯救」公司、擺 脫陳舊傳統的救世主。一旦提案遭到否決，他們便繞過主 管，逕自下達遠超出自己職權範圍的指令。這不是當責， 而是徹頭徹尾的自以為是。"
+        "text": "許多老牌企業，成長到陷入了瓶頸，喜歡聘用頂尖名校畢業生，告訴他們：「我們很期待你的加入，給我們帶來新氣象，公司要轉型，就需要你們帶來改變！」於是這些新人會認定，自己的想法是最好的，即便與上級不同，即便與公司政策相反，更加肯定了自己就是來「拯救」公司、擺脫陳舊傳統的救世主。一旦提案遭到否決，他們便繞過主管，逕自下達遠超出自己職權範圍的指令。這不是當責， 而是徹頭徹尾的自以為是。"
       },
       {
         "type": "subhead",
@@ -1572,11 +1488,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "剛剛好的當責，遵循一個簡單的優先順序：先是老闆認為 對公司最好的方案，再來是我們自己認為對公司最好的方 案，最後才是對自己最好的選擇。最聰明的做法，是想辦 法創造三贏，而不是陷入零和賽局，當然，也絕不是直接 無視主管的意見。"
+        "text": "剛剛好的當責，遵循一個簡單的優先順序：先是老闆認為對公司最好的方案，再來是我們自己認為對公司最好的方案，最後才是對自己最好的選擇。最聰明的做法，是想辦法創造三贏，而不是陷入零和賽局，當然，也絕不是直接無視主管的意見。"
       },
       {
         "type": "takeaway",
-        "text": "主管的職責很單純：為組織解決問題，不多不 少，剛剛好。"
+        "text": "主管的職責很單純：為組織解決問題，不多不少，剛剛好。"
       }
     ]
   },
@@ -1587,7 +1503,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "甩手掌櫃型員工什麼都不創造，只是把工 作從一張桌子搬到另一張桌子，然後說 「搞定了」。 所有的工作，多少都會有重疊的地帶。面對重疊，有些人 會說「這不關我的事」，有些人則主動伸出手，把事情往前 推進。"
+        "text": "甩手掌櫃型員工什麼都不創造，只是把工作從一張桌子搬到另一張桌子，然後說 「搞定了」。 所有的工作，多少都會有重疊的地帶。面對重疊，有些人會說「這不關我的事」，有些人則主動伸出手，把事情往前推進。"
       },
       {
         "type": "subhead",
@@ -1595,11 +1511,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "舉個簡單的例子。當有人被指派籌辦一場晚宴，第一種員 工會去找老闆的秘書要賓客名單，因為只有秘書知道老闆 想邀請誰，接著把名單轉交給禮品部門，請他們照著準 備，然後又轉頭去找場地管理人訂餐點和飲料。工作的每 一塊都落在別人桌上，到頭來，這個人幾乎沒碰過自己名 義上該負責的這場活動。這就是甩手掌櫃型員工。 換成另一種員工接下同樣的任務，他們也會向同事尋求支 援，但要的是原始素材、一個起點、一句建議，實際的工 作還是自己動手做。他們甚至還會反過來幫助協助他們的 人：發現VIP名單過時了，就主動幫忙找出最新的客戶名 單，補上更新後再交回去；聽說有些公關贈品快過期了，"
-      },
-      {
-        "type": "p",
-        "text": "就想辦法在這次活動中把它們全部用掉。對這種員工來 說，就連請人幫個忙，都像是欠了一筆該還的人情債。"
+        "text": "舉個簡單的例子。當有人被指派籌辦一場晚宴，第一種員工會去找老闆的秘書要賓客名單，因為只有秘書知道老闆想邀請誰，接著把名單轉交給禮品部門，請他們照著準備，然後又轉頭去找場地管理人訂餐點和飲料。工作的每一塊都落在別人桌上，到頭來，這個人幾乎沒碰過自己名義上該負責的這場活動。這就是甩手掌櫃型員工。 換成另一種員工接下同樣的任務，他們也會向同事尋求支援，但要的是原始素材、一個起點、一句建議，實際的工作還是自己動手做。他們甚至還會反過來幫助協助他們的人：發現VIP名單過時了，就主動幫忙找出最新的客戶名單，補上更新後再交回去；聽說有些公關贈品快過期了，就想辦法在這次活動中把它們全部用掉。對這種員工來說，就連請人幫個忙，都像是欠了一筆該還的人情債。"
       },
       {
         "type": "subhead",
@@ -1607,11 +1519,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "甩手掌櫃心態也會展現在生活小事上：印表機卡紙、垃圾 桶滿了、膠帶用完了、衛生紙盒空了。甩手掌櫃型員工總 有耐心，等著別人先發現、先處理。辦公室裡的雜事看似 瑣碎，但日積月累，隨之累積的還有大家心裡的怨氣。當 這種甩手掌櫃心態蔓延開來，就會變質成一種讓所有人都 懶得再努力的集體藉口。 沒有一個老闆會把辦公室裡的每一次合作都盯得那麼細。 灰色地帶裡那條界線該畫在哪裡，取決於同事之間心照不 宣的默契：辦公室的習慣、文化，以及每個人的真面目。"
+        "text": "甩手掌櫃心態也會展現在生活小事上：印表機卡紙、垃圾桶滿了、膠帶用完了、衛生紙盒空了。甩手掌櫃型員工總有耐心，等著別人先發現、先處理。辦公室裡的雜事看似瑣碎，但日積月累，隨之累積的還有大家心裡的怨氣。當這種甩手掌櫃心態蔓延開來，就會變質成一種讓所有人都懶得再努力的集體藉口。 沒有一個老闆會把辦公室裡的每一次合作都盯得那麼細。 灰色地帶裡那條界線該畫在哪裡，取決於同事之間心照不宣的默契：辦公室的習慣、文化，以及每個人的真面目。"
       },
       {
         "type": "p",
-        "text": "從合作中看穿一個人的真面目。趁早揪出甩手掌 櫃型員工，別讓怨氣蔓延到整個團隊。"
+        "text": "從合作中看穿一個人的真面目。趁早揪出甩手掌櫃型員工，別讓怨氣蔓延到整個團隊。"
       }
     ]
   },
@@ -1622,7 +1534,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "只要主管不肯讓船沉，團隊遲早會退到一 邊，看你扛。 我們跳出來處理問題，從來不是為了搶鋒頭，而是因為我 們真的看不下去事情失控。但當團隊太熟悉我們這種高度 的責任感，一張隱形的安全網就悄悄成形：我們提心吊 膽，他們樂得輕鬆。 要從根本上避免這種依賴發生，我們得拔擢對的主管來帶 領團隊，替我們盯緊每一個里程碑。至於什麼樣的人才算 「對的主管」，我們在拔擢之前，會先確認以下幾項特質："
+        "text": "只要主管不肯讓船沉，團隊遲早會退到一邊，看你扛。 我們跳出來處理問題，從來不是為了搶鋒頭，而是因為我們真的看不下去事情失控。但當團隊太熟悉我們這種高度的責任感，一張隱形的安全網就悄悄成形：我們提心吊膽，他們樂得輕鬆。 要從根本上避免這種依賴發生，我們得拔擢對的主管來帶領團隊，替我們盯緊每一個里程碑。至於什麼樣的人才算 「對的主管」，我們在拔擢之前，會先確認以下幾項特質："
       },
       {
         "type": "subhead",
@@ -1630,7 +1542,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "軟弱的主管只會當傳聲筒，躲在「這是老闆說的」背後。 對的主管會挺身成為團隊的定錨：他們會接受困難的任 務，親自承擔責任，控制部屬的反抗、維持部屬的紀律。"
+        "text": "軟弱的主管只會當傳聲筒，躲在「這是老闆說的」背後。 對的主管會挺身成為團隊的定錨：他們會接受困難的任務，親自承擔責任，控制部屬的反抗、維持部屬的紀律。"
       },
       {
         "type": "subhead",
@@ -1638,11 +1550,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "面對壓力，許多主管會把情緒發洩到團隊身上、成為一顆 炸彈到處爆炸，挑起衝突來表達抗議，或是成為一塊海 綿，雖然不發洩情緒，但把上級施壓的負能量自行吸收，"
-      },
-      {
-        "type": "p",
-        "text": "然後生病。對的主管會懂得過濾雜訊：把上頭嚴厲的意 見，轉化成團隊真正能執行的行動，而不會把那份刺痛感 原封不動地傳下去。"
+        "text": "面對壓力，許多主管會把情緒發洩到團隊身上、成為一顆炸彈到處爆炸，挑起衝突來表達抗議，或是成為一塊海綿，雖然不發洩情緒，但把上級施壓的負能量自行吸收，然後生病。對的主管會懂得過濾雜訊：把上頭嚴厲的意見，轉化成團隊真正能執行的行動，而不會把那份刺痛感原封不動地傳下去。"
       },
       {
         "type": "subhead",
@@ -1650,7 +1558,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "能力不足的主管只會把原始問題丟給上級。對的主管會主 動回報：「我發現了這個瓶頸，而這是我解決的方法。」他 們從發現問題到最終執行全程負責，回來時交出的是完成 的成果，而不是懸而未決的疑問。"
+        "text": "能力不足的主管只會把原始問題丟給上級。對的主管會主動回報：「我發現了這個瓶頸，而這是我解決的方法。」他們從發現問題到最終執行全程負責，回來時交出的是完成的成果，而不是懸而未決的疑問。"
       },
       {
         "type": "subhead",
@@ -1658,11 +1566,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "許多主管很努力，卻對策略方向視而不見，因此錯過、拖 延了我們真正在意的事，例如：一通重要客戶的緊急客 訴，必然要立即處理。對的主管會主動察言觀色，據此調 整自己的優先順序。"
+        "text": "許多主管很努力，卻對策略方向視而不見，因此錯過、拖延了我們真正在意的事，例如：一通重要客戶的緊急客訴，必然要立即處理。對的主管會主動察言觀色，據此調整自己的優先順序。"
       },
       {
         "type": "p",
-        "text": "不要再當那張養成眾人惰性的安全網了！拉拔對 的人擔任主管，讓事情穩穩朝著對的方向前進。"
+        "text": "不要再當那張養成眾人惰性的安全網了！拉拔對的人擔任主管，讓事情穩穩朝著對的方向前進。"
       }
     ]
   },
@@ -1673,7 +1581,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "每次績效考核，同一批不適任的名字又跳 出來，每次我們都嘆口氣：這次還是只能 先算了吧。 這就是「55分員工」。這類人有幾個共同特徵：沒有合作 精神，沒有犯下足以被開除的明確過失，擅長在規定裡面 鑽漏洞。 我們為什麼容忍？可能是想避免正面衝突，覺得自己缺乏 上級的支持，或是懶得再重新訓練一個新人。但更常見的 原因是，我們手上還有更棘手的問題人物要應付，實在無 法承受太多空缺的位子。更白話來說：55分雖不及格，但 我們手上還有0分的，甚至負分的燙手山芋要先處理！"
+        "text": "每次績效考核，同一批不適任的名字又跳出來，每次我們都嘆口氣：這次還是只能先算了吧。 這就是「55分員工」。這類人有幾個共同特徵：沒有合作精神，沒有犯下足以被開除的明確過失，擅長在規定裡面鑽漏洞。 我們為什麼容忍？可能是想避免正面衝突，覺得自己缺乏上級的支持，或是懶得再重新訓練一個新人。但更常見的原因是，我們手上還有更棘手的問題人物要應付，實在無法承受太多空缺的位子。更白話來說：55分雖不及格，但我們手上還有0分的，甚至負分的燙手山芋要先處理！"
       },
       {
         "type": "subhead",
@@ -1681,11 +1589,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "這些人繼續留在團隊中，就像溫水煮青蛙，是團隊的慢性 病，對我們造成影響： 扭曲用人標準 我們不再依照真正的願景招募人才，而是開始針對55分 員工的壞習慣來找人，例如刻意找個強勢型人格來壓制"
-      },
-      {
-        "type": "p",
-        "text": "他們。結果往往適得其反，一個問題員工變成兩個。 侵蝕菁英文化 當高績效員工看見偷懶被容忍，他們的標準也會跟著鬆 動。他們放棄追求100分的卓越，改為只做到80分：「何 必那麼拼？在這裡不到80分也沒關係。」"
+        "text": "這些人繼續留在團隊中，就像溫水煮青蛙，是團隊的慢性病，對我們造成影響： 扭曲用人標準我們不再依照真正的願景招募人才，而是開始針對55分員工的壞習慣來找人，例如刻意找個強勢型人格來壓制他們。結果往往適得其反，一個問題員工變成兩個。 侵蝕菁英文化當高績效員工看見偷懶被容忍，他們的標準也會跟著鬆動。他們放棄追求100分的卓越，改為只做到80分：「何必那麼拼？在這裡不到80分也沒關係。」"
       },
       {
         "type": "subhead",
@@ -1693,15 +1597,15 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "既然沒有法律依據能開除他們，就用組織結構來化解55分 員工的問題，而不是靠個人正面衝突： 步驟一：拔除管理權 55分員工絕對不該帶人。用組織架構把他們降職，能讓 我們不必再親自管理他們。 步驟二：部署資深緩衝手 由於55分員工天生反骨，不服管教，我們的頂尖人才若 去管他們，只會不斷起衝突，白白浪費戰力。理想的主 管人選，反而是資歷比這位55分員工高、能力平平、又 甘於安穩的人。因為這種主管不會強力驅策，彼此之間 不容易產生真正的摩擦；而且這種主管在別的地方也發 揮不了太大價值，讓他把時間拿來管理55分員工，正是 最划算的人力運用方式。"
+        "text": "既然沒有法律依據能開除他們，就用組織結構來化解55分員工的問題，而不是靠個人正面衝突： 步驟一：拔除管理權 55分員工絕對不該帶人。用組織架構把他們降職，能讓我們不必再親自管理他們。 步驟二：部署資深緩衝手由於55分員工天生反骨，不服管教，我們的頂尖人才若去管他們，只會不斷起衝突，白白浪費戰力。理想的主管人選，反而是資歷比這位55分員工高、能力平平、又甘於安穩的人。因為這種主管不會強力驅策，彼此之間不容易產生真正的摩擦；而且這種主管在別的地方也發揮不了太大價值，讓他把時間拿來管理55分員工，正是最划算的人力運用方式。"
       },
       {
         "type": "p",
-        "text": "步驟三：建立明確究責機制 一旦這條匯報線確立，只要績效出狀況，這兩人之中就 有一個人得扛責。對整個團隊來說，損失並不大。"
+        "text": "步驟三：建立明確究責機制一旦這條匯報線確立，只要績效出狀況，這兩人之中就有一個人得扛責。對整個團隊來說，損失並不大。"
       },
       {
         "type": "p",
-        "text": "我們不需要與55分員工正面交鋒，只需要建立 一套結構，讓他們拖累團隊的代價降到最低。"
+        "text": "我們不需要與55分員工正面交鋒，只需要建立一套結構，讓他們拖累團隊的代價降到最低。"
       }
     ]
   },
@@ -1712,7 +1616,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "善意維持不了組織秩序。想保持理智的仁 慈主管，需要一道毫不退讓的政策高牆。 我們都想保持耐心，笑著面對品質不佳的工作、沒完沒了 的拖延、站不住腳的藉口，以及因此受損的客戶關係，同 時說服自己：這些表現不佳的人還是有潛力的。但善意經 營不了團隊。我們越想保持冷靜，就越需要一套結構化的 框架，來保護自己不被情緒耗盡。"
+        "text": "善意維持不了組織秩序。想保持理智的仁慈主管，需要一道毫不退讓的政策高牆。 我們都想保持耐心，笑著面對品質不佳的工作、沒完沒了的拖延、站不住腳的藉口，以及因此受損的客戶關係，同時說服自己：這些表現不佳的人還是有潛力的。但善意經營不了團隊。我們越想保持冷靜，就越需要一套結構化的框架，來保護自己不被情緒耗盡。"
       },
       {
         "type": "subhead",
@@ -1720,7 +1624,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "想有效領導，又不燒盡自己，必須善用三種權威來源： 勞動法規 我們必須熟知的法律底線。 公司規章 我們必須徹底了解的組織政策。 團隊準則 事先擬定、量身打造的執行標準。 在第一天就取得白紙黑字的共識，是關鍵中的關鍵。少了 這一步，部屬就能理直氣壯反駁：「我又沒簽過這個。」"
+        "text": "想有效領導，又不燒盡自己，必須善用三種權威來源： 勞動法規我們必須熟知的法律底線。 公司規章我們必須徹底了解的組織政策。 團隊準則事先擬定、量身打造的執行標準。 在第一天就取得白紙黑字的共識，是關鍵中的關鍵。少了這一步，部屬就能理直氣壯反駁：「我又沒簽過這個。」"
       },
       {
         "type": "subhead",
@@ -1728,11 +1632,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "毫不妥協的行為規範"
-      },
-      {
-        "type": "p",
-        "text": "明確訂出主動職責、回應時限、任務歸屬、請假規定， 以及跨部門合作的規則。 客觀的退場機制 建立一套合法、不帶情緒的流程，為資遣違反核心原 則、表現不佳的員工預作準備。"
+        "text": "毫不妥協的行為規範明確訂出主動職責、回應時限、任務歸屬、請假規定， 以及跨部門合作的規則。 客觀的退場機制建立一套合法、不帶情緒的流程，為資遣違反核心原則、表現不佳的員工預作準備。"
       },
       {
         "type": "subhead",
@@ -1740,11 +1640,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "只要在第一天就建立起涵蓋績效標準、行為期待與明確後 果的白紙黑字共識，我們就能從根本上改變衝突的動態。 主管和問題員工之間，不再是一場耗盡心力的私人對決， 摩擦轉而發生在問題員工與那道毫不退讓的政策高牆之 間，讓我們得以保有權威，卻不必消耗自己的情緒能量。"
+        "text": "只要在第一天就建立起涵蓋績效標準、行為期待與明確後果的白紙黑字共識，我們就能從根本上改變衝突的動態。 主管和問題員工之間，不再是一場耗盡心力的私人對決， 摩擦轉而發生在問題員工與那道毫不退讓的政策高牆之間，讓我們得以保有權威，卻不必消耗自己的情緒能量。"
       },
       {
         "type": "takeaway",
-        "text": "別把情緒頻寬浪費在跟問題員工纏鬥上，建立一 道精準的政策高牆，讓制度去扛下這些重活。"
+        "text": "別把情緒頻寬浪費在跟問題員工纏鬥上，建立一道精準的政策高牆，讓制度去扛下這些重活。"
       }
     ]
   },
@@ -1755,11 +1655,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "很容易不小心沉迷於救火英雄的快感吧？ 但主管一離開，團隊就停擺，那只代表一 件事：運作系統有問題。 成為那個危機發生時大家拚命打電話求救的人，感覺既有 力量又浪漫。然而，一個高績效組織仰賴的，是每個管理 層級都嚴格遵守各自應有的參與程度，上下皆然： 第一線主管：40% 親力親為 帶動第一線的成果，帶領新人上手，並擔任現場的偵測 雷達。 中階主管：25% 親力親為 透過跨部門協調維持營運節奏，任務在於橫向溝通、掌 握流程動態，並培養接班梯隊。 高階主管：15% 親力親為 扮演系統架構師與策略方向的角色，最重要的籌碼是產 業資本與長遠眼光。 最高領導層：5% 親力親為"
+        "text": "很容易不小心沉迷於救火英雄的快感吧？ 但主管一離開，團隊就停擺，那只代表一件事：運作系統有問題。 成為那個危機發生時大家拚命打電話求救的人，感覺既有力量又浪漫。然而，一個高績效組織仰賴的，是每個管理層級都嚴格遵守各自應有的參與程度，上下皆然： 第一線主管：40% 親力親為帶動第一線的成果，帶領新人上手，並擔任現場的偵測雷達。 中階主管：25% 親力親為透過跨部門協調維持營運節奏，任務在於橫向溝通、掌握流程動態，並培養接班梯隊。 高階主管：15% 親力親為扮演系統架構師與策略方向的角色，最重要的籌碼是產業資本與長遠眼光。 最高領導層：5% 親力親為"
       },
       {
         "type": "p",
-        "text": "扮演文化定錨與最終仲裁者的角色，只在攸關重大的僵 局中出手，化解高風險的戰局。"
+        "text": "扮演文化定錨與最終仲裁者的角色，只在攸關重大的僵局中出手，化解高風險的戰局。"
       },
       {
         "type": "subhead",
@@ -1767,11 +1667,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "當高階主管被迫不斷往下管理細節，中階主管也只能往下 執行細節，基層袖手旁觀，像這樣標準的向下惡性循環， 天天在組織裡上演。 健康的組織，靠的是一種向上承接責任的循環而茁壯成 長。每個層級都主動往上分擔重任，是一種自然形成的接 班人訓練。高階主管越是能空出手來，空出腦來，才能運 用在策略打磨，帶領組織走出全新的道路，全新的高度。"
+        "text": "當高階主管被迫不斷往下管理細節，中階主管也只能往下執行細節，基層袖手旁觀，像這樣標準的向下惡性循環， 天天在組織裡上演。 健康的組織，靠的是一種向上承接責任的循環而茁壯成長。每個層級都主動往上分擔重任，是一種自然形成的接班人訓練。高階主管越是能空出手來，空出腦來，才能運用在策略打磨，帶領組織走出全新的道路，全新的高度。"
       },
       {
         "type": "p",
-        "text": "長期救火不是值得驕傲的勳章，而是結構崩壞的 徵兆。當高階主管無法從日常雜訊中抽身，問題 不在於投入不夠，而是組織設計本身出了差錯。"
+        "text": "長期救火不是值得驕傲的勳章，而是結構崩壞的徵兆。當高階主管無法從日常雜訊中抽身，問題不在於投入不夠，而是組織設計本身出了差錯。"
       }
     ]
   },
@@ -1782,7 +1682,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "說個趣聞，顯然不是事實：在職場上，每 個人都覺得自己是最努力的那一個，有些 人甚至還相信自己是全場最聰明的人。 身為主管，我們受限於員工能力參差不齊的現實。理想 上，我們希望能公平分配工作量，但現實是，我們頂多只 能做到讓每個人「承受的壓力大致相當，各自逼近自己的 極限」。 正因如此，每一位員工都真心相信自己是辦公室裡最努力 的人。就連那些產出只有別人三分之一、錯誤率卻是兩倍 的低績效員工也不例外。在他們自己心中，自己仍然是最 疲憊、最盡心盡力的員工。 當我們身為看得見全局的主管，點出這樣的落差時，得到 的反應很少是坦然接受。相反地，他們會把「職場壓力」 當成武器，用來迴避自己表現不佳的事實。績效考核最終 總是淪為沒完沒了、令人心力交瘁的拉扯。 於是問題來了：我們該如何運用客觀的工具來評估能力， 同時不被捲入情緒化的爭執之中？"
+        "text": "說個趣聞，顯然不是事實：在職場上，每個人都覺得自己是最努力的那一個，有些人甚至還相信自己是全場最聰明的人。 身為主管，我們受限於員工能力參差不齊的現實。理想上，我們希望能公平分配工作量，但現實是，我們頂多只能做到讓每個人「承受的壓力大致相當，各自逼近自己的極限」。 正因如此，每一位員工都真心相信自己是辦公室裡最努力的人。就連那些產出只有別人三分之一、錯誤率卻是兩倍的低績效員工也不例外。在他們自己心中，自己仍然是最疲憊、最盡心盡力的員工。 當我們身為看得見全局的主管，點出這樣的落差時，得到的反應很少是坦然接受。相反地，他們會把「職場壓力」 當成武器，用來迴避自己表現不佳的事實。績效考核最終總是淪為沒完沒了、令人心力交瘁的拉扯。 於是問題來了：我們該如何運用客觀的工具來評估能力， 同時不被捲入情緒化的爭執之中？"
       },
       {
         "type": "subhead",
@@ -1790,7 +1690,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "臨時召開一場毫無預警的會議，要求員工當場提出新方 案，自然會引發強烈反彈，甚至演變成正式的人資申訴。 所以，與其要求他們拿出新點子，不如請他們說明自己的 標準作業流程（SOP）。這些流程是他們從到職第一天就拿 到，並且反覆執行了好幾個月甚至好幾年的東西。要求他 們說明自己每天在做的SOP，完全合情合理，沒有任何藉 口可以搪塞。 然而，結果可能會讓人大吃一驚！我親自做過這個測試： 在檢視標準作業流程的會議前四小時發出通知。結果，長 期表現不佳的員工，連自己的檔案存在哪裡都找不到，四 小時內整理不出一份文件，甚至連自己的流程都無法用口 頭說清楚。 潮水退了，誰沒穿褲子，一目了然。"
+        "text": "臨時召開一場毫無預警的會議，要求員工當場提出新方案，自然會引發強烈反彈，甚至演變成正式的人資申訴。 所以，與其要求他們拿出新點子，不如請他們說明自己的標準作業流程（SOP）。這些流程是他們從到職第一天就拿到，並且反覆執行了好幾個月甚至好幾年的東西。要求他們說明自己每天在做的SOP，完全合情合理，沒有任何藉口可以搪塞。 然而，結果可能會讓人大吃一驚！我親自做過這個測試： 在檢視標準作業流程的會議前四小時發出通知。結果，長期表現不佳的員工，連自己的檔案存在哪裡都找不到，四小時內整理不出一份文件，甚至連自己的流程都無法用口頭說清楚。 潮水退了，誰沒穿褲子，一目了然。"
       },
       {
         "type": "subhead",
@@ -1798,15 +1698,15 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "SOP稽核能篩掉完全狀況外的員工（0到60分），但接下來 的挑戰，是那些中段班的員工（60到80分）。這群人擅長 裝出自信的樣子，表現得彷彿無所不知、事事精通。但說 話有自信，不代表真的掌握實務。一旦接受沒有腳本、即 時的檢驗，他們真正的理解程度，馬上就會現形。"
+        "text": "SOP稽核能篩掉完全狀況外的員工（0到60分），但接下來的挑戰，是那些中段班的員工（60到80分）。這群人擅長裝出自信的樣子，表現得彷彿無所不知、事事精通。但說話有自信，不代表真的掌握實務。一旦接受沒有腳本、即時的檢驗，他們真正的理解程度，馬上就會現形。"
       },
       {
         "type": "p",
-        "text": "為了避免被扣上刁難或針對性打壓的帽子，把這類評量包 裝成專業訓練與團隊發展的一環。 把團隊集合到會議室，桌上除了一張白紙什麼都不放。給 他們二十道最基本的題目，例如列出集團旗下所有核心事 業體，或說明我們主要業務線的重點方針。 作答完畢後，立刻一起檢討答案，把它當成一場集體學 習：「這就是我們的基準線。五分鐘前你不知道的事，現在 你知道了。」 這麼做，能把一場赤裸裸的績效稽核，轉化成一套建設 性、無可否認的訓練標準。沒有人能主張自己受到不公平 對待或騷擾，但結果卻會揭露，每個人平日的自信底下， 究竟藏了多少虛實。"
+        "text": "為了避免被扣上刁難或針對性打壓的帽子，把這類評量包裝成專業訓練與團隊發展的一環。 把團隊集合到會議室，桌上除了一張白紙什麼都不放。給他們二十道最基本的題目，例如列出集團旗下所有核心事業體，或說明我們主要業務線的重點方針。 作答完畢後，立刻一起檢討答案，把它當成一場集體學習：「這就是我們的基準線。五分鐘前你不知道的事，現在你知道了。」 這麼做，能把一場赤裸裸的績效稽核，轉化成一套建設性、無可否認的訓練標準。沒有人能主張自己受到不公平對待或騷擾，但結果卻會揭露，每個人平日的自信底下， 究竟藏了多少虛實。"
       },
       {
         "type": "p",
-        "text": "正式測驗在今天聽起來或許有點過時，但我必須 說：一張筆試考卷，依然是現有最誠實、最有效 的評鑑工具。"
+        "text": "正式測驗在今天聽起來或許有點過時，但我必須說：一張筆試考卷，依然是現有最誠實、最有效的評鑑工具。"
       }
     ]
   },
@@ -1817,7 +1717,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "看似有問題的表象，也可能是我們做對了 某件事的最清楚證明。 當部屬情緒失控或頂撞我們的指示時，我們的直覺反應， 往往是覺得不被尊重，或認為自己的權威受到威脅。這種 反應，來自一種內隱的社會期待：部屬應該順從領導，至 少也要裝出順從的樣子，不管內心真正的想法是什麼。"
+        "text": "看似有問題的表象，也可能是我們做對了某件事的最清楚證明。 當部屬情緒失控或頂撞我們的指示時，我們的直覺反應， 往往是覺得不被尊重，或認為自己的權威受到威脅。這種反應，來自一種內隱的社會期待：部屬應該順從領導，至少也要裝出順從的樣子，不管內心真正的想法是什麼。"
       },
       {
         "type": "subhead",
@@ -1825,7 +1725,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "當團隊裡有人「敢」在我們面前表現出憤怒，代表他們夠 信任我們營造出來的這個空間，願意在裡面誠實表達，也 不擔心這股情緒爆發，日後會被暗中秋後算帳。把鏡頭轉 回自己身上想一想：我們自己會這樣毫無保留地對待自己 的主管嗎？大概不會。一旦我們在心裡默默斷定，某個主 管不值得花力氣好好溝通，我們就會嘴上說「好，了解， 馬上處理」，心裡其實只想趕快結束對話。從這個角度來 看，部屬的脾氣，其實是一種恭維，代表他還沒放棄跟我 們溝通。"
+        "text": "當團隊裡有人「敢」在我們面前表現出憤怒，代表他們夠信任我們營造出來的這個空間，願意在裡面誠實表達，也不擔心這股情緒爆發，日後會被暗中秋後算帳。把鏡頭轉回自己身上想一想：我們自己會這樣毫無保留地對待自己的主管嗎？大概不會。一旦我們在心裡默默斷定，某個主管不值得花力氣好好溝通，我們就會嘴上說「好，了解， 馬上處理」，心裡其實只想趕快結束對話。從這個角度來看，部屬的脾氣，其實是一種恭維，代表他還沒放棄跟我們溝通。"
       },
       {
         "type": "subhead",
@@ -1833,11 +1733,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "一個會頂嘴、會提出不同看法的員工，乍看之下似乎比較 難管理。然而，願意為自己的想法據理力爭的人，正是那 些展現高度主動性與責任感的人。他們的獨立思考能力， 讓他們能夠不需要事事帶著走就自主推動專案，最終反而 釋放出我們自己的心力。 高績效的領導者天生自我要求高，一旦出現摩擦，直覺反 應往往是先反省自己，而且多半會偏向自我懷疑。下次在 陷入這個循環之前，不妨先停下來，重新解讀當下的情 況。培養這種新的正面視角，是我們建立長期沉穩心態的 關鍵。"
+        "text": "一個會頂嘴、會提出不同看法的員工，乍看之下似乎比較難管理。然而，願意為自己的想法據理力爭的人，正是那些展現高度主動性與責任感的人。他們的獨立思考能力， 讓他們能夠不需要事事帶著走就自主推動專案，最終反而釋放出我們自己的心力。 高績效的領導者天生自我要求高，一旦出現摩擦，直覺反應往往是先反省自己，而且多半會偏向自我懷疑。下次在陷入這個循環之前，不妨先停下來，重新解讀當下的情況。培養這種新的正面視角，是我們建立長期沉穩心態的關鍵。"
       },
       {
         "type": "takeaway",
-        "text": "沉默不代表認同，往往只是我們還沒贏得對方信 任、聽不到的那份真心話。"
+        "text": "沉默不代表認同，往往只是我們還沒贏得對方信任、聽不到的那份真心話。"
       }
     ]
   },
@@ -1848,7 +1748,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "三種主管，只有一種組合打不散：A咖負 責衝，B咖負責穩，C咖，哪裡都不該有 他的位置。 多數領導者身邊圍繞的，不是聽話卻沒有想法的主管，就 是熱衷經營自己地盤、把組織搞得烏煙瘴氣的政治操盤 手。每位主管都夢想擁有一支全明星團隊，但現實中，團 隊裡永遠存在三種典型的主管類型："
+        "text": "三種主管，只有一種組合打不散：A咖負責衝，B咖負責穩，C咖，哪裡都不該有他的位置。 多數領導者身邊圍繞的，不是聽話卻沒有想法的主管，就是熱衷經營自己地盤、把組織搞得烏煙瘴氣的政治操盤手。每位主管都夢想擁有一支全明星團隊，但現實中，團隊裡永遠存在三種典型的主管類型："
       },
       {
         "type": "subhead",
@@ -1856,7 +1756,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "A咖是引擎：能力強、主動積極，願意全力承擔責任，帶 領團隊突破難關。B咖是緩衝器：企圖心不強、不愛插 手，卻能維持穩定，不會擋住基層由下而上的創新。C咖 則是累贅：能力低卻控制慾強，事事都要插手管、樣樣都 要盯，最後把每個專案都搞得一團亂。"
+        "text": "A咖是引擎：能力強、主動積極，願意全力承擔責任，帶領團隊突破難關。B咖是緩衝器：企圖心不強、不愛插手，卻能維持穩定，不會擋住基層由下而上的創新。C咖則是累贅：能力低卻控制慾強，事事都要插手管、樣樣都要盯，最後把每個專案都搞得一團亂。"
       },
       {
         "type": "subhead",
@@ -1864,11 +1764,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "志同道合的A咖能組成一支勢不可擋的隊伍；但若彼此理 念不合、各自堅持己見，就會擦出激烈的衝突。這種情況 下，在兩位A咖之間安插一位個性隨和的B咖當緩衝，反而"
-      },
-      {
-        "type": "p",
-        "text": "可能打造出更穩定的結構。至於C咖，他們往往靠著操弄 上級的情緒偽裝出能力，一路往上爬；當他們把個人的能 見度看得比實際工作還重要時（他們永遠都是如此），底下 的A咖部屬必定會與他們正面衝突，而我們的A咖人才，也 很容易被這種濫用職權的C咖主管給活活悶死。"
+        "text": "志同道合的A咖能組成一支勢不可擋的隊伍；但若彼此理念不合、各自堅持己見，就會擦出激烈的衝突。這種情況下，在兩位A咖之間安插一位個性隨和的B咖當緩衝，反而可能打造出更穩定的結構。至於C咖，他們往往靠著操弄上級的情緒偽裝出能力，一路往上爬；當他們把個人的能見度看得比實際工作還重要時（他們永遠都是如此），底下的A咖部屬必定會與他們正面衝突，而我們的A咖人才，也很容易被這種濫用職權的C咖主管給活活悶死。"
       },
       {
         "type": "subhead",
@@ -1876,7 +1772,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "組織韌性的秘訣，就在於ABAB交叉配置模型： 第一層 · 最高主管（A咖） 設定願景，只在關鍵僵局時才出手。 第二層 · 資深總監（B咖） 穩定器。忠實傳達高層方向，過濾掉營運上的雜訊，不 摻雜個人自尊。 第三層 · 部門主管（A咖） 戰術引擎。把高層的願景化為實際成果。 第四層 · 小組組長（B咖） 橋樑。落實日常標準、帶新人上手，同時不扭曲A咖主 管的指令。 第五層 · 第一線執行（A咖） 靈活的執行者，同時處理多項任務交付。"
+        "text": "組織韌性的秘訣，就在於ABAB交叉配置模型： 第一層 · 最高主管（A咖） 設定願景，只在關鍵僵局時才出手。 第二層 · 資深總監（B咖） 穩定器。忠實傳達高層方向，過濾掉營運上的雜訊，不摻雜個人自尊。 第三層 · 部門主管（A咖） 戰術引擎。把高層的願景化為實際成果。 第四層 · 小組組長（B咖） 橋樑。落實日常標準、帶新人上手，同時不扭曲A咖主管的指令。 第五層 · 第一線執行（A咖） 靈活的執行者，同時處理多項任務交付。"
       },
       {
         "type": "subhead",
@@ -1884,11 +1780,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "當B咖主管離職，附近的A咖能立刻補上缺口。當A咖離 職，B咖也能穩住陣腳。那C咖該放在哪裡？哪裡都不該有 它的位置，正常的組織沒有容納瘋狂狗血存在的空間。"
+        "text": "當B咖主管離職，附近的A咖能立刻補上缺口。當A咖離職，B咖也能穩住陣腳。那C咖該放在哪裡？哪裡都不該有它的位置，正常的組織沒有容納瘋狂狗血存在的空間。"
       },
       {
         "type": "p",
-        "text": "打造一套具有韌性的組織架構：讓B咖穩住系 統，讓A咖驅動成長。"
+        "text": "打造一套具有韌性的組織架構：讓B咖穩住系統，讓A咖驅動成長。"
       }
     ]
   },
@@ -1899,7 +1795,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "只有嫩到不行的菜鳥主管，才會要求所有 人一定要合得來；也只有新手管理者，才 會拚命學著跟自己受不了的人打交道。"
+        "text": "只有嫩到不行的菜鳥主管，才會要求所有人一定要合得來；也只有新手管理者，才會拚命學著跟自己受不了的人打交道。"
       },
       {
         "type": "subhead",
@@ -1907,7 +1803,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "人際訓練課程裡，總會反覆出現一個提問：我們該怎麼跟 討厭的人相處？聽起來像是成熟的表現，但這個前提根本 就錯了。頒獎典禮或大型晚宴上，主辦單位總是刻意把不 對盤的貴賓分開安排：走不同的入場動線、安排不同的到 場時間、座位隔得遠遠的。 包容，是用在我們在乎、想要保護的人身上。忍耐一個我 們瞧不起的人，從一開始就是錯誤的策略。我們大可回到 最原始的直覺：躲開他們，或是乾脆正面開戰，一次解 決。一旦站上高位，真正該問的問題就變成：我們該如何 設計一個環境，讓自己從此不必再跟這種人打交道？"
+        "text": "人際訓練課程裡，總會反覆出現一個提問：我們該怎麼跟討厭的人相處？聽起來像是成熟的表現，但這個前提根本就錯了。頒獎典禮或大型晚宴上，主辦單位總是刻意把不對盤的貴賓分開安排：走不同的入場動線、安排不同的到場時間、座位隔得遠遠的。 包容，是用在我們在乎、想要保護的人身上。忍耐一個我們瞧不起的人，從一開始就是錯誤的策略。我們大可回到最原始的直覺：躲開他們，或是乾脆正面開戰，一次解決。一旦站上高位，真正該問的問題就變成：我們該如何設計一個環境，讓自己從此不必再跟這種人打交道？"
       },
       {
         "type": "subhead",
@@ -1915,11 +1811,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "討厭，是組織的免疫反應，而不只是情緒鬧脾氣：這是一 種複合式的警訊，只要有人真的觸動了我們的不舒服，它"
-      },
-      {
-        "type": "p",
-        "text": "就會啟動。追根究底，通常逃不出以下四種特質：1. 沒有 邊界感，別有用心來裝熟，實則來抓小辮子。2. 自我中 心，個人比團隊重要。3. 情緒操弄，偽裝成受害者。4. 爭 功第一，他一人要佔盡光芒。 留意對方是否經常使用帶刺、暗藏負面意味的用詞，也留 意他們平常跟誰走得近、把誰當自己人。物以類聚，這是 放諸四海皆準的道理。與其勉強跟不對的人裝熟建立關 係，不如讓一段對話冷冷地結束，還比較划算。"
+        "text": "討厭，是組織的免疫反應，而不只是情緒鬧脾氣：這是一種複合式的警訊，只要有人真的觸動了我們的不舒服，它就會啟動。追根究底，通常逃不出以下四種特質：1. 沒有邊界感，別有用心來裝熟，實則來抓小辮子。2. 自我中心，個人比團隊重要。3. 情緒操弄，偽裝成受害者。4. 爭功第一，他一人要佔盡光芒。 留意對方是否經常使用帶刺、暗藏負面意味的用詞，也留意他們平常跟誰走得近、把誰當自己人。物以類聚，這是放諸四海皆準的道理。與其勉強跟不對的人裝熟建立關係，不如讓一段對話冷冷地結束，還比較划算。"
       },
       {
         "type": "subhead",
@@ -1927,7 +1819,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "如果無法避免共事，那就重新設計彼此互動的方式：調整 界線範圍、引入中立的第三方，或是依靠制度化的流程來 限制接觸。需要退場的，不一定總是我們自己。只要設計 得當，退場的反而會是對方。別再壓抑自己的直覺，也別 再把心力浪費在這種人身上。把時間留給真正重要的事， 以及我們信任的人。學著跟討厭的人和睦相處，說白了， 就是在浪費生命。"
+        "text": "如果無法避免共事，那就重新設計彼此互動的方式：調整界線範圍、引入中立的第三方，或是依靠制度化的流程來限制接觸。需要退場的，不一定總是我們自己。只要設計得當，退場的反而會是對方。別再壓抑自己的直覺，也別再把心力浪費在這種人身上。把時間留給真正重要的事， 以及我們信任的人。學著跟討厭的人和睦相處，說白了， 就是在浪費生命。"
       },
       {
         "type": "p",
@@ -1942,7 +1834,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "嫉妒，是一種說不出口的怒火。它很少源 自於專業上的意見分歧，而是源自一顆缺 乏安全感的心，面對比自己更優秀、更有 氣度的人時所產生的反應。"
+        "text": "嫉妒，是一種說不出口的怒火。它很少源自於專業上的意見分歧，而是源自一顆缺乏安全感的心，面對比自己更優秀、更有氣度的人時所產生的反應。"
       },
       {
         "type": "subhead",
@@ -1950,7 +1842,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "嫉妒往往在專業能力都還沒被評斷之前，就已經爆發了。 它起源於最原始的比較心理：資深員工嫉妒年輕的明日之 星，老鳥嫉妒空降而來的優秀人才，或者單純因為外表、 魅力這種膚淺的理由心生怨恨。 這些人很少能從自己的工作中獲得成就感，所以能力從來 都不是真正的問題所在。一旦這種愛嫉妒的人掌握了權 力，他們就會刻意壓下部屬的光芒，散播謠言、提出雞毛 蒜皮的抱怨，只為了讓自己感覺高人一等。他們寧可毀掉 公司最重要的成果，也不願意看到別人發光發熱。"
+        "text": "嫉妒往往在專業能力都還沒被評斷之前，就已經爆發了。 它起源於最原始的比較心理：資深員工嫉妒年輕的明日之星，老鳥嫉妒空降而來的優秀人才，或者單純因為外表、 魅力這種膚淺的理由心生怨恨。 這些人很少能從自己的工作中獲得成就感，所以能力從來都不是真正的問題所在。一旦這種愛嫉妒的人掌握了權力，他們就會刻意壓下部屬的光芒，散播謠言、提出雞毛蒜皮的抱怨，只為了讓自己感覺高人一等。他們寧可毀掉公司最重要的成果，也不願意看到別人發光發熱。"
       },
       {
         "type": "subhead",
@@ -1958,11 +1850,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "留意那些原本表現完美的明星員工，突然開始表現失常， 或者針對他們的投訴突然暴增，這兩者都是刻意打壓的訊"
-      },
-      {
-        "type": "p",
-        "text": "號。只倚賴少數心腹的主管，最容易被蒙在鼓裡。務必掌 握團隊工作的所有細節，主管的理解越薄弱之處，就是有 心人士見縫插針、伺機而動的地方。"
+        "text": "留意那些原本表現完美的明星員工，突然開始表現失常， 或者針對他們的投訴突然暴增，這兩者都是刻意打壓的訊號。只倚賴少數心腹的主管，最容易被蒙在鼓裡。務必掌握團隊工作的所有細節，主管的理解越薄弱之處，就是有心人士見縫插針、伺機而動的地方。"
       },
       {
         "type": "subhead",
@@ -1970,7 +1858,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "如果我們決定留下一個嫉妒心特別重的員工，就必須刻意 安排他們的位置，安排在能降低嫉妒心的環境裡。這類人 通常認為自己是自己領域裡的第一名，所以可以把他們安 排跟完全不同技能領域的同事搭檔，例如讓IT工程師跟創 意設計師共事，希望藉此讓他們學會謙虛。"
+        "text": "如果我們決定留下一個嫉妒心特別重的員工，就必須刻意安排他們的位置，安排在能降低嫉妒心的環境裡。這類人通常認為自己是自己領域裡的第一名，所以可以把他們安排跟完全不同技能領域的同事搭檔，例如讓IT工程師跟創意設計師共事，希望藉此讓他們學會謙虛。"
       },
       {
         "type": "subhead",
@@ -1978,11 +1866,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "雖然保護頂尖人才不受這種干擾是我們的職責之一，但撐 過嫉妒的考驗，本身也是一種試煉。到頭來，每個人都得 扛起自己的劍與盾，靠自己殺出一條路。沒有一位主管， 是不經歷這種試煉就爬到頂端的。"
+        "text": "雖然保護頂尖人才不受這種干擾是我們的職責之一，但撐過嫉妒的考驗，本身也是一種試煉。到頭來，每個人都得扛起自己的劍與盾，靠自己殺出一條路。沒有一位主管， 是不經歷這種試煉就爬到頂端的。"
       },
       {
         "type": "p",
-        "text": "保護人才不受嫉妒所傷，只完成了一半的工作。 另一半，是確保他們就算沒有我們，也能靠自己 撐過去。"
+        "text": "保護人才不受嫉妒所傷，只完成了一半的工作。 另一半，是確保他們就算沒有我們，也能靠自己撐過去。"
       }
     ]
   },
@@ -1993,7 +1881,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "外部的掌聲，往往引來內部的攻擊。 當我們表現亮眼、掌握到關鍵資源時，內部的摩擦也會隨 之加劇，派系角力、利益結盟與嫉妒心態都會被點燃。這 些鬥爭有時會演變成八點檔般的戲碼，而背後捅刀的人， 可能令我們意想不到！"
+        "text": "外部的掌聲，往往引來內部的攻擊。 當我們表現亮眼、掌握到關鍵資源時，內部的摩擦也會隨之加劇，派系角力、利益結盟與嫉妒心態都會被點燃。這些鬥爭有時會演變成八點檔般的戲碼，而背後捅刀的人， 可能令我們意想不到！"
       },
       {
         "type": "subhead",
@@ -2001,7 +1889,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "遭受攻擊時，本能會驅使我們尋找靠山。但如果我們投靠 的那位靠山，例如我們的主管，正是幕後操盤手，那麼等 於把自己的弱點交到對方手上，白白送上把柄，好給我們 個痛快了。我們必須冷靜地把身邊的人分成三種：真正挺 我們的靠山、觀望風向的騎牆派，以及把我們視為威脅、 暗中出手的破壞者。"
+        "text": "遭受攻擊時，本能會驅使我們尋找靠山。但如果我們投靠的那位靠山，例如我們的主管，正是幕後操盤手，那麼等於把自己的弱點交到對方手上，白白送上把柄，好給我們個痛快了。我們必須冷靜地把身邊的人分成三種：真正挺我們的靠山、觀望風向的騎牆派，以及把我們視為威脅、 暗中出手的破壞者。"
       },
       {
         "type": "subhead",
@@ -2009,7 +1897,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "如果遞出善意仍無法讓對方收手，就該停止互動、保持距 離。是時候該掌控局面、控制損害，並處理這個人了。容 忍一個破壞者，付出代價的不只是我們自己，而是團隊裡 每一個真正做事的人。"
+        "text": "如果遞出善意仍無法讓對方收手，就該停止互動、保持距離。是時候該掌控局面、控制損害，並處理這個人了。容忍一個破壞者，付出代價的不只是我們自己，而是團隊裡每一個真正做事的人。"
       },
       {
         "type": "subhead",
@@ -2017,7 +1905,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "有些局面沒辦法靠拖延解決。在對的時機，就要讓對方清 楚知道，自己惹上了什麼人。這不代表要公開撕破臉，而 是在體制內悄悄累積實力，佈好反制的機制，選在能夠一 擊斃命的時刻出手。冷靜的反擊往往最有效。用一次精算 過的劃界動作，讓對方徹底明白我們不是好惹的，力道要 夠重，才能讓對方真正有感。這種人本性難移，遲早還會 再耍手段。但至少眼前，他們會先收斂，我們也才能騰出 心力專注在真正的工作上。"
+        "text": "有些局面沒辦法靠拖延解決。在對的時機，就要讓對方清楚知道，自己惹上了什麼人。這不代表要公開撕破臉，而是在體制內悄悄累積實力，佈好反制的機制，選在能夠一擊斃命的時刻出手。冷靜的反擊往往最有效。用一次精算過的劃界動作，讓對方徹底明白我們不是好惹的，力道要夠重，才能讓對方真正有感。這種人本性難移，遲早還會再耍手段。但至少眼前，他們會先收斂，我們也才能騰出心力專注在真正的工作上。"
       },
       {
         "type": "subhead",
@@ -2025,11 +1913,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "強硬起來，不代表要變成另一個人；反擊，也不代表要放 棄原則。世界從來不是非黑即白，重點在於清楚判斷，什 麼時候該保持開放，什麼時候該亮出鋒芒。把善意留給值 得的人。"
+        "text": "強硬起來，不代表要變成另一個人；反擊，也不代表要放棄原則。世界從來不是非黑即白，重點在於清楚判斷，什麼時候該保持開放，什麼時候該亮出鋒芒。把善意留給值得的人。"
       },
       {
         "type": "p",
-        "text": "為我們的善良設下界限，並且優雅地展現自己的 力量。"
+        "text": "為我們的善良設下界限，並且優雅地展現自己的力量。"
       }
     ]
   },
@@ -2040,7 +1928,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "在任何故事裡，只有主角才會招來屬於自 己的反派。"
+        "text": "在任何故事裡，只有主角才會招來屬於自己的反派。"
       },
       {
         "type": "subhead",
@@ -2048,7 +1936,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "當我們成為刻意敵意的目標時，很容易陷入焦慮。但我們 必須冷靜下來，意識到一件事：沒有人會浪費政治資本， 去對付一個無關緊要的人。 當反派角色默默設下障礙、散播謠言，或是阻擋某個決策 時，這份用心本身就是最好的證明：我們掌握著值得爭奪 的資源，站在值得競爭的位置上，也打破了某人依賴已久 的平衡。他們的敵意，正好衡量出我們有多少份量。"
+        "text": "當我們成為刻意敵意的目標時，很容易陷入焦慮。但我們必須冷靜下來，意識到一件事：沒有人會浪費政治資本， 去對付一個無關緊要的人。 當反派角色默默設下障礙、散播謠言，或是阻擋某個決策時，這份用心本身就是最好的證明：我們掌握著值得爭奪的資源，站在值得競爭的位置上，也打破了某人依賴已久的平衡。他們的敵意，正好衡量出我們有多少份量。"
       },
       {
         "type": "subhead",
@@ -2056,11 +1944,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "驅動這種行為的，是與嫉妒相同的不安全感：一個人如果 從未透過自己的努力建立起真正的自我價值，最終就會需 要靠壓過別人，才能感覺到自己的存在。 自戀型的人無法忍受在別人的故事裡當配角。為了把鎂光 燈搶回自己身上，他們會刻意製造混亂、把小爭執鬧大，"
-      },
-      {
-        "type": "p",
-        "text": "甚至把自己塑造成搞破壞的那個人。比起被當成無關緊要 的角色，他們寧可把一切都燒掉。"
+        "text": "驅動這種行為的，是與嫉妒相同的不安全感：一個人如果從未透過自己的努力建立起真正的自我價值，最終就會需要靠壓過別人，才能感覺到自己的存在。 自戀型的人無法忍受在別人的故事裡當配角。為了把鎂光燈搶回自己身上，他們會刻意製造混亂、把小爭執鬧大，甚至把自己塑造成搞破壞的那個人。比起被當成無關緊要的角色，他們寧可把一切都燒掉。"
       },
       {
         "type": "subhead",
@@ -2068,7 +1952,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "絕對不要接受受害者的角色。用兩個簡單的做法，就能跳 出這齣戲，成為幕後真正的主導者： 標記對方的弱點 反派攻擊得越猛烈的地方，往往正是他們最感受到威脅 之處；他們的攻勢，其實畫出了自己恐懼的地圖。 掌握節奏 拒絕隨著對方挑釁起舞，時程與目標都由我們主導。"
+        "text": "絕對不要接受受害者的角色。用兩個簡單的做法，就能跳出這齣戲，成為幕後真正的主導者： 標記對方的弱點反派攻擊得越猛烈的地方，往往正是他們最感受到威脅之處；他們的攻勢，其實畫出了自己恐懼的地圖。 掌握節奏拒絕隨著對方挑釁起舞，時程與目標都由我們主導。"
       },
       {
         "type": "subhead",
@@ -2076,11 +1960,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "沒有一條頂尖的職涯道路是毫無衝突的。水越深，流越 急。我們有能力去決定反派最終如何收場，讓他們的胡作 非為，只是壯大我們故事的養分。"
+        "text": "沒有一條頂尖的職涯道路是毫無衝突的。水越深，流越急。我們有能力去決定反派最終如何收場，讓他們的胡作非為，只是壯大我們故事的養分。"
       },
       {
         "type": "p",
-        "text": "成為故事的主人翁，擁抱內心的正義感，為我們 的故事，寫出一個大快人心的結局！"
+        "text": "成為故事的主人翁，擁抱內心的正義感，為我們的故事，寫出一個大快人心的結局！"
       }
     ]
   },
@@ -2091,7 +1975,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "在政治氛圍濃厚的環境裡，鋒芒畢露換來 的不是獎賞，而是懲罰。 新上任的領導者往往想要一鳴驚人：在大場面裡發表一場 完美無缺的演說，或是在每次會議上搶著發言，提醒所有 人自己有多少經驗。這感覺像是必要的立威之舉。但在政 治氛圍濃厚的環境裡，初來乍到就鋒芒畢露，很少換來讚 賞，反而會被當成威脅。"
+        "text": "在政治氛圍濃厚的環境裡，鋒芒畢露換來的不是獎賞，而是懲罰。 新上任的領導者往往想要一鳴驚人：在大場面裡發表一場完美無缺的演說，或是在每次會議上搶著發言，提醒所有人自己有多少經驗。這感覺像是必要的立威之舉。但在政治氛圍濃厚的環境裡，初來乍到就鋒芒畢露，很少換來讚賞，反而會被當成威脅。"
       },
       {
         "type": "subhead",
@@ -2099,7 +1983,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "動作太快 提早完成任務，會讓其他部門顯得相形失色。 準備過頭 開會時把每個角度都準備得滴水不漏，只會讓在場其他 主管顯得沒做足功課。 成為客戶心頭好 對難搞的客戶展現真誠的關心，對方就會開始直接指名 找我們，不再想透過主管溝通。"
+        "text": "動作太快提早完成任務，會讓其他部門顯得相形失色。 準備過頭開會時把每個角度都準備得滴水不漏，只會讓在場其他主管顯得沒做足功課。 成為客戶心頭好對難搞的客戶展現真誠的關心，對方就會開始直接指名找我們，不再想透過主管溝通。"
       },
       {
         "type": "subhead",
@@ -2107,15 +1991,15 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "在職場上每一仗都打，是很魯莽的作法。真正的策略成 熟，是懂得哪些仗該讓，哪些仗該放手："
+        "text": "在職場上每一仗都打，是很魯莽的作法。真正的策略成熟，是懂得哪些仗該讓，哪些仗該放手："
       },
       {
         "type": "p",
-        "text": "主持討論會議 多數真正的決策，早在會議開始前就已經拍板。私下先 跟各方喬好立場，取得高層的支持；會議本身，從來不 是拿來公開辯論的場合。 提出創新點子 一個真正創新的點子，只要在公開場合提出，往往當場 就會胎死腹中，因為沒有人願意承擔風險。私下先把資 源談妥，把局勢引導到對我們有利的方向，等時機成 熟，再端出完整的解決方案。 捲入權力鬥爭 別太早選邊站，除非我們是真心欣賞這個人，願意為了 對方賭上一切。就照著自己的職責本分行事。 偶爾在寄出的資料上出點小差錯，或是在一群心懷敵意的 同事面前，月報告沒有做到盡善盡美，其實是對我們平時 表現過於出色的一種健康平衡。所以，不用太擔心。"
+        "text": "主持討論會議多數真正的決策，早在會議開始前就已經拍板。私下先跟各方喬好立場，取得高層的支持；會議本身，從來不是拿來公開辯論的場合。 提出創新點子一個真正創新的點子，只要在公開場合提出，往往當場就會胎死腹中，因為沒有人願意承擔風險。私下先把資源談妥，把局勢引導到對我們有利的方向，等時機成熟，再端出完整的解決方案。 捲入權力鬥爭別太早選邊站，除非我們是真心欣賞這個人，願意為了對方賭上一切。就照著自己的職責本分行事。 偶爾在寄出的資料上出點小差錯，或是在一群心懷敵意的同事面前，月報告沒有做到盡善盡美，其實是對我們平時表現過於出色的一種健康平衡。所以，不用太擔心。"
       },
       {
         "type": "takeaway",
-        "text": "每一次對手低估我們，我們就躲過了一次他本來 要發起的攻擊。"
+        "text": "每一次對手低估我們，我們就躲過了一次他本來要發起的攻擊。"
       }
     ]
   },
@@ -2126,7 +2010,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "大多數高階主管寧願獨自扛下重擔，也不 願讓任何人看見自己吃力的樣子。 沉默給人一種堅強的錯覺。承認工作很難，或是某個決策 需要真正的犧牲，感覺就像在抱怨，甚至更糟，像在承認 自己軟弱。於是我們習慣把苦往肚裡吞，維持一張雲淡風 輕的臉。但沉默不代表一切都好，它只代表身邊的人根本 不知道我們實際扛了多少。"
+        "text": "大多數高階主管寧願獨自扛下重擔，也不願讓任何人看見自己吃力的樣子。 沉默給人一種堅強的錯覺。承認工作很難，或是某個決策需要真正的犧牲，感覺就像在抱怨，甚至更糟，像在承認自己軟弱。於是我們習慣把苦往肚裡吞，維持一張雲淡風輕的臉。但沉默不代表一切都好，它只代表身邊的人根本不知道我們實際扛了多少。"
       },
       {
         "type": "subhead",
@@ -2134,7 +2018,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "部屬只看得到分派給他們的任務，看不到我們替他們擋下 的那些鳥事。如果什麼都不說，部屬永遠不會知道，甚至 還會抱怨工作量太重，殊不知那份工作量早就被我們大幅 減輕過了！讓他們知道，我們是如何站在他們與他人惡意 或上層壓力之間，替他們擋下這一切。有些自我中心的部 屬可能無感，但懂得將心比心的人，會明白這一切付出了 什麼代價。而且，我們有太多工作是在辦公室之外進行， 例如拜訪客戶、參加活動等等；我們需要這些懂得體諒的 部屬，在我們不在辦公室的時候，幫忙撐住辦公室文化。"
+        "text": "部屬只看得到分派給他們的任務，看不到我們替他們擋下的那些鳥事。如果什麼都不說，部屬永遠不會知道，甚至還會抱怨工作量太重，殊不知那份工作量早就被我們大幅減輕過了！讓他們知道，我們是如何站在他們與他人惡意或上層壓力之間，替他們擋下這一切。有些自我中心的部屬可能無感，但懂得將心比心的人，會明白這一切付出了什麼代價。而且，我們有太多工作是在辦公室之外進行， 例如拜訪客戶、參加活動等等；我們需要這些懂得體諒的部屬，在我們不在辦公室的時候，幫忙撐住辦公室文化。"
       },
       {
         "type": "subhead",
@@ -2142,11 +2026,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "同樣的邏輯也適用於平行與向上的關係，包括其他部門、 關係機構，甚至我們的主管，乃至於董事會。適度、有意 識地訴苦，是為了確保我們這一方的說法先被聽見。否 則，別人就會來定義發生了什麼事，甚至為了保護自己的 利益而說謊，順便抹黑我們的名聲。夠早、夠有意圖地開 口，我們才能掌握故事如何被講述，以及接下來會往哪裡 發展。 每一次選擇開口，都是一次精密的計算：誰需要聽到這件 事、這麼做能達成什麼目的、又該揭露到什麼程度。"
+        "text": "同樣的邏輯也適用於平行與向上的關係，包括其他部門、 關係機構，甚至我們的主管，乃至於董事會。適度、有意識地訴苦，是為了確保我們這一方的說法先被聽見。否則，別人就會來定義發生了什麼事，甚至為了保護自己的利益而說謊，順便抹黑我們的名聲。夠早、夠有意圖地開口，我們才能掌握故事如何被講述，以及接下來會往哪裡發展。 每一次選擇開口，都是一次精密的計算：誰需要聽到這件事、這麼做能達成什麼目的、又該揭露到什麼程度。"
       },
       {
         "type": "p",
-        "text": "誰先說出故事，誰就能定義大家看待這件事的角 度。聰明的做法，就是確保那個人是我們自己。"
+        "text": "誰先說出故事，誰就能定義大家看待這件事的角度。聰明的做法，就是確保那個人是我們自己。"
       }
     ]
   },
@@ -2165,7 +2049,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "管理學教科書總告訴我們，稱讚要公開，批評要私下，說 是為了保護員工的自尊心。但現實往往更殘酷：大多數表 現不佳的人，根本缺乏自知之明。當我們私下退回不合格 的工作成果，同事之間反而可能悄悄結盟，形成一個對抗 「惡老闆」的防禦聯盟，深信自己已經盡了全力，沒有人 有資格否定他們的努力，或他們自認「不錯」的成果。 要打破這種有毒的聯盟，可以把副本欄當作一種策略武器 來運用。以跨部門相關為由，在退件信中把某位同事一併 列為副本收件人。當同事B看到同事A交出的次級成果時， 同理心往往瞬間蒸發，變成無聲的鄙視：「這什麼爛東西， 換我來做一定做得更好。」這樣的聯盟通常當場瓦解。"
+        "text": "管理學教科書總告訴我們，稱讚要公開，批評要私下，說是為了保護員工的自尊心。但現實往往更殘酷：大多數表現不佳的人，根本缺乏自知之明。當我們私下退回不合格的工作成果，同事之間反而可能悄悄結盟，形成一個對抗 「惡老闆」的防禦聯盟，深信自己已經盡了全力，沒有人有資格否定他們的努力，或他們自認「不錯」的成果。 要打破這種有毒的聯盟，可以把副本欄當作一種策略武器來運用。以跨部門相關為由，在退件信中把某位同事一併列為副本收件人。當同事B看到同事A交出的次級成果時， 同理心往往瞬間蒸發，變成無聲的鄙視：「這什麼爛東西， 換我來做一定做得更好。」這樣的聯盟通常當場瓦解。"
       },
       {
         "type": "subhead",
@@ -2173,7 +2057,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "剛上任的主管，可能會天真地夢想打造一支和樂融融的團 隊，但現實往往會給他們狠狠一記當頭棒喝：一支四分五 裂的團隊固然難以管理，但一個平庸者結盟而成的聯盟， 通常會造成更嚴重的傷害。他們甚至可能開始向其他部門 散播自己版本的說法，而這正是最糟糕的一種謠言，一種 源自自己團隊內部的謠言。"
+        "text": "剛上任的主管，可能會天真地夢想打造一支和樂融融的團隊，但現實往往會給他們狠狠一記當頭棒喝：一支四分五裂的團隊固然難以管理，但一個平庸者結盟而成的聯盟， 通常會造成更嚴重的傷害。他們甚至可能開始向其他部門散播自己版本的說法，而這正是最糟糕的一種謠言，一種源自自己團隊內部的謠言。"
       },
       {
         "type": "subhead",
@@ -2181,7 +2065,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "為了讓中階主管與我們的目標保持一致，可以不著痕跡地 揭露（當然，不是捏造）他們彼此扯後腿、互相出賣的行 為。一旦他們看清彼此的投機心態，彼此之間的信任就會 悄悄瓦解，最後只剩下一個結論屹立不搖：無論如何，唯 一值得結盟的對象，還是自己的直屬主管。接著，我們就 能一個一個把他們收服。"
+        "text": "為了讓中階主管與我們的目標保持一致，可以不著痕跡地揭露（當然，不是捏造）他們彼此扯後腿、互相出賣的行為。一旦他們看清彼此的投機心態，彼此之間的信任就會悄悄瓦解，最後只剩下一個結論屹立不搖：無論如何，唯一值得結盟的對象，還是自己的直屬主管。接著，我們就能一個一個把他們收服。"
       },
       {
         "type": "subhead",
@@ -2189,11 +2073,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "能力不足的主管，往往只懂得用一種方式向下傳達指令： 把責任推給「上級的命令」，把自己塑造成部屬的盟友，同 時把我們描繪成不講理、冷血、要求過分的人。當然，他 們兩邊都要討好：一旦我們追問結果，他們立刻反過來怪 罪自己的部屬。 這種雙面手法，如果放任不管，最終會讓第一線員工把我 們當成怪物。所以，直接接觸基層員工、建立平易近人的 形象，就變得非常重要。一旦我們掌握了基層的話語權， 中階主管妖魔化我們的能力也就大幅受限。"
+        "text": "能力不足的主管，往往只懂得用一種方式向下傳達指令： 把責任推給「上級的命令」，把自己塑造成部屬的盟友，同時把我們描繪成不講理、冷血、要求過分的人。當然，他們兩邊都要討好：一旦我們追問結果，他們立刻反過來怪罪自己的部屬。 這種雙面手法，如果放任不管，最終會讓第一線員工把我們當成怪物。所以，直接接觸基層員工、建立平易近人的形象，就變得非常重要。一旦我們掌握了基層的話語權， 中階主管妖魔化我們的能力也就大幅受限。"
       },
       {
         "type": "takeaway",
-        "text": "把透明化當作武器，瓦解他們的抹黑行動，並展 現我們本來就具備的，那種既有溫度又有智慧的 領導者形象。"
+        "text": "把透明化當作武器，瓦解他們的抹黑行動，並展現我們本來就具備的，那種既有溫度又有智慧的領導者形象。"
       }
     ]
   },
@@ -2212,15 +2096,15 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "新創公司經常談「護城河」的概念：指的是保護企業不被 輕易複製的核心優勢，替公司爭取時間，直到在市場上站 穩腳步。這個概念同樣適用於任何一個進入管理層的人， 尤其是空降而來的主管。在高階層級，派系角力與外部壓 力幾乎天天上演。沒有護城河，一次戰術上的失誤就可能 葬送整段職涯。以下是一套多層次的護城河架構，用來保 護我們，在真正於領導位置站穩之前，不被輕易擊倒。 第一層．忠誠核心 我們防禦圈的核心，是一群忠誠的左右手部屬。他們或 許不是最聰明能幹的操盤手，卻能在政治風向如何變化 時都堅定不移。他們與我們擁有相同的價值觀與原則， 無論發生什麼風波，都會站在我們這邊。 第二層．自主運作者 這是一群可靠的領導者，在我們不在場時，也能維持營 運不中斷。他們處理第一線的問題，讓我們能夠專注在 更複雜的問題與整體佈局上。"
+        "text": "新創公司經常談「護城河」的概念：指的是保護企業不被輕易複製的核心優勢，替公司爭取時間，直到在市場上站穩腳步。這個概念同樣適用於任何一個進入管理層的人， 尤其是空降而來的主管。在高階層級，派系角力與外部壓力幾乎天天上演。沒有護城河，一次戰術上的失誤就可能葬送整段職涯。以下是一套多層次的護城河架構，用來保護我們，在真正於領導位置站穩之前，不被輕易擊倒。 第一層．忠誠核心我們防禦圈的核心，是一群忠誠的左右手部屬。他們或許不是最聰明能幹的操盤手，卻能在政治風向如何變化時都堅定不移。他們與我們擁有相同的價值觀與原則， 無論發生什麼風波，都會站在我們這邊。 第二層．自主運作者這是一群可靠的領導者，在我們不在場時，也能維持營運不中斷。他們處理第一線的問題，讓我們能夠專注在更複雜的問題與整體佈局上。"
       },
       {
         "type": "p",
-        "text": "第三層．跨部門情報網 控制資訊不對稱，等於控制權力結構。我們在每個部門 都要有一個窗口人物，讓我們取得第一手的即時情報、 做出準確的情勢預判。每當我們需要主導跨部門任務， 也仰賴他們成為我們在各部門的滲透點，協助推展。 第四層．外部聯盟 與客戶、關鍵合作夥伴、主管機關建立深厚且互信的關 係，是對抗內部政治極其寶貴的避險工具。當關鍵的外 部利害關係人視我們為不可取代，內部的對手在對我們 出手前就會三思，因為一旦鬧大，他們得向那些大人物 交代，只會讓自己惹上更多麻煩。 第五層．市場聲譽與產業權威 打造屬於自己的品牌。當市場認可我們是這個領域的指 標人物，組織高層就無法輕易邊緣化或捨棄我們，否則 得付出名譽上的代價。"
+        "text": "第三層．跨部門情報網控制資訊不對稱，等於控制權力結構。我們在每個部門都要有一個窗口人物，讓我們取得第一手的即時情報、 做出準確的情勢預判。每當我們需要主導跨部門任務， 也仰賴他們成為我們在各部門的滲透點，協助推展。 第四層．外部聯盟與客戶、關鍵合作夥伴、主管機關建立深厚且互信的關係，是對抗內部政治極其寶貴的避險工具。當關鍵的外部利害關係人視我們為不可取代，內部的對手在對我們出手前就會三思，因為一旦鬧大，他們得向那些大人物交代，只會讓自己惹上更多麻煩。 第五層．市場聲譽與產業權威打造屬於自己的品牌。當市場認可我們是這個領域的指標人物，組織高層就無法輕易邊緣化或捨棄我們，否則得付出名譽上的代價。"
       },
       {
         "type": "p",
-        "text": "完整的護城河，是職涯必備的基礎建設。盡快把 它建起來。"
+        "text": "完整的護城河，是職涯必備的基礎建設。盡快把它建起來。"
       }
     ]
   },
@@ -2231,7 +2115,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "小人只會欺負弱者，畏懼真正強悍的人。 我曾注意到，自己最敬重的一位主管身邊，總有幾個大 聲、傲慢又莽撞的親信，根本就是名副其實的惡犬。旁人 批評這位主管，認為他只是看不清這些馬屁精的真面目。 我一度只能認為，再怎麼有遠見的人，終究也是凡人，難 免有看走眼的時候。 後來我才明白：位居高位的人，不能親自去咬人。一旦我 們自己出面指責錯誤、動怒發火，或是與其他部門正面衝 突，我們自己就成了那隻惡犬，沒有人會記得我們曾經展 現過的氣度與寬容。我們會變成「那個嚴厲的老闆」，而不 是「那位受人敬重的領導者」。 惡犬的存在，就是為了讓主人始終保持主人的身分。牠們 做那些我們不該親自動手的事。牠們做的十件事裡，也許 只有一兩件是我們明確下令的，但外人分不清楚哪件是哪 件，也就摸不透我們真正的盤算。"
+        "text": "小人只會欺負弱者，畏懼真正強悍的人。 我曾注意到，自己最敬重的一位主管身邊，總有幾個大聲、傲慢又莽撞的親信，根本就是名副其實的惡犬。旁人批評這位主管，認為他只是看不清這些馬屁精的真面目。 我一度只能認為，再怎麼有遠見的人，終究也是凡人，難免有看走眼的時候。 後來我才明白：位居高位的人，不能親自去咬人。一旦我們自己出面指責錯誤、動怒發火，或是與其他部門正面衝突，我們自己就成了那隻惡犬，沒有人會記得我們曾經展現過的氣度與寬容。我們會變成「那個嚴厲的老闆」，而不是「那位受人敬重的領導者」。 惡犬的存在，就是為了讓主人始終保持主人的身分。牠們做那些我們不該親自動手的事。牠們做的十件事裡，也許只有一兩件是我們明確下令的，但外人分不清楚哪件是哪件，也就摸不透我們真正的盤算。"
       },
       {
         "type": "subhead",
@@ -2239,11 +2123,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "這也解釋了為什麼幾乎每位董事長身邊的秘書，都是大家 避之唯恐不及的角色，而這其實出乎意料地有用。真正重"
-      },
-      {
-        "type": "p",
-        "text": "要又緊急的事情，人們會排除萬難、突破秘書設下的重重 關卡來找我們；反之，如果不是真的那麼重要，他們根本 不會嘗試。 這也是為什麼許多老闆會設立雙秘書制：一位機靈能幹， 作為對外的業務窗口，確保重要工作不會被卡住；另一位 則比較難搞，只負責行程與信件管理，把沒有意義的社交 邀約統統擋在外面。"
+        "text": "這也解釋了為什麼幾乎每位董事長身邊的秘書，都是大家避之唯恐不及的角色，而這其實出乎意料地有用。真正重要又緊急的事情，人們會排除萬難、突破秘書設下的重重關卡來找我們；反之，如果不是真的那麼重要，他們根本不會嘗試。 這也是為什麼許多老闆會設立雙秘書制：一位機靈能幹， 作為對外的業務窗口，確保重要工作不會被卡住；另一位則比較難搞，只負責行程與信件管理，把沒有意義的社交邀約統統擋在外面。"
       },
       {
         "type": "subhead",
@@ -2251,11 +2131,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "我們需要的人，不只是幫忙傳遞例行訊息，而是能真正落 實那些難以推動的新政策，緊盯並管理系統裡每一個抗拒 配合、偷懶摸魚的人。此外，每當有心人想對我們不利， 他們都得先掂掂自己的斤兩，才敢去面對我們的護衛犬。"
+        "text": "我們需要的人，不只是幫忙傳遞例行訊息，而是能真正落實那些難以推動的新政策，緊盯並管理系統裡每一個抗拒配合、偷懶摸魚的人。此外，每當有心人想對我們不利， 他們都得先掂掂自己的斤兩，才敢去面對我們的護衛犬。"
       },
       {
         "type": "p",
-        "text": "親自挑選班底裡的每一個人，並賦予各自明確的 角色。只要他們不違法、對我們保持忠誠，我們 就留著他們。"
+        "text": "親自挑選班底裡的每一個人，並賦予各自明確的角色。只要他們不違法、對我們保持忠誠，我們就留著他們。"
       }
     ]
   },
@@ -2266,7 +2146,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "站上高位後，工作永遠處於動盪之中。 「今年真的很難熬，但明年應該會好轉。」我們常常這樣 安慰自己，認為眼前的摩擦只是因為系統還沒穩定下來， 一旦團隊成熟、流程上軌道，工作自然會變得輕鬆許多。 可惜，這個想法雖然美好，卻是一種誤解。我們過去的經 驗告訴我們，每段旅程的起點總會有些混亂，但這一次不 一樣。站上高位後，工作永遠處於動盪之中。"
+        "text": "站上高位後，工作永遠處於動盪之中。 「今年真的很難熬，但明年應該會好轉。」我們常常這樣安慰自己，認為眼前的摩擦只是因為系統還沒穩定下來， 一旦團隊成熟、流程上軌道，工作自然會變得輕鬆許多。 可惜，這個想法雖然美好，卻是一種誤解。我們過去的經驗告訴我們，每段旅程的起點總會有些混亂，但這一次不一樣。站上高位後，工作永遠處於動盪之中。"
       },
       {
         "type": "subhead",
@@ -2274,7 +2154,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "事實上，我們自己就是不穩定的主要來源。當我們為了推 動組織前進，引進新策略、訂下更具企圖心的目標、調動 關鍵人事，團隊成員也隨之異動。同時，市場環境、法規 和資源也持續變動不休。同一件例行工作，換了條件或換 了人執行，就變成了全新的挑戰。高階主管必須放棄追求 絕對穩定的執念，在持續變動中培養韌性與動能。"
+        "text": "事實上，我們自己就是不穩定的主要來源。當我們為了推動組織前進，引進新策略、訂下更具企圖心的目標、調動關鍵人事，團隊成員也隨之異動。同時，市場環境、法規和資源也持續變動不休。同一件例行工作，換了條件或換了人執行，就變成了全新的挑戰。高階主管必須放棄追求絕對穩定的執念，在持續變動中培養韌性與動能。"
       },
       {
         "type": "subhead",
@@ -2282,11 +2162,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "領導工作需要不斷地觀察、校準、穩住陣腳、再往前推 進。我們得在沒有地圖的領域裡摸索前行，同時緊盯目標 不放，有時甚至得邊走邊修正那張錯誤百出的地圖！高階"
-      },
-      {
-        "type": "p",
-        "text": "主管的疲憊，往往不是單純因為工作量太大，而是因為執 著於一個根本不存在的「穩定狀態」。一旦接受這個現實， 心理負擔便會瞬間減輕許多。"
+        "text": "領導工作需要不斷地觀察、校準、穩住陣腳、再往前推進。我們得在沒有地圖的領域裡摸索前行，同時緊盯目標不放，有時甚至得邊走邊修正那張錯誤百出的地圖！高階主管的疲憊，往往不是單純因為工作量太大，而是因為執著於一個根本不存在的「穩定狀態」。一旦接受這個現實， 心理負擔便會瞬間減輕許多。"
       },
       {
         "type": "subhead",
@@ -2294,7 +2170,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "如果非得等到團隊人力齊備、步調完全一致才願意出手， 注定會錯失機會。人員異動是常態，我們會不斷招募、汰 換、帶新人上手；唯一的解方，是建立一套能夠因應這種 人來人往的營運架構與標準作業流程，並主動重新分配自 己的時間與資源，不斷問自己以下幾個問題： 現在有哪些當務之急，需要我們親自出手處理？哪些工作 可以交辦給別人？哪些會議、對話或簽核，只是讓我們產 生一種掌控的假象，卻沒有真正推動進展？ 在持續變動之中依然游刃有餘地掌握執行節奏，正是資深 領導者最鮮明的標誌。"
+        "text": "如果非得等到團隊人力齊備、步調完全一致才願意出手， 注定會錯失機會。人員異動是常態，我們會不斷招募、汰換、帶新人上手；唯一的解方，是建立一套能夠因應這種人來人往的營運架構與標準作業流程，並主動重新分配自己的時間與資源，不斷問自己以下幾個問題： 現在有哪些當務之急，需要我們親自出手處理？哪些工作可以交辦給別人？哪些會議、對話或簽核，只是讓我們產生一種掌控的假象，卻沒有真正推動進展？ 在持續變動之中依然游刃有餘地掌握執行節奏，正是資深領導者最鮮明的標誌。"
       },
       {
         "type": "takeaway",
@@ -2309,7 +2185,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "留在位子上，才是當個好主管的前提。 大多數的管理書籍或課程，教的都是如何成為一位好主 管，並列出一長串好主管該具備的特質清單，從積極傾 聽、清楚溝通，到激勵團隊士氣。對於剛上任的第一線或 中階主管來說，這些內容確實有參考價值，因為他們的核 心任務，與如何協助團隊成員完成工作息息相關。 爬到更高的位置，要管理的人數大幅增加，就會發現人才 分布的現實：少數人特別優秀，多數人表現平平，還有一 部分注定表現不佳。「所有部屬都能透過輔導和激勵獲得成 長」這種假設，此時已站不住腳。花太多力氣去「改造平 庸的部屬」，只是在浪費我們最稀缺的資源：時間與專注 力。 因此，對高階主管而言，重要的命題已不再是「如何當個 好主管」，而是「如何成為不可或缺的存在」。"
+        "text": "留在位子上，才是當個好主管的前提。 大多數的管理書籍或課程，教的都是如何成為一位好主管，並列出一長串好主管該具備的特質清單，從積極傾聽、清楚溝通，到激勵團隊士氣。對於剛上任的第一線或中階主管來說，這些內容確實有參考價值，因為他們的核心任務，與如何協助團隊成員完成工作息息相關。 爬到更高的位置，要管理的人數大幅增加，就會發現人才分布的現實：少數人特別優秀，多數人表現平平，還有一部分注定表現不佳。「所有部屬都能透過輔導和激勵獲得成長」這種假設，此時已站不住腳。花太多力氣去「改造平庸的部屬」，只是在浪費我們最稀缺的資源：時間與專注力。 因此，對高階主管而言，重要的命題已不再是「如何當個好主管」，而是「如何成為不可或缺的存在」。"
       },
       {
         "type": "subhead",
@@ -2317,15 +2193,15 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "不可或缺，是一種結構性優勢：失去我們時，組織會立刻 明顯受到衝擊。這種結構由三個面向組成： 成果面向"
+        "text": "不可或缺，是一種結構性優勢：失去我們時，組織會立刻明顯受到衝擊。這種結構由三個面向組成： 成果面向"
       },
       {
         "type": "p",
-        "text": "當我們長期穩定產出成果，組織就必須承認，任何想要 替換我們的嘗試，都必然會帶來損失。 資源面向 當我們是通往關鍵財務資源、系統裡沒人敢得罪的外部 人脈，以及最新知識資源的唯一橋樑時，我們就有價 值。這話很現實，卻是事實。 盟友面向 願意替我們澄清謠言的正直同事、能為我們發聲的意見 領袖、為我們遮風擋雨的資深靠山，以及關鍵時刻投下 決定一票的盟友。遍布的盟友，讓我們更難被扳倒。 總結來說，要讓決策者清楚意識到：失去我們所帶來的痛 苦與代價，遠遠超過我們存在所造成的種種不便。"
+        "text": "當我們長期穩定產出成果，組織就必須承認，任何想要替換我們的嘗試，都必然會帶來損失。 資源面向當我們是通往關鍵財務資源、系統裡沒人敢得罪的外部人脈，以及最新知識資源的唯一橋樑時，我們就有價值。這話很現實，卻是事實。 盟友面向願意替我們澄清謠言的正直同事、能為我們發聲的意見領袖、為我們遮風擋雨的資深靠山，以及關鍵時刻投下決定一票的盟友。遍布的盟友，讓我們更難被扳倒。 總結來說，要讓決策者清楚意識到：失去我們所帶來的痛苦與代價，遠遠超過我們存在所造成的種種不便。"
       },
       {
         "type": "takeaway",
-        "text": "也許沒有人真的無可取代，但我們絕對可以讓自 己變得難以割捨。"
+        "text": "也許沒有人真的無可取代，但我們絕對可以讓自己變得難以割捨。"
       }
     ]
   },
@@ -2336,7 +2212,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "祕書握有比任何人都多的資訊，不需要最 聰明，但一定要最忠誠。 祕書比團隊裡任何人都更容易接觸到大量資訊，因此，祕 書不需要太聰明，但一定要忠誠。我們不希望找一個把各 種線索兜在一起、再拿資訊當籌碼對付我們的人。"
+        "text": "祕書握有比任何人都多的資訊，不需要最聰明，但一定要最忠誠。 祕書比團隊裡任何人都更容易接觸到大量資訊，因此，祕書不需要太聰明，但一定要忠誠。我們不希望找一個把各種線索兜在一起、再拿資訊當籌碼對付我們的人。"
       },
       {
         "type": "subhead",
@@ -2344,7 +2220,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "正是這樣的資訊接觸權，讓忠誠的祕書成為我們最好的情 報來源之一。他們聽得到我們聽不到的東西：走廊上的一 句閒話、離開房間後氣氛的變化、流傳的謠言苗頭。鼓勵 他們原封不動帶回來告訴我們。判讀全局、擬定策略時， 他們帶回的一個小細節，往往比會議室裡任何發言重要。"
+        "text": "正是這樣的資訊接觸權，讓忠誠的祕書成為我們最好的情報來源之一。他們聽得到我們聽不到的東西：走廊上的一句閒話、離開房間後氣氛的變化、流傳的謠言苗頭。鼓勵他們原封不動帶回來告訴我們。判讀全局、擬定策略時， 他們帶回的一個小細節，往往比會議室裡任何發言重要。"
       },
       {
         "type": "subhead",
@@ -2352,7 +2228,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "在這個角色上，精通行事曆管理很重要。把必須出席的活 動集中安排在同一個晚上，讓我們能到每個場合露個臉， 不必天天應酬。在滿檔的一天裡，硬是保留三十分鐘的空 檔，能創造出寶貴、不受支配的時間。刻意讓兩個行程重 疊，也能成為缺席那些沒興趣參加場合的最佳藉口。"
+        "text": "在這個角色上，精通行事曆管理很重要。把必須出席的活動集中安排在同一個晚上，讓我們能到每個場合露個臉， 不必天天應酬。在滿檔的一天裡，硬是保留三十分鐘的空檔，能創造出寶貴、不受支配的時間。刻意讓兩個行程重疊，也能成為缺席那些沒興趣參加場合的最佳藉口。"
       },
       {
         "type": "subhead",
@@ -2360,7 +2236,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "祕書若不會拒絕，每天上班就變成在忙別人工作，因此祕 書須第一時間過濾不當外部請求，避免猶豫拖延，讓業務 延宕成我們的責任。優先處理我們的事，才是祕書鐵律。"
+        "text": "祕書若不會拒絕，每天上班就變成在忙別人工作，因此祕書須第一時間過濾不當外部請求，避免猶豫拖延，讓業務延宕成我們的責任。優先處理我們的事，才是祕書鐵律。"
       },
       {
         "type": "subhead",
@@ -2368,11 +2244,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "藉由預先掌握我們的日常習慣與偏好，祕書能讓我們從瑣 碎的小決定中解放出來。這個角色對擔任者的要求很高： 為了我們的突發狀況犧牲私人時間、默默承受我們心情不 好的日子、守著永遠不能對任何人透露的祕密。如果沒有 我們真心支持，讓他們覺得付出值得，這一切都撐不久。 對辦公室外的所有人來說，祕書是最了解我們的人。當我 們權威分量夠重時，其他人也會用類似敬意待祕書，因此 要確保祕書不擅自對辦公室其他同事發號施令，也要留意 欺負祕書的人。記住，欺負祕書，等同於欺負我們本人。"
+        "text": "藉由預先掌握我們的日常習慣與偏好，祕書能讓我們從瑣碎的小決定中解放出來。這個角色對擔任者的要求很高： 為了我們的突發狀況犧牲私人時間、默默承受我們心情不好的日子、守著永遠不能對任何人透露的祕密。如果沒有我們真心支持，讓他們覺得付出值得，這一切都撐不久。 對辦公室外的所有人來說，祕書是最了解我們的人。當我們權威分量夠重時，其他人也會用類似敬意待祕書，因此要確保祕書不擅自對辦公室其他同事發號施令，也要留意欺負祕書的人。記住，欺負祕書，等同於欺負我們本人。"
       },
       {
         "type": "p",
-        "text": "優秀的守門人讓辦公室體面，也讓我們的生活更 輕鬆，但我們也別因此失去了自主能力。"
+        "text": "優秀的守門人讓辦公室體面，也讓我們的生活更輕鬆，但我們也別因此失去了自主能力。"
       }
     ]
   },
@@ -2383,7 +2259,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "「高處不勝寒。」高處的孤獨貨真價實， 這是頭銜附帶的代價。 爬得越高，能對我們說真心話的人就越少。客戶需要我們 像神燈精靈一樣，有求必應；部屬需要看到一個值得敬重 的人，而不是一個快要崩潰的人；同儕多半是在跟我們爭 奪同樣資源的對手。至於向自己的主管求助，通常也不會 有什麼結果：一來會讓我們顯得軟弱，二來說實話，大多 數主管也沒能力幫我們。"
+        "text": "「高處不勝寒。」高處的孤獨貨真價實， 這是頭銜附帶的代價。 爬得越高，能對我們說真心話的人就越少。客戶需要我們像神燈精靈一樣，有求必應；部屬需要看到一個值得敬重的人，而不是一個快要崩潰的人；同儕多半是在跟我們爭奪同樣資源的對手。至於向自己的主管求助，通常也不會有什麼結果：一來會讓我們顯得軟弱，二來說實話，大多數主管也沒能力幫我們。"
       },
       {
         "type": "subhead",
@@ -2391,7 +2267,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "所以，該清醒了，接受這個事實：在這裡，我們沒有朋 友。我們只能靠自己。一旦我們不再等待別人分擔重量， 事情就會開始改變：我們自己成為品牌，我們自己成為一 個王朝。我們不再尋找可以歸屬的團體，而是開始打造屬 於自己的部落，用自己的方式變得更強大。"
+        "text": "所以，該清醒了，接受這個事實：在這裡，我們沒有朋友。我們只能靠自己。一旦我們不再等待別人分擔重量， 事情就會開始改變：我們自己成為品牌，我們自己成為一個王朝。我們不再尋找可以歸屬的團體，而是開始打造屬於自己的部落，用自己的方式變得更強大。"
       },
       {
         "type": "subhead",
@@ -2399,11 +2275,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "分派工作、追蹤 KPI、堅守截止期限，這些事情都會為我 們招來一定程度的討厭。當一個負責任的主管，意味著要"
-      },
-      {
-        "type": "p",
-        "text": "真的去管理，也要接受隨之而來的不受歡迎。這是這個角 色的第一堂真正的課。過不了這關的人，申請降職吧！"
+        "text": "分派工作、追蹤 KPI、堅守截止期限，這些事情都會為我們招來一定程度的討厭。當一個負責任的主管，意味著要真的去管理，也要接受隨之而來的不受歡迎。這是這個角色的第一堂真正的課。過不了這關的人，申請降職吧！"
       },
       {
         "type": "subhead",
@@ -2411,7 +2283,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "在職場上，關係的本質是主管與部屬，往感性一點說，是 夥伴或隊友。但無論如何，這不是家人。那些在辦公室裡 對部屬裝出兄姊姿態的主管，不過是偽君子；而把公司稱 作一個大家庭，更是天大的謊言，因為沒有人會給自己的 家人打績效考核。"
+        "text": "在職場上，關係的本質是主管與部屬，往感性一點說，是夥伴或隊友。但無論如何，這不是家人。那些在辦公室裡對部屬裝出兄姊姿態的主管，不過是偽君子；而把公司稱作一個大家庭，更是天大的謊言，因為沒有人會給自己的家人打績效考核。"
       },
       {
         "type": "subhead",
@@ -2419,11 +2291,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "我是家裡最小的孩子，那是我扮演最久也最熟悉的角色。 因此，和業界前輩相處時，我可以回到這個最自在的角 色。不需要武裝自己，單純當個謙虛、機靈、渴望學習的 年輕人，那就是我天真的一面。上位後，越需要保留這部 分的人際關係，才不會變成一個連自己都認不出來的人。"
+        "text": "我是家裡最小的孩子，那是我扮演最久也最熟悉的角色。 因此，和業界前輩相處時，我可以回到這個最自在的角色。不需要武裝自己，單純當個謙虛、機靈、渴望學習的年輕人，那就是我天真的一面。上位後，越需要保留這部分的人際關係，才不會變成一個連自己都認不出來的人。"
       },
       {
         "type": "p",
-        "text": "大部分時候孤獨一點沒關係，但我們一定要留住 幾段能讓我們做回天真自己的關係。"
+        "text": "大部分時候孤獨一點沒關係，但我們一定要留住幾段能讓我們做回天真自己的關係。"
       }
     ]
   },
@@ -2434,7 +2306,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "我們像機器一樣越忙碌，就越需要努力活 得像個人。 高階主管這個角色，很容易把我們磨成一部運轉順暢的機 器。不斷地執行、即時回應、迅速解決問題、果斷領導、 控制情緒、精準預判，這些都是每天的必需品。但正因如 此，爬得越高，我們就越需要主動維持自己的「人味」，提 醒自己熱情、感受，以及身而為人，究竟是什麼意思。"
+        "text": "我們像機器一樣越忙碌，就越需要努力活得像個人。 高階主管這個角色，很容易把我們磨成一部運轉順暢的機器。不斷地執行、即時回應、迅速解決問題、果斷領導、 控制情緒、精準預判，這些都是每天的必需品。但正因如此，爬得越高，我們就越需要主動維持自己的「人味」，提醒自己熱情、感受，以及身而為人，究竟是什麼意思。"
       },
       {
         "type": "subhead",
@@ -2442,7 +2314,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "因為我們需要定調、鼓舞人心，讓團隊相信跟隨我們是值 得的；我們需要成為企業的門面，與人建立信任，展現出 這個組織有溫度、有人性。而這一切，都只能透過我們自 身的狀態來達成：一種健康、平衡、散發光采的狀態。"
+        "text": "因為我們需要定調、鼓舞人心，讓團隊相信跟隨我們是值得的；我們需要成為企業的門面，與人建立信任，展現出這個組織有溫度、有人性。而這一切，都只能透過我們自身的狀態來達成：一種健康、平衡、散發光采的狀態。"
       },
       {
         "type": "subhead",
@@ -2450,15 +2322,15 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "因此，我們應該刻意保留時間與空間，留給那些能讓我們 「重新活過來」的時刻。我們該確保生活中有人能讓我們 感覺被理解，也要確保自己在日復一日的高強度運作中， 沒有變得緊繃、過度謹慎、充滿防備，或者冷漠。"
+        "text": "因此，我們應該刻意保留時間與空間，留給那些能讓我們 「重新活過來」的時刻。我們該確保生活中有人能讓我們感覺被理解，也要確保自己在日復一日的高強度運作中， 沒有變得緊繃、過度謹慎、充滿防備，或者冷漠。"
       },
       {
         "type": "p",
-        "text": "反正高階主管本來就得在晚上和週末工作，所以只要組織 給我們不必打卡的彈性，我們就該主動掌控自己每天的節 奏。累了，就多睡一個小時；需要跟人維繫感情，就去拜 訪客戶；如果一大早就開始工作，就可以提早回家。沒必 要為了做給別人看，硬是逼自己第一個進辦公室、最後一 個離開。 這麼做，能讓我們不只是苦撐著渡過每一天，而是能獲得 真正推動團隊前進所需要的力量，將這樣充沛的活力去渲 染我們身邊的人。"
+        "text": "反正高階主管本來就得在晚上和週末工作，所以只要組織給我們不必打卡的彈性，我們就該主動掌控自己每天的節奏。累了，就多睡一個小時；需要跟人維繫感情，就去拜訪客戶；如果一大早就開始工作，就可以提早回家。沒必要為了做給別人看，硬是逼自己第一個進辦公室、最後一個離開。 這麼做，能讓我們不只是苦撐著渡過每一天，而是能獲得真正推動團隊前進所需要的力量，將這樣充沛的活力去渲染我們身邊的人。"
       },
       {
         "type": "p",
-        "text": "一個容光煥發的領導者，比任何東西都更能為團 隊注入動力。"
+        "text": "一個容光煥發的領導者，比任何東西都更能為團隊注入動力。"
       }
     ]
   },
@@ -2469,7 +2341,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "空降接手一個百廢待興的單位，感覺就像 在跟時間賽跑。 空降到一個新單位，就像被塞了一整櫃過時的衣服，卻被 要求立刻端出一場時裝秀！仔細觀察團隊，會發現已經有 兩股勢力在扯我們後腿：一群人依然效忠前任主管，留下 來純粹是為了打探消息；另一群則是野心勃勃的資深員 工，認為這個位子本該屬於他們。這兩群人每天都在謀劃 角力，就為了讓我們摔跤。"
+        "text": "空降接手一個百廢待興的單位，感覺就像在跟時間賽跑。 空降到一個新單位，就像被塞了一整櫃過時的衣服，卻被要求立刻端出一場時裝秀！仔細觀察團隊，會發現已經有兩股勢力在扯我們後腿：一群人依然效忠前任主管，留下來純粹是為了打探消息；另一群則是野心勃勃的資深員工，認為這個位子本該屬於他們。這兩群人每天都在謀劃角力，就為了讓我們摔跤。"
       },
       {
         "type": "subhead",
@@ -2477,7 +2349,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "慶幸還有一群人，他們跟前任主管處不來，因此毫無保留 地歡迎我們到來。願意跟我們站在同一邊，不代表真的做 得到。這群人大約有八成撐不過我們設下的標準，最終會 被淘汰；剩下的兩成，會成為我們最初的班底。這麼大幅 度的重整，過程中難免要折損人力，於是我們幾乎不停在 訓練新人，而在這麼動盪的團隊裡，能順利融入的新人少 之又少。"
+        "text": "慶幸還有一群人，他們跟前任主管處不來，因此毫無保留地歡迎我們到來。願意跟我們站在同一邊，不代表真的做得到。這群人大約有八成撐不過我們設下的標準，最終會被淘汰；剩下的兩成，會成為我們最初的班底。這麼大幅度的重整，過程中難免要折損人力，於是我們幾乎不停在訓練新人，而在這麼動盪的團隊裡，能順利融入的新人少之又少。"
       },
       {
         "type": "subhead",
@@ -2485,7 +2357,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "剛開始真的會非常疲憊。除了日常工作量之外，我們還得 從零開始建立內外部人脈、持續交出亮眼成績、應對我們 上頭主管的個人喜好問題、釐清從來沒有真正架構過的流 程、處理客訴、處理人員流動，有時候還得收拾用錯人的 爛攤子，或是組織內有人惡意搞破壞留下的殘局。能在三 年內把這一切都扛下來，沒有垮掉，已經值得敬佩！"
+        "text": "剛開始真的會非常疲憊。除了日常工作量之外，我們還得從零開始建立內外部人脈、持續交出亮眼成績、應對我們上頭主管的個人喜好問題、釐清從來沒有真正架構過的流程、處理客訴、處理人員流動，有時候還得收拾用錯人的爛攤子，或是組織內有人惡意搞破壞留下的殘局。能在三年內把這一切都扛下來，沒有垮掉，已經值得敬佩！"
       },
       {
         "type": "subhead",
@@ -2493,7 +2365,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "公司從來就不屬於我們，我們只是暫時代為保管，一旦離 開這個位子，一切都會歸零。 如果我們已經熬過了最初的三年，是時候把週末找回來， 調整成一個真正能夠長久維持的步調。花三年打下穩固的 基礎雖然快速地令人敬佩，值得驕傲，但如果花上五年， 其實也已經遠遠超過一般人能做到的，夠好了。"
+        "text": "公司從來就不屬於我們，我們只是暫時代為保管，一旦離開這個位子，一切都會歸零。 如果我們已經熬過了最初的三年，是時候把週末找回來， 調整成一個真正能夠長久維持的步調。花三年打下穩固的基礎雖然快速地令人敬佩，值得驕傲，但如果花上五年， 其實也已經遠遠超過一般人能做到的，夠好了。"
       },
       {
         "type": "p",
@@ -2508,7 +2380,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "注意力放在哪裡，時間和精力就會跟到那 裡去。 把時間投入在一件事情上，不代表我們的注意力也真的在 場。這種身心分離的狀態，可能對我們有利，也可能造成 傷害。我們都有過這樣的經驗：走路、慢跑、洗澡、做家 事這類例行公事，會讓腦袋自然空出來，這時候，靈光乍 現的想法反而容易冒出來。在這種情況下，大腦有條理地 處理著問題，身體則自動運作，也就是所謂事半功倍。 然而，同樣的情況也可能往反方向發展。當我們手邊的事 情讓腦袋空出來，而真正填滿這個空間的，卻是不斷重播 今天犯的錯、反覆咀嚼某些心機主管對我們做了什麼、或 是拚命猜測那些不實的惡意八卦，這時候，工作已經悄悄 侵蝕了我們的生活，而且只會讓我們變得更糟。 你看，時間其實很好管理，排好行程照著做就好，但注意 力卻總是四處亂跑，片刻不得閒。"
+        "text": "注意力放在哪裡，時間和精力就會跟到那裡去。 把時間投入在一件事情上，不代表我們的注意力也真的在場。這種身心分離的狀態，可能對我們有利，也可能造成傷害。我們都有過這樣的經驗：走路、慢跑、洗澡、做家事這類例行公事，會讓腦袋自然空出來，這時候，靈光乍現的想法反而容易冒出來。在這種情況下，大腦有條理地處理著問題，身體則自動運作，也就是所謂事半功倍。 然而，同樣的情況也可能往反方向發展。當我們手邊的事情讓腦袋空出來，而真正填滿這個空間的，卻是不斷重播今天犯的錯、反覆咀嚼某些心機主管對我們做了什麼、或是拚命猜測那些不實的惡意八卦，這時候，工作已經悄悄侵蝕了我們的生活，而且只會讓我們變得更糟。 你看，時間其實很好管理，排好行程照著做就好，但注意力卻總是四處亂跑，片刻不得閒。"
       },
       {
         "type": "subhead",
@@ -2516,7 +2388,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "我們特別容易反覆重播那些不夠完美的時刻：被羞辱時該 回什麼話、那句遲了三小時才想到的完美反擊。不管，那 畫面可以在腦中播上一整天八小時。隨著我們的位子越爬 越高，就必須透過練習培養這種自覺，每次腦袋開始鑽牛 角尖時，要更快抓住自己，告訴自己：停！夠了。"
+        "text": "我們特別容易反覆重播那些不夠完美的時刻：被羞辱時該回什麼話、那句遲了三小時才想到的完美反擊。不管，那畫面可以在腦中播上一整天八小時。隨著我們的位子越爬越高，就必須透過練習培養這種自覺，每次腦袋開始鑽牛角尖時，要更快抓住自己，告訴自己：停！夠了。"
       },
       {
         "type": "subhead",
@@ -2524,11 +2396,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "我們常說的「注意力疲乏」，其實更精確地說，是注意力被 用光了。一旦當天的額度花完，我們就會陷入遲鈍、渙 散、難以集中的狀態，就像每天早上拿到一百塊零用錢， 中午前就隨便花光一樣。如果晚上有場需要全神貫注的社 交場合，聰明的做法是放慢白天的步調，把前面的時段留 給不太需要動腦的任務，這樣到了關鍵時刻，才還有足夠 的注意力可以用。"
+        "text": "我們常說的「注意力疲乏」，其實更精確地說，是注意力被用光了。一旦當天的額度花完，我們就會陷入遲鈍、渙散、難以集中的狀態，就像每天早上拿到一百塊零用錢， 中午前就隨便花光一樣。如果晚上有場需要全神貫注的社交場合，聰明的做法是放慢白天的步調，把前面的時段留給不太需要動腦的任務，這樣到了關鍵時刻，才還有足夠的注意力可以用。"
       },
       {
         "type": "p",
-        "text": "隨時退一步問自己：這個人，這件事，值得我們 投入注意力嗎？"
+        "text": "隨時退一步問自己：這個人，這件事，值得我們投入注意力嗎？"
       }
     ]
   },
@@ -2539,7 +2411,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "負能量會傳染，小心帶原者。 我們可以帶著陽光般的心情走進辦公室，烏雲卻總有辦法 飄過來。美好的一天可能瞬間翻臉：難搞的客戶接連投 訴、部屬在緊急狀況下腦筋一片空白，反而把事情搞得更 糟、別的部門捅了簍子卻先發制人，把我們塑造成壞人， 讓我們背了黑鍋，等到我們好不容易滅了火，一問三不知 的主管才姍姍來遲，卻只是重複對方的說詞，劈頭把我們 臭罵一頓。如果主管本身就是個負能量帶原者，烏雲又三 不五時飄過來，我們該怎麼接住這些稻草，才不會變成被 壓垮的那隻駱駝？"
+        "text": "負能量會傳染，小心帶原者。 我們可以帶著陽光般的心情走進辦公室，烏雲卻總有辦法飄過來。美好的一天可能瞬間翻臉：難搞的客戶接連投訴、部屬在緊急狀況下腦筋一片空白，反而把事情搞得更糟、別的部門捅了簍子卻先發制人，把我們塑造成壞人， 讓我們背了黑鍋，等到我們好不容易滅了火，一問三不知的主管才姍姍來遲，卻只是重複對方的說詞，劈頭把我們臭罵一頓。如果主管本身就是個負能量帶原者，烏雲又三不五時飄過來，我們該怎麼接住這些稻草，才不會變成被壓垮的那隻駱駝？"
       },
       {
         "type": "subhead",
@@ -2547,7 +2419,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "負能量的運作方式，與其說像一塊要刷掉的污漬，不如說 更像是在我們心中天秤的一端不斷加重的砝碼。想直接把 它除掉，繼續糾結在爭執裡、逢人就抱怨、或是盤算著該 怎麼替自己洗刷委屈，通常只會在同一端加上更多負重； 相反地，我們必須刻意走向那些讓我們感覺被重視、有能 力、被愛的人事物。一次又一次，持續在正向那一端加 碼，直到天秤終於往正向傾斜。"
+        "text": "負能量的運作方式，與其說像一塊要刷掉的污漬，不如說更像是在我們心中天秤的一端不斷加重的砝碼。想直接把它除掉，繼續糾結在爭執裡、逢人就抱怨、或是盤算著該怎麼替自己洗刷委屈，通常只會在同一端加上更多負重； 相反地，我們必須刻意走向那些讓我們感覺被重視、有能力、被愛的人事物。一次又一次，持續在正向那一端加碼，直到天秤終於往正向傾斜。"
       },
       {
         "type": "subhead",
@@ -2555,11 +2427,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "正能量有幾個不同的來源。能有一個理解我們工作有多辛 苦的伴侶或家人，其實非常難得，如果我們夠幸運擁有這 樣的人，那會是我們手邊最強大的正能量來源。除此之 外，還有另一個同樣有力的來源：一位導師、一位我們敬 重的前輩，甚至是一位外部客戶，總之就是那些正在做著 比我們更難的事、格局比我們更大的人。花時間跟這樣的 人相處，會把我們拉進他們的視野範圍，自然而然，我們 就走出了原本那個狹隘計較的小格局。透過與我們敬重的 人相比較，我們的注意力會重新回到正軌，回到我們真正 在乎的未來。"
+        "text": "正能量有幾個不同的來源。能有一個理解我們工作有多辛苦的伴侶或家人，其實非常難得，如果我們夠幸運擁有這樣的人，那會是我們手邊最強大的正能量來源。除此之外，還有另一個同樣有力的來源：一位導師、一位我們敬重的前輩，甚至是一位外部客戶，總之就是那些正在做著比我們更難的事、格局比我們更大的人。花時間跟這樣的人相處，會把我們拉進他們的視野範圍，自然而然，我們就走出了原本那個狹隘計較的小格局。透過與我們敬重的人相比較，我們的注意力會重新回到正軌，回到我們真正在乎的未來。"
       },
       {
         "type": "takeaway",
-        "text": "正能量就像存款：必須提早、定期存入，才能在 需要提領的那一天派上用場。"
+        "text": "正能量就像存款：必須提早、定期存入，才能在需要提領的那一天派上用場。"
       }
     ]
   },
@@ -2570,7 +2442,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "每天都很忙，究竟忙著追求什麼？ 我們很少真正停下來，誠實問自己這個問題：我們到底在 追求什麼，而我們每天做的這些事，真的有把我們推向那 個目標嗎？對大多數資深主管來說，誠實的答案，不外乎 落在這三種追求之中，不管我們有沒有大聲說出口。"
+        "text": "每天都很忙，究竟忙著追求什麼？ 我們很少真正停下來，誠實問自己這個問題：我們到底在追求什麼，而我們每天做的這些事，真的有把我們推向那個目標嗎？對大多數資深主管來說，誠實的答案，不外乎落在這三種追求之中，不管我們有沒有大聲說出口。"
       },
       {
         "type": "subhead",
@@ -2578,7 +2450,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "追求工作的人，把心力都花在鞏固自己在公司裡的位置， 因為偏好待在舒適圈，無法想像離開會是什麼樣子，也沒 有把握換了工作後能領到一樣高的薪水，於是安於現狀， 決定只在這一家公司的階梯往上爬。"
+        "text": "追求工作的人，把心力都花在鞏固自己在公司裡的位置， 因為偏好待在舒適圈，無法想像離開會是什麼樣子，也沒有把握換了工作後能領到一樣高的薪水，於是安於現狀， 決定只在這一家公司的階梯往上爬。"
       },
       {
         "type": "subhead",
@@ -2586,7 +2458,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "追求職涯的人，光鮮亮麗，藉由不斷跳槽到新公司，以快 速換到更高的職稱和報酬，多數專業經理人都屬這一類。 這也是最不穩定的一種，同一家公司待的時間不夠長，就 沒有成果可用來跳槽，每天都兢兢業業，高薪也往往讓他 們進入裁員的第一波名單。"
+        "text": "追求職涯的人，光鮮亮麗，藉由不斷跳槽到新公司，以快速換到更高的職稱和報酬，多數專業經理人都屬這一類。 這也是最不穩定的一種，同一家公司待的時間不夠長，就沒有成果可用來跳槽，每天都兢兢業業，高薪也往往讓他們進入裁員的第一波名單。"
       },
       {
         "type": "subhead",
@@ -2594,11 +2466,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "追求事業的人，害怕被公司的體制綁住，對辦公室政治也 毫無興趣，更在乎做有意義的事，打造自己的一片天。這 從來不只是想當老闆、掛個頭銜而已：他們真正想要的， 是自己說了算，理想可以落地實現。他們相信天空沒有極 限，財富也不該有極限。話雖如此，因為時機尚未成熟， 所以還在領人薪水、為人工作，在職的這段期間，必須把 時間用在刀口上：努力累積資源、建立人脈，存好足夠的 資本，並且在變得太舒適之前，退場！全力追求事業。 這三種追求沒有好壞對錯，重要的是，要誠實面對自己渴 望的是哪一種，然後誠實檢視：我們每天做的事，究竟是 在推著我們朝那個方向前進，還是讓我們看起來很忙。"
+        "text": "追求事業的人，害怕被公司的體制綁住，對辦公室政治也毫無興趣，更在乎做有意義的事，打造自己的一片天。這從來不只是想當老闆、掛個頭銜而已：他們真正想要的， 是自己說了算，理想可以落地實現。他們相信天空沒有極限，財富也不該有極限。話雖如此，因為時機尚未成熟， 所以還在領人薪水、為人工作，在職的這段期間，必須把時間用在刀口上：努力累積資源、建立人脈，存好足夠的資本，並且在變得太舒適之前，退場！全力追求事業。 這三種追求沒有好壞對錯，重要的是，要誠實面對自己渴望的是哪一種，然後誠實檢視：我們每天做的事，究竟是在推著我們朝那個方向前進，還是讓我們看起來很忙。"
       },
       {
         "type": "p",
-        "text": "在我們誠實面對自己真正追求的是什麼之前，任 何追求都不會成真。"
+        "text": "在我們誠實面對自己真正追求的是什麼之前，任何追求都不會成真。"
       }
     ]
   },
@@ -2609,7 +2481,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
     "blocks": [
       {
         "type": "p",
-        "text": "多年前，我因為業務需求拜訪一位教授，他和我分享：自 己很早就決定好了人生要追求什麼：名和權。所以他甘願 領一份大學的薪水，和業界能給的薪水比起來自然是低太 多了，但在大學裡，他坐上首長的位置，甚至能在出國交 流時有一席之位，這就是他要的。"
+        "text": "多年前，我因為業務需求拜訪一位教授，他和我分享：自己很早就決定好了人生要追求什麼：名和權。所以他甘願領一份大學的薪水，和業界能給的薪水比起來自然是低太多了，但在大學裡，他坐上首長的位置，甚至能在出國交流時有一席之位，這就是他要的。"
       },
       {
         "type": "subhead",
@@ -2617,7 +2489,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "上一章我們談過追求：我們的工作，可能是追求一份穩定 的工作，追求光鮮亮麗的職涯，或是追求屬於自己的一片 事業版圖。現在，讓我們把視野拉大到整個人生。我們這 一生，到底在追求什麼？金錢、名聲、權力、自由、美滿 的關係，還是家庭？我們可能什麼都想要，或至少想要其 中好幾樣。而這條路上，永遠有得必有捨。圓滿的人生， 始於誠實面對：這些追求之中，哪些真正讓我們感到滿 足，而不是讓我們上癮。"
+        "text": "上一章我們談過追求：我們的工作，可能是追求一份穩定的工作，追求光鮮亮麗的職涯，或是追求屬於自己的一片事業版圖。現在，讓我們把視野拉大到整個人生。我們這一生，到底在追求什麼？金錢、名聲、權力、自由、美滿的關係，還是家庭？我們可能什麼都想要，或至少想要其中好幾樣。而這條路上，永遠有得必有捨。圓滿的人生， 始於誠實面對：這些追求之中，哪些真正讓我們感到滿足，而不是讓我們上癮。"
       },
       {
         "type": "subhead",
@@ -2625,11 +2497,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "金錢往往只是推動清單上其他項目前進的那張門票：它讓 事業得以運轉，讓我們有能力去改變這個世界，也讓我們 能夠照顧所愛的人，看著他們展露笑容。對我們大多數人 來說，工作終究只是達成人生目標的手段，這也是為什"
+        "text": "金錢往往只是推動清單上其他項目前進的那張門票：它讓事業得以運轉，讓我們有能力去改變這個世界，也讓我們能夠照顧所愛的人，看著他們展露笑容。對我們大多數人來說，工作終究只是達成人生目標的手段，這也是為什"
       },
       {
         "type": "p",
-        "text": "麼，每當我們陷入工作上的難題，退一步從人生這個更大 的格局看出去，就能幫助我們判斷：這一場戰役，值不值 得我們投入時間、心思、情緒，還有健康。"
+        "text": "麼，每當我們陷入工作上的難題，退一步從人生這個更大的格局看出去，就能幫助我們判斷：這一場戰役，值不值得我們投入時間、心思、情緒，還有健康。"
       },
       {
         "type": "subhead",
@@ -2637,7 +2509,7 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "清單上的每一項目標，都需要一個前提才有意義：一副能 夠享受它的健康身體。對一個病到無法花錢的人來說，金 錢毫無意義；對一個只能躺在床上的人來說，自由也毫無 意義。無論我們決定把什麼放在優先順序的最前面，健康 都不該是我們為了達成目標而犧牲的那一項。心理健康， 最終總會顯現在生理健康上。這也是為什麼，這本書花了 這麼多篇幅，幫助讀者在職場上強化自己的心理韌性。"
+        "text": "清單上的每一項目標，都需要一個前提才有意義：一副能夠享受它的健康身體。對一個病到無法花錢的人來說，金錢毫無意義；對一個只能躺在床上的人來說，自由也毫無意義。無論我們決定把什麼放在優先順序的最前面，健康都不該是我們為了達成目標而犧牲的那一項。心理健康， 最終總會顯現在生理健康上。這也是為什麼，這本書花了這麼多篇幅，幫助讀者在職場上強化自己的心理韌性。"
       },
       {
         "type": "takeaway",
@@ -2645,11 +2517,11 @@ export const ZH_CHAPTERS: BookChapter[] = [
       },
       {
         "type": "p",
-        "text": "本書之外 你能擁有更多 ▶ 觀看短片 OFFICE ORIGINAL 各種真實問題的職場短片：辦公室政治、權力角 力、站位布局，以及真正決定誰能出頭的每一步 棋，現正於 YouTube 上架。 訂閱 YOUTUBE 頻道 @office.original"
+        "text": "本書之外你能擁有更多 ▶ 觀看短片 OFFICE ORIGINAL 各種真實問題的職場短片：辦公室政治、權力角力、站位布局，以及真正決定誰能出頭的每一步棋，現正於 YouTube 上架。 訂閱 YOUTUBE 頻道 @office.original"
       },
       {
         "type": "p",
-        "text": "● 與我們合作 BIZLEGATE 為美國企業拓展台灣與馬來西亞市場，提供值得 信賴的在地專業支援：夥伴引薦、實地考察，以 及完整的在地團隊執行服務。 bizlegate@gmail.com · www.bizlegate.com"
+        "text": "● 與我們合作 BIZLEGATE 為美國企業拓展台灣與馬來西亞市場，提供值得信賴的在地專業支援：夥伴引薦、實地考察，以及完整的在地團隊執行服務。 bizlegate@gmail.com · www.bizlegate.com"
       },
       {
         "type": "p",

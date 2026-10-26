@@ -39,6 +39,7 @@ export type Product =
   | "book-sample"
   | "book-full"
   | "book-deluxe"
+  | "book-upgrade"
   | "wallpaper"
   | "print-book"
   | "tiger-figurine"
@@ -61,6 +62,7 @@ const BOOK_PRODUCTS: ReadonlySet<Product> = new Set([
   "book-sample",
   "book-full",
   "book-deluxe",
+  "book-upgrade",
 ]);
 
 // Physical merch items collect a shipping address — both bundles too,

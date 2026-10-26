@@ -46,6 +46,7 @@ type Product =
   | "book-sample"
   | "book-full"
   | "book-deluxe"
+  | "book-upgrade"
   | "wallpaper"
   | "print-book"
   | "tiger-figurine"
@@ -63,6 +64,11 @@ const PRODUCT_LABEL: Record<Product, string> = {
   "book-sample": "Tier 1 — Two Chapters ($10)",
   "book-full": "Tier 2 — Full Book ($42.39)",
   "book-deluxe": "Tier 3 — Full Book + Wallpaper Library ($83.59)",
+  // Added 2026-10-26 — the "Get the full book" button a Tier 1 reader sees
+  // in /library; they pay only the $32.39 difference, and grantAccess
+  // upgrades their existing row (same email) to chapterAccess "full"
+  // instead of creating a new one.
+  "book-upgrade": "Tier 1 → Full Book Upgrade ($32.39)",
   wallpaper: "/shop — Custom Desktop Wallpaper",
   "print-book": "/shop — Printed Copy",
   "tiger-figurine": "/shop — 虎爺擺飾 (Tiger Figurine)",
@@ -80,6 +86,7 @@ const CHAPTER_ACCESS_FOR_PRODUCT: Partial<Record<Product, ChapterAccess>> = {
   "book-sample": "sample",
   "book-full": "full",
   "book-deluxe": "full",
+  "book-upgrade": "full",
 };
 
 // Only Tier 3 also unlocks the /library "Wallpapers" tab — a shared pool of

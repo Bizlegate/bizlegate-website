@@ -52,6 +52,7 @@ const PRODUCT = v.union(
   v.literal("book-sample"),
   v.literal("book-full"),
   v.literal("book-deluxe"),
+  v.literal("book-upgrade"),
   v.literal("wallpaper"),
   v.literal("print-book"),
   v.literal("tiger-figurine"),
@@ -63,6 +64,7 @@ type Product =
   | "book-sample"
   | "book-full"
   | "book-deluxe"
+  | "book-upgrade"
   | "wallpaper"
   | "print-book"
   | "tiger-figurine"
@@ -75,6 +77,12 @@ const PRODUCT_LABEL: Record<Product, string> = {
   "book-sample": "Be the Outsmarter — Two Key Chapters ($10)",
   "book-full": "Be the Outsmarter — Full Book ($42.39)",
   "book-deluxe": "Be the Outsmarter — Full Book + Wallpaper Library ($83.59)",
+  // Added 2026-10-26 — the "Get the full book" button a Tier 1 (sample)
+  // reader sees inside /library, so they pay only the difference instead of
+  // the full $42.39 again. grantAccess upserts by email, so granting
+  // chapterAccess "full" here correctly upgrades their existing row rather
+  // than creating a second one (see purchase-dialog.tsx / library-reader.tsx).
+  "book-upgrade": "Be the Outsmarter — Upgrade to Full Book ($32.39)",
   wallpaper: "Office Original — Custom Desktop Wallpaper",
   "print-book": "Be the Outsmarter — Printed Copy",
   "tiger-figurine": "Office Original — 虎爺擺飾 (Tiger General Figurine)",
@@ -91,6 +99,7 @@ const CHAPTER_ACCESS_FOR_PRODUCT: Partial<Record<Product, ChapterAccess>> = {
   "book-sample": "sample",
   "book-full": "full",
   "book-deluxe": "full",
+  "book-upgrade": "full",
 };
 
 // Products that need the hand-made-wallpaper fields (goalDate, imageStyle,
@@ -466,6 +475,7 @@ export const listPaymentLinks = query({
       "book-sample",
       "book-full",
       "book-deluxe",
+      "book-upgrade",
       "wallpaper",
       "print-book",
       "tiger-figurine",
