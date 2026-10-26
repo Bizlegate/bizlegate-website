@@ -4,21 +4,22 @@
  * follow-up that replaced the flat product grid with one full promotional
  * section per item — client reference: 嘖嘖/zeczec-style campaign pages,
  * where every reward tier gets its own real estate instead of a small
- * card). Replaces the old /book-consult page as the site's primary sales
- * URL; /book-consult now redirects here (see App.tsx) so the printed
- * book's back cover and any already-rendered Office Original video
- * end-cards still land somewhere real. Every string here is a code-level
- * default — the admin can override any of them from /admin → Content →
- * Shop.
+ * card). A separate page from /book, not a replacement for it — the two
+ * were briefly linked (/book-consult redirected to /shop during the
+ * 2026-10-09 pivot) but /book-consult now redirects to /book instead
+ * (renamed back 2026-10-26), so /shop stands alone as its own sales page.
+ * Every string here is a code-level default — the admin can override any
+ * of them from /admin → Content → Shop.
  *
  * The digital book is deliberately a single flat item here (reusing the
  * existing "book-full" product + its book.hero.price / salePrice pair from
- * book-data.ts) rather than the old three-tier sample/full/deluxe grid —
+ * book-data.ts) rather than the full three-tier sample/full/deluxe grid —
  * the client asked to simplify it down to one item once it's just one of
- * several things sold on this page. The old three-tier /book-consult sales
- * funnel (book/page.tsx and friends) is left on disk, unrouted, in case any
- * of its copy or components get reused later — see the "stub out, don't
- * delete" convention used for book-consulting.tsx.
+ * several things sold on this page. The three-tier version is still live
+ * at its own URL too (book/page.tsx and friends, routed at /book) in case
+ * she wants to point traffic there instead of /shop for the book
+ * specifically — see the "stub out, don't delete" convention used for
+ * book-consulting.tsx.
  *
  * Buying more than one item: rather than a shopping cart (which would need
  * a real multi-item checkout, a new notice shape, and multi-item

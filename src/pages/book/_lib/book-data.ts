@@ -21,8 +21,29 @@ export const BOOK_COVER_DEFAULT: MediaValue = {
 // "Office Original" cast photos used to give the value-stack and structure
 // sections a human face instead of icon-only cards. All swappable from
 // /admin → Content → Book without touching code.
+//
+// BOOK_PERSONA_EXEC_KEY is the first of 3 persona photo slots in the
+// "who it's for" qualifier grid (see BookValueStack, repurposed 2026-10-26
+// from a single big photo + generic feature checklist). Kept its original
+// key/name so any photo already uploaded there carries over as persona 1
+// instead of being orphaned; the other two personas are new keys below.
 export const BOOK_PERSONA_EXEC_KEY = "book.value.persona.exec";
 export const BOOK_PERSONA_EXEC_DEFAULT: MediaValue = {
+  url: "/book/persona-exec.webp",
+  type: "image",
+};
+
+export const BOOK_VALUE_PERSONA_FRESHSTART_KEY =
+  "book.value.persona.freshStart";
+export const BOOK_VALUE_PERSONA_FRESHSTART_DEFAULT: MediaValue = {
+  // Placeholder only — same stock photo as persona 1 until the admin
+  // uploads a scenario-specific photo for this persona from /admin.
+  url: "/book/persona-exec.webp",
+  type: "image",
+};
+
+export const BOOK_VALUE_PERSONA_TARGETED_KEY = "book.value.persona.targeted";
+export const BOOK_VALUE_PERSONA_TARGETED_DEFAULT: MediaValue = {
   url: "/book/persona-exec.webp",
   type: "image",
 };
@@ -60,21 +81,36 @@ export const BOOK_HERO_DEFAULTS = {
 export const BOOK_SALE_PRICE_KEY = "book.hero.salePrice";
 export const BOOK_SALE_PRICE_DEFAULT = "$42.39";
 
+// Section heading for the "who it's for" qualifier grid (see
+// BookValueStack). Wired through the CMS (book.value.eyebrow /
+// book.value.title) so the admin can edit it from /admin like everything
+// else on this page — it was a hardcoded prop before 2026-10-26.
+export const BOOK_VALUE_SECTION_DEFAULTS = {
+  eyebrow: "Who It's For",
+  title: "Is This Book for You? Read it if you are...",
+};
+
+// Repurposed 2026-10-26 from a generic 3-item "everything you get" feature
+// list into 3 reader personas for the qualifier grid — see BookValueStack.
+// Keys (playbook/cards/quotes) are unchanged from the old feature-list
+// version on purpose: the admin has already saved her own title/body text
+// for some of these from /admin, and renaming the keys would silently
+// orphan that saved content. Only the default copy below changed.
 export const BOOK_VALUE_ITEMS = [
   {
     key: "playbook",
-    title: "The Complete Playbook",
-    body: "30 field-tested chapters covering who you let into your circle, how you build your team and systems, how you read the politics around you, and how you protect your own mind and energy while you're doing it.",
+    title: "The First-Time Manager",
+    body: "A brand-new manager trying to figure out how to lead a team.",
   },
   {
     key: "cards",
-    title: "Chapter Quick-Reference Cards",
-    body: "A one-page cheat sheet for every chapter — built for the five minutes before a high-stakes meeting, not for reading cover to cover.",
+    title: "The Leader Starting Fresh",
+    body: "An experienced leader starting fresh at a new company.",
   },
   {
     key: "quotes",
-    title: "Executive Takeaway Cards",
-    body: "Every chapter's closing line, collected into a printable set you can keep on your desk.",
+    title: "The Target of the Politics",
+    body: "A highly capable manager tired of dealing with toxic office factions, hidden agendas, and pushback from jealous colleagues.",
   },
 ] as const;
 

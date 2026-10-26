@@ -15,6 +15,11 @@ import { ZH_TRANSLATIONS } from "@/lib/zh-translations.ts";
 import {
   BOOK_HERO_DEFAULTS,
   BOOK_VALUE_ITEMS,
+  BOOK_VALUE_SECTION_DEFAULTS,
+  BOOK_VALUE_PERSONA_FRESHSTART_KEY,
+  BOOK_VALUE_PERSONA_FRESHSTART_DEFAULT,
+  BOOK_VALUE_PERSONA_TARGETED_KEY,
+  BOOK_VALUE_PERSONA_TARGETED_DEFAULT,
   BOOK_STRUCTURE_DEFAULTS,
   BOOK_STRUCTURE_LAYERS,
   BOOK_QUOTE_DEFAULTS,
@@ -608,7 +613,7 @@ export const PAGE_SCHEMAS: PageSchema[] = [
       {
         title: "Hero",
         description:
-          "Retired from the live site as of the 2026-10-09 /shop pivot — /book-consult now redirects to /shop, and the digital book is sold there as a single simplified item instead. These fields are kept editable here only because the old three-tier book funnel page (book/page.tsx and friends) is still on disk, unrouted, in case any of it gets reused later.",
+          "The three-tier book funnel, live at /book (renamed back from /book-consult on 2026-10-26). Separate page from /shop, which sells the digital book as a single simplified item instead — turn either on from the toggles above Content, independently of each other.",
         textFields: [
           {
             key: "book.hero.eyebrow",
@@ -719,28 +724,52 @@ export const PAGE_SCHEMAS: PageSchema[] = [
         mediaFields: [],
       },
       {
-        title: "What's inside (value stack)",
+        title: "Who it's for (qualifier grid)",
         description:
-          "The 'Office Original' cast photo shown beside this list.",
-        textFields: BOOK_VALUE_ITEMS.flatMap((item, i): TextField[] => [
+          "A grid of 3 reader personas, each with its own photo — 'read it if you are...' Item 1/2/3 below map left-to-right. Upload each persona's own photo in the 3 fields at the bottom of this section; all 3 start out sharing the same placeholder photo.",
+        textFields: [
           {
-            key: `book.value.${item.key}.title`,
-            label: `Item ${i + 1} — Title`,
+            key: "book.value.eyebrow",
+            label: "Eyebrow",
             kind: "text",
-            fallback: item.title,
+            fallback: BOOK_VALUE_SECTION_DEFAULTS.eyebrow,
           },
           {
-            key: `book.value.${item.key}.body`,
-            label: `Item ${i + 1} — Body`,
-            kind: "textarea",
-            fallback: item.body,
+            key: "book.value.title",
+            label: "Section title",
+            kind: "text",
+            fallback: BOOK_VALUE_SECTION_DEFAULTS.title,
           },
-        ]),
+          ...BOOK_VALUE_ITEMS.flatMap((item, i): TextField[] => [
+            {
+              key: `book.value.${item.key}.title`,
+              label: `Item ${i + 1} — Title`,
+              kind: "text",
+              fallback: item.title,
+            },
+            {
+              key: `book.value.${item.key}.body`,
+              label: `Item ${i + 1} — Body`,
+              kind: "textarea",
+              fallback: item.body,
+            },
+          ]),
+        ],
         mediaFields: [
           {
             key: BOOK_PERSONA_EXEC_KEY,
-            label: "Photo — the executive",
+            label: "Item 1 photo — the first-time manager",
             fallbackUrl: BOOK_PERSONA_EXEC_DEFAULT.url,
+          },
+          {
+            key: BOOK_VALUE_PERSONA_FRESHSTART_KEY,
+            label: "Item 2 photo — the leader starting fresh",
+            fallbackUrl: BOOK_VALUE_PERSONA_FRESHSTART_DEFAULT.url,
+          },
+          {
+            key: BOOK_VALUE_PERSONA_TARGETED_KEY,
+            label: "Item 3 photo — the target of the politics",
+            fallbackUrl: BOOK_VALUE_PERSONA_TARGETED_DEFAULT.url,
           },
         ],
       },
@@ -882,7 +911,7 @@ export const PAGE_SCHEMAS: PageSchema[] = [
       {
         title: "Hero",
         description:
-          "The site's primary sales page (2026-10-09 /shop pivot — see claude/00_project_status.md). /book-consult now redirects here.",
+          "The merch storefront at /shop — a separate page from /book, not a replacement for it. /book-consult (the old printed/video URL) now redirects to /book, not here.",
         textFields: [
           {
             key: "shop.hero.eyebrow",

@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LanguageProvider } from "./lib/language.tsx";
 import { DefaultProviders } from "./components/providers/default.tsx";
 import AppLayout from "./components/layout/app-layout.tsx";
@@ -29,15 +29,21 @@ export default function App() {
               <Route path="/process" element={<Process />} />
               <Route path="/inquire" element={<Inquire />} />
               <Route path="/shop" element={<Shop />} />
-              {/* /book-consult is back as its own real page (2026-10-10 —
-                  the user liked the original three-tier book funnel page
-                  and didn't want it reduced to a redirect). It renders
-                  independently of /shop, gated by its own admin toggle
-                  (BookSiteToggle, site.bookEnabled, default off) — see
-                  claude/22_shop_office_original_separation_strategy.md.
-                  Both pages exist as fallbacks the admin can turn on/off
-                  separately from /admin without needing code changes. */}
-              <Route path="/book-consult" element={<Book />} />
+              {/* Renamed from /book-consult back to /book (2026-10-26 —
+                  user decided she's not selling the "consultation" concept
+                  after all, so the URL reverted to the plain name). Still
+                  its own real page, independent of /shop, gated by its own
+                  admin toggle (BookSiteToggle, site.bookEnabled, default
+                  off) — see claude/22_shop_office_original_separation_
+                  strategy.md. /book-consult is kept as a redirect below so
+                  the URL already printed on the physical book's back cover
+                  and burned into Office Original video end-cards doesn't
+                  404. */}
+              <Route path="/book" element={<Book />} />
+              <Route
+                path="/book-consult"
+                element={<Navigate to="/book" replace />}
+              />
               <Route path="/library" element={<Library />} />
               <Route path="/admin" element={<Admin />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

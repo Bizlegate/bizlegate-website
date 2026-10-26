@@ -1,11 +1,9 @@
 import { ShoppingBag } from "lucide-react";
 
 /**
- * Shown at /shop (and therefore also at /book-consult, which redirects
- * here) while site.shopEnabled is off. Mirrors the old book/
- * _components/book-coming-soon.tsx placeholder — see shop-site-toggle.tsx
- * for the admin switch that controls this (2026-10-09, repurposed from the
- * retired book-site-toggle.tsx now that /shop is the site's sales page).
+ * Shown at /shop while site.shopEnabled is off. Mirrors the book/
+ * _components/book-coming-soon.tsx placeholder used at /book — see
+ * shop-site-toggle.tsx for the admin switch that controls this.
  * Deliberately gives away nothing about the page underneath.
  */
 export default function ShopComingSoon() {

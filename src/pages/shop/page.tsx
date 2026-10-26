@@ -7,19 +7,16 @@ import { SHOP_HERO_DEFAULTS } from "./_lib/shop-data.ts";
 import { SHOP_ENABLED_KEY } from "@/pages/admin/_components/shop-site-toggle.tsx";
 
 /**
- * The Office Original merch storefront — replaces /book-consult as the
- * site's primary sales URL (see claude/00_project_status.md, 2026-10-09
- * pivot). /book-consult now redirects here (see App.tsx) rather than
- * rendering the old three-tier book funnel, so any link already pointing
- * at /book-consult (the printed book's back cover, rendered Office
- * Original video end-cards) still lands somewhere real.
+ * The Office Original merch storefront — a separate page from /book (see
+ * App.tsx). The two used to be linked (/book-consult briefly redirected
+ * here during the 2026-10-09 /shop pivot) but /book-consult now redirects
+ * to /book instead (renamed back 2026-10-26), so /shop stands alone.
  *
  * Gated behind the site.shopEnabled admin flag (default OFF as of the
  * 2026-10-10 Bizlegate/Office Original separation decision — see
  * claude/22_shop_office_original_separation_strategy.md and
  * ShopSiteToggle) so the storefront stays hidden behind a "coming soon"
- * placeholder by default, without losing the /book-consult redirect
- * target or deleting any of the built page.
+ * placeholder by default, without deleting any of the built page.
  */
 export default function Shop() {
   const { content } = useContext(ContentContext);
