@@ -69,7 +69,10 @@ export default function BookValueStack() {
               <img
                 src={photos[i].url}
                 alt={itemTitle}
-                className="aspect-[4/5] w-full rounded-xl object-cover shadow-xl"
+                // 8/5 is exactly half the height of the original 4/5
+                // portrait frame at the same width — landscape instead of
+                // portrait, per 2026-10-26 request.
+                className="aspect-[8/5] w-full rounded-xl object-cover shadow-xl"
               />
               <div className="mt-5 flex size-11 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
                 <CheckCircle2 className="size-5" />
