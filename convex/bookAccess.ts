@@ -17,17 +17,21 @@ const IMAGE_STYLE = v.union(v.literal("glam"), v.literal("professional"));
 // pricing pivot) plus the Office Original merch items and pre-made bundles
 // added in the 2026-10-09 /shop pivot. Every book-* tier grants /library
 // access; they differ only in which chapters that access covers and (for
-// "book-deluxe") an extra hand-made deliverable. The merch items (wallpaper,
-// print-book, tiger-figurine, tail-ring) and the two bundles never grant
-// /library access — they're hand-fulfilled and marked done via
-// markNoticeFulfilled below. "wallpaper" shares book-deluxe's
-// goalDate/imageStyle/note collection since it's the same hand-made
-// deliverable, just sold on its own now instead of only bundled with the
-// full book. "bundle-starter"/"bundle-collector" are pre-made combination
-// packages — the alternative to a shopping cart (see shop-data.ts); each is
-// one purchasable product with one combined price, bought through the same
-// flow as everything else, and what's actually inside a bundle is plain CMS
-// text on the frontend, not tracked here at all.
+// "book-deluxe") whether it also unlocks the wallpaperAccess "Wallpapers"
+// tab there — a shared pool of pre-made wallpapers the admin uploads once
+// (see the `wallpapers` table in schema.ts), not a one-off hand-made image
+// per buyer (that was the model before the 2026-10-26 pivot). The merch
+// items (wallpaper, print-book, tiger-figurine, tail-ring) and the two
+// bundles never grant /library access — they're hand-fulfilled and marked
+// done via markNoticeFulfilled below. The standalone /shop "wallpaper" item
+// is the one holdout still using the old hand-made goalDate/imageStyle/note
+// flow (see WALLPAPER_PRODUCTS below) — it wasn't folded into the shared
+// pool, by the client's choice. "bundle-starter"/"bundle-collector" are
+// pre-made combination packages — the alternative to a shopping cart (see
+// shop-data.ts); each is one purchasable product with one combined price,
+// bought through the same flow as everything else, and what's actually
+// inside a bundle is plain CMS text on the frontend, not tracked here at
+// all.
 const PRODUCT = v.union(
   v.literal("book-sample"),
   v.literal("book-full"),
@@ -54,7 +58,7 @@ type ChapterAccess = "sample" | "full";
 const PRODUCT_LABEL: Record<Product, string> = {
   "book-sample": "Be the Outsmarter — Two Key Chapters ($10)",
   "book-full": "Be the Outsmarter — Full Book ($42.39)",
-  "book-deluxe": "Be the Outsmarter — Full Book + Custom Desktop ($83.59)",
+  "book-deluxe": "Be the Outsmarter — Full Book + Wallpaper Library ($83.59)",
   wallpaper: "Office Original — Custom Desktop Wallpaper",
   "print-book": "Be the Outsmarter — Printed Copy",
   "tiger-figurine": "Office Original — 虎爺擺飾 (Tiger General Figurine)",
@@ -74,11 +78,11 @@ const CHAPTER_ACCESS_FOR_PRODUCT: Partial<Record<Product, ChapterAccess>> = {
 };
 
 // Products that need the hand-made-wallpaper fields (goalDate, imageStyle,
-// and a required note) collected on the purchase-notice form.
-const WALLPAPER_PRODUCTS: ReadonlySet<Product> = new Set([
-  "book-deluxe",
-  "wallpaper",
-]);
+// and a required note) collected on the purchase-notice form. Only the
+// standalone /shop "wallpaper" item still works this way — "book-deluxe"
+// moved to the shared pre-made wallpaper library (see wallpaperAccess on
+// the bookAccess table) on 2026-10-26, so it no longer collects these.
+const WALLPAPER_PRODUCTS: ReadonlySet<Product> = new Set(["wallpaper"]);
 
 // Physical items that need a shipping address collected on the
 // purchase-notice form (see claude/00_project_status.md, 2026-10-09). Both
@@ -324,6 +328,14 @@ export const grantAccess = mutation({
     // the full book) — the admin panel passes "sample" explicitly when
     // granting from a book-sample purchase notice.
     chapterAccess: v.optional(CHAPTER_ACCESS),
+    // Whether this grant also unlocks /library's "Wallpapers" tab — the
+    // admin panel passes true automatically when granting from a
+    // book-deluxe purchase notice, or the admin can tick it by hand for a
+    // comp grant. Left unset on a re-grant (e.g. "resend code") preserves
+    // whatever the existing grant already had, same as sourceNoticeId below
+    // — so resending someone's code can never silently take their wallpaper
+    // access away.
+    wallpaperAccess: v.optional(v.boolean()),
     sourceNoticeId: v.optional(v.id("bookPurchaseNotices")),
   },
   handler: async (ctx, args) => {
@@ -344,12 +356,15 @@ export const grantAccess = mutation({
       .query("bookAccess")
       .withIndex("by_email", (q) => q.eq("email", email))
       .unique();
+    const wallpaperAccess =
+      args.wallpaperAccess ?? existing?.wallpaperAccess ?? false;
 
     if (existing) {
       await ctx.db.patch(existing._id, {
         code,
         language: args.language,
         chapterAccess,
+        wallpaperAccess,
         active: true,
         sourceNoticeId: args.sourceNoticeId ?? existing.sourceNoticeId,
       });
@@ -359,6 +374,7 @@ export const grantAccess = mutation({
         code,
         language: args.language,
         chapterAccess,
+        wallpaperAccess,
         active: true,
         sourceNoticeId: args.sourceNoticeId,
       });
@@ -373,6 +389,7 @@ export const grantAccess = mutation({
       code,
       language: args.language,
       chapterAccess,
+      wallpaperAccess,
     });
 
     return { email, code };
@@ -527,6 +544,7 @@ export const verifyAccess = query({
       ok: true as const,
       language: grant.language,
       chapterAccess: grant.chapterAccess ?? "full",
+      wallpaperAccess: grant.wallpaperAccess ?? false,
     };
   },
 });
@@ -567,5 +585,79 @@ export const getChapters = query({
     }
 
     return chaptersFor(ctx, args.language, grant.chapterAccess ?? "full");
+  },
+});
+
+// Public: the gated wallpaper-library read, mirroring getChapters above —
+// re-checks the grant on every call and throws unless it's active AND
+// specifically has wallpaperAccess (a plain book-full buyer without the
+// deluxe tier must never see this). Returns the whole shared pool; there's
+// no per-buyer filtering since every wallpaper here is pre-made and open to
+// anyone with access, not a one-off deliverable.
+export const getWallpapers = query({
+  args: { email: v.string(), code: v.string() },
+  handler: async (ctx, args) => {
+    const email = normalizeEmail(args.email);
+    const code = args.code.trim().toUpperCase();
+    const grant = await ctx.db
+      .query("bookAccess")
+      .withIndex("by_email_code", (q) => q.eq("email", email).eq("code", code))
+      .unique();
+
+    if (!grant || !grant.active || !grant.wallpaperAccess) {
+      throw new ConvexError({
+        code: "FORBIDDEN",
+        message: "Your access does not include the wallpaper library.",
+      });
+    }
+
+    const rows = await ctx.db.query("wallpapers").order("desc").collect();
+    return rows.map((w) => ({ _id: w._id, url: w.url, label: w.label }));
+  },
+});
+
+// Admin: list every pre-made wallpaper for the management UI at
+// /admin → Book Access.
+export const listWallpapersAdmin = query({
+  args: {},
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+    return await ctx.db.query("wallpapers").order("desc").collect();
+  },
+});
+
+// Admin: after uploading an image to storage (via content.generateUploadUrl
+// — reused as-is, it's generic and not tied to the content/media tables),
+// add it to the shared wallpaper pool.
+export const addWallpaper = mutation({
+  args: { storageId: v.id("_storage"), label: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    const url = await ctx.storage.getUrl(args.storageId);
+    if (!url) {
+      throw new ConvexError({
+        code: "NOT_FOUND",
+        message: "Uploaded file could not be found.",
+      });
+    }
+    return await ctx.db.insert("wallpapers", {
+      storageId: args.storageId,
+      url,
+      label: args.label?.trim() || undefined,
+    });
+  },
+});
+
+// Admin: remove a wallpaper from the pool and delete its stored file.
+export const removeWallpaper = mutation({
+  args: { wallpaperId: v.id("wallpapers") },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    const row = await ctx.db.get(args.wallpaperId);
+    if (row) {
+      await ctx.storage.delete(row.storageId);
+      await ctx.db.delete(args.wallpaperId);
+    }
+    return null;
   },
 });

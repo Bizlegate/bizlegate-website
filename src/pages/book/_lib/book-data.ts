@@ -66,8 +66,13 @@ export const BOOK_HERO_DEFAULTS = {
   subtitle:
     "The office politics playbook for the executive who was never taught how power actually works.",
   price: "$45.00",
-  priceNote: "One-time purchase. Instant download.",
-  buyLabel: "Get the Book",
+  // Fixed 2026-10-26: this used to say "Instant download", which
+  // contradicted how the book is actually delivered (online reading at
+  // bizlegate.com/library via email + access code — see book-tiers.tsx's
+  // "no download, no app" copy, which was already accurate). Matches that
+  // existing wording so the page says the same thing everywhere.
+  priceNote: "Instant Access · Read Online at bizlegate.com/library",
+  buyLabel: "Get the E-Book Now",
 };
 
 // Sale price shown struck-through-and-replaced next to the regular price.
@@ -226,7 +231,9 @@ export const BOOK_PREVIEW_DEFAULTS = {
 
 export const BOOK_CTA_DEFAULTS = {
   title: "Get the playbook.",
-  body: "One-time purchase, instant download, read it on your desk or your phone before your next meeting.",
+  // Same "instant download" → "instant access, read online" fix as
+  // BOOK_HERO_DEFAULTS.priceNote above, for the same reason.
+  body: "One-time purchase, instant access — read it online at bizlegate.com/library on your desk or your phone before your next meeting.",
 };
 
 // ---- Three-tier pricing (replaces the old single book price + separate
@@ -290,8 +297,16 @@ export const BOOK_TIERS: BookTier[] = [
   },
   {
     key: "deluxe",
-    title: "Complete Playbook + Custom Desktop",
-    body: "All 30 chapters, plus a custom desktop wallpaper built around your own goal date and a one-line reminder written for your specific situation.",
+    // Repurposed 2026-10-26: this used to be a one-off desktop wallpaper
+    // made by hand for each buyer (built around their own goal date). It's
+    // now unlimited access to a shared, growing library of pre-made
+    // reminder wallpapers instead — see wallpaperAccess in
+    // convex/schema.ts/bookAccess.ts and the "Wallpapers" tab in
+    // library-reader.tsx. Purpose, per the client: a visual reminder to
+    // stay in a good state throughout the day — seen when you start work,
+    // end work, and switch between tools in between.
+    title: "Complete Playbook + Wallpaper Library",
+    body: "All 30 chapters, plus unlimited access to a growing library of desktop reminder wallpapers — the words you need to see when you start your day, end it, or switch tasks in between.",
     highlighted: false,
     priceKey: BOOK_TIER_DELUXE_PRICE_KEY,
     priceDefault: BOOK_TIER_DELUXE_PRICE_DEFAULT,
@@ -300,8 +315,11 @@ export const BOOK_TIERS: BookTier[] = [
 
 export const BOOK_TIERS_CTA = "Get Started";
 
-// Tier 3 (book-deluxe) collects two extra fields beyond the usual
-// name/email/note — see purchase-dialog.tsx.
+// Was shared by "book-deluxe" and "wallpaper" — since the 2026-10-26 pivot
+// to a shared pre-made wallpaper library, only the standalone /shop
+// "wallpaper" item still collects these (book-deluxe just grants library
+// access automatically, no per-buyer fields needed). Name kept as-is to
+// avoid touching every import — see purchase-dialog.tsx.
 export const BOOK_DELUXE_FORM_DEFAULTS = {
   goalDateLabel: "Your goal-achievement date",
   imageStyleLabel: "Desktop image style",

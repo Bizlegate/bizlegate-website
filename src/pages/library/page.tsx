@@ -45,6 +45,7 @@ export default function Library() {
         creds={creds}
         grantLanguage={verify.language}
         chapterAccess={verify.chapterAccess}
+        wallpaperAccess={verify.wallpaperAccess}
         onSignOut={clear}
       />
     );

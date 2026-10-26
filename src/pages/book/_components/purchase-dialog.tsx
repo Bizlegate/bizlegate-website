@@ -48,13 +48,12 @@ export type Product =
 
 type ImageStyle = "glam" | "professional";
 
-// "book-deluxe" and "wallpaper" both need the hand-made-wallpaper fields
-// below — book-deluxe bundles it with the full book, wallpaper sells the
-// same deliverable on its own.
-const NEEDS_WALLPAPER_FIELDS: ReadonlySet<Product> = new Set([
-  "book-deluxe",
-  "wallpaper",
-]);
+// Only the standalone /shop "wallpaper" item still needs the hand-made-
+// wallpaper fields below. "book-deluxe" used to as well, but moved to a
+// shared pre-made wallpaper library on 2026-10-26 (see wallpaperAccess in
+// convex/bookAccess.ts) — it's granted automatically with no extra fields,
+// same as book-full.
+const NEEDS_WALLPAPER_FIELDS: ReadonlySet<Product> = new Set(["wallpaper"]);
 
 // Only the book-* tiers care about reading language (see effectiveLang
 // below) — merch items don't send a requestedLanguage at all.

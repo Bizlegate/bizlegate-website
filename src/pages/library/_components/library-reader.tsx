@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "convex/react";
-import { BookOpen, ChevronLeft, ChevronRight, LogOut, Sparkles } from "lucide-react";
+import {
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  Image as ImageIcon,
+  LogOut,
+  Sparkles,
+} from "lucide-react";
 import { api } from "@/convex/_generated/api.js";
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -15,6 +23,7 @@ import { Skeleton } from "@/components/ui/skeleton.tsx";
 import type { LibraryCredentials } from "./library-login.tsx";
 
 type Language = "en" | "zh";
+type View = "read" | "wallpapers";
 
 // Mirrors the shape returned by convex/bookAccess.ts's getChapters (itself
 // re-exporting the BookChapter shape from the server-only
@@ -37,6 +46,7 @@ export default function LibraryReader({
   creds,
   grantLanguage,
   chapterAccess,
+  wallpaperAccess,
   onSignOut,
 }: {
   creds: LibraryCredentials;
@@ -45,12 +55,16 @@ export default function LibraryReader({
    * narrows the returned array server-side, this is only used here to show
    * the upsell banner below. */
   chapterAccess: "sample" | "full";
+  /** Unlocks the "Wallpapers" tab below — only the $83.59 deluxe tier grants
+   * this (see convex/bookAccess.ts). */
+  wallpaperAccess: boolean;
   onSignOut: () => void;
 }) {
   const [language, setLanguage] = useState<Language>(
     grantLanguage === "zh" ? "zh" : "en",
   );
   const [chapterIndex, setChapterIndex] = useState(0);
+  const [view, setView] = useState<View>("read");
 
   const chapters = useQuery(api.bookAccess.getChapters, {
     email: creds.email,
@@ -121,105 +135,197 @@ export default function LibraryReader({
         </div>
       </div>
 
-      {chapterAccess === "sample" && (
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-sm">
-          <span className="flex items-center gap-2 text-foreground">
-            <Sparkles className="size-4 text-primary" />
-            You have access to 2 sample chapters.
-          </span>
-          <Button asChild size="sm" variant="secondary" className="cursor-pointer">
-            <Link to="/shop">Get the full book</Link>
+      {wallpaperAccess && (
+        <div className="mb-6 flex gap-2">
+          <Button
+            size="sm"
+            variant={view === "read" ? "default" : "outline"}
+            className="cursor-pointer"
+            onClick={() => setView("read")}
+          >
+            <BookOpen className="size-4" />
+            Read
+          </Button>
+          <Button
+            size="sm"
+            variant={view === "wallpapers" ? "default" : "outline"}
+            className="cursor-pointer"
+            onClick={() => setView("wallpapers")}
+          >
+            <ImageIcon className="size-4" />
+            Wallpapers
           </Button>
         </div>
       )}
 
-      {chapters === undefined ? (
-        <div className="space-y-3">
-          <Skeleton className="h-8 w-2/3" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-5/6" />
-        </div>
+      {view === "wallpapers" ? (
+        <WallpaperGallery creds={creds} />
       ) : (
         <>
-          <div className="mb-6">
-            <Select
-              value={String(chapterIndex)}
-              onValueChange={(v) => setChapterIndex(Number(v))}
-            >
-              <SelectTrigger className="w-full max-w-md cursor-pointer">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {chapters.map((c, i) => (
-                  <SelectItem key={c.number} value={String(i)}>
-                    {c.number}. {c.title}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {chapter && (
-            <article className="select-none space-y-5 leading-relaxed text-foreground">
-              <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-                {chapter.part}
-              </p>
-              <h1 className="font-serif text-3xl font-bold">
-                {chapter.number}. {chapter.title}
-              </h1>
-              {chapter.blocks.map((block, i) => {
-                if (block.type === "subhead") {
-                  return (
-                    <h3
-                      key={i}
-                      className="pt-2 font-serif text-lg font-semibold text-foreground"
-                    >
-                      {block.text}
-                    </h3>
-                  );
-                }
-                if (block.type === "takeaway") {
-                  return (
-                    <div
-                      key={i}
-                      className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-sm font-medium italic text-foreground"
-                    >
-                      {block.text}
-                    </div>
-                  );
-                }
-                return (
-                  <p key={i} className="text-base">
-                    {block.text}
-                  </p>
-                );
-              })}
-            </article>
+          {chapterAccess === "sample" && (
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-sm">
+              <span className="flex items-center gap-2 text-foreground">
+                <Sparkles className="size-4 text-primary" />
+                You have access to 2 sample chapters.
+              </span>
+              <Button asChild size="sm" variant="secondary" className="cursor-pointer">
+                <Link to="/shop">Get the full book</Link>
+              </Button>
+            </div>
           )}
 
-          <div className="mt-10 flex items-center justify-between border-t border-border pt-6">
-            <Button
-              variant="outline"
-              className="cursor-pointer"
-              disabled={!canGoPrev}
-              onClick={() => setChapterIndex((i) => i - 1)}
-            >
-              <ChevronLeft className="size-4" />
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              className="cursor-pointer"
-              disabled={!canGoNext}
-              onClick={() => setChapterIndex((i) => i + 1)}
-            >
-              Next
-              <ChevronRight className="size-4" />
-            </Button>
-          </div>
+          {chapters === undefined ? (
+            <div className="space-y-3">
+              <Skeleton className="h-8 w-2/3" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-5/6" />
+            </div>
+          ) : (
+            <>
+              <div className="mb-6">
+                <Select
+                  value={String(chapterIndex)}
+                  onValueChange={(v) => setChapterIndex(Number(v))}
+                >
+                  <SelectTrigger className="w-full max-w-md cursor-pointer">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {chapters.map((c, i) => (
+                      <SelectItem key={c.number} value={String(i)}>
+                        {c.number}. {c.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {chapter && (
+                <article className="select-none space-y-5 leading-relaxed text-foreground">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+                    {chapter.part}
+                  </p>
+                  <h1 className="font-serif text-3xl font-bold">
+                    {chapter.number}. {chapter.title}
+                  </h1>
+                  {chapter.blocks.map((block, i) => {
+                    if (block.type === "subhead") {
+                      return (
+                        <h3
+                          key={i}
+                          className="pt-2 font-serif text-lg font-semibold text-foreground"
+                        >
+                          {block.text}
+                        </h3>
+                      );
+                    }
+                    if (block.type === "takeaway") {
+                      return (
+                        <div
+                          key={i}
+                          className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-sm font-medium italic text-foreground"
+                        >
+                          {block.text}
+                        </div>
+                      );
+                    }
+                    return (
+                      <p key={i} className="text-base">
+                        {block.text}
+                      </p>
+                    );
+                  })}
+                </article>
+              )}
+
+              <div className="mt-10 flex items-center justify-between border-t border-border pt-6">
+                <Button
+                  variant="outline"
+                  className="cursor-pointer"
+                  disabled={!canGoPrev}
+                  onClick={() => setChapterIndex((i) => i - 1)}
+                >
+                  <ChevronLeft className="size-4" />
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  className="cursor-pointer"
+                  disabled={!canGoNext}
+                  onClick={() => setChapterIndex((i) => i + 1)}
+                >
+                  Next
+                  <ChevronRight className="size-4" />
+                </Button>
+              </div>
+            </>
+          )}
         </>
       )}
+    </div>
+  );
+}
+
+type Wallpaper = { _id: string; url: string; label?: string };
+
+/**
+ * The $83.59 deluxe tier's deliverable, since the 2026-10-26 pivot away
+ * from a one-off hand-made-per-buyer wallpaper: a shared, growing pool of
+ * pre-made desktop wallpapers (reminder quotes on a background image) that
+ * anyone with wallpaperAccess can freely browse and download — the admin
+ * uploads to the pool once from /admin → Book Access, instead of
+ * fulfilling each order by hand. See getWallpapers in convex/bookAccess.ts.
+ */
+function WallpaperGallery({ creds }: { creds: LibraryCredentials }) {
+  const wallpapers = useQuery(api.bookAccess.getWallpapers, {
+    email: creds.email,
+    code: creds.code,
+  }) as Wallpaper[] | undefined;
+
+  if (wallpapers === undefined) {
+    return (
+      <div className="grid gap-4 sm:grid-cols-2">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Skeleton key={i} className="aspect-video w-full rounded-xl" />
+        ))}
+      </div>
+    );
+  }
+
+  if (wallpapers.length === 0) {
+    return (
+      <p className="rounded-lg border border-border bg-muted/40 p-6 text-center text-sm text-muted-foreground">
+        No wallpapers uploaded yet — check back soon.
+      </p>
+    );
+  }
+
+  return (
+    <div className="grid gap-5 sm:grid-cols-2">
+      {wallpapers.map((w) => (
+        <div
+          key={w._id}
+          className="overflow-hidden rounded-xl border border-border bg-card"
+        >
+          <img
+            src={w.url}
+            alt={w.label || "Desktop wallpaper"}
+            className="aspect-video w-full object-cover"
+          />
+          <div className="flex items-center justify-between gap-3 p-4">
+            <p className="truncate text-sm font-medium text-card-foreground">
+              {w.label || "Desktop wallpaper"}
+            </p>
+            <Button asChild size="sm" variant="secondary" className="cursor-pointer">
+              <a href={w.url} download>
+                <Download className="size-4" />
+                Download
+              </a>
+            </Button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

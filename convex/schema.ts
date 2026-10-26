@@ -178,6 +178,14 @@ export default defineSchema({
     chapterAccess: v.optional(
       v.union(v.literal("sample"), v.literal("full")),
     ),
+    // Unlocks the /library "Wallpapers" tab (a shared gallery of pre-made
+    // desktop wallpapers the admin uploads once for everyone, rather than a
+    // one-off hand-made image per buyer — see the `wallpapers` table below
+    // and the 2026-10-26 pivot away from per-buyer custom wallpapers).
+    // Currently only the $83.59 "book-deluxe" tier grants this. Optional so
+    // any row from before this field existed still validates — treated as
+    // false when absent.
+    wallpaperAccess: v.optional(v.boolean()),
     active: v.boolean(),
     // The purchase notice this grant was issued from, if any (manual grants
     // made without a prior notice — e.g. a comp copy — can omit this).
@@ -185,4 +193,18 @@ export default defineSchema({
   })
     .index("by_email", ["email"])
     .index("by_email_code", ["email", "code"]),
+
+  // A shared pool of pre-made desktop wallpapers (reminder quotes on a
+  // background image) that every buyer with wallpaperAccess can freely
+  // browse and download from /library's "Wallpapers" tab — see
+  // bookAccess.ts's getWallpapers/addWallpaper/removeWallpaper. Replaces
+  // the original one-off hand-made-per-buyer wallpaper model (2026-10-26
+  // pivot) — the admin uploads a batch here once instead of fulfilling each
+  // order by hand. Not a per-buyer deliverable, so there's no email/buyer
+  // reference on a row — every row is visible to every buyer with access.
+  wallpapers: defineTable({
+    storageId: v.id("_storage"),
+    url: v.string(),
+    label: v.optional(v.string()),
+  }),
 });

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
 import { format } from "date-fns";
@@ -7,11 +7,14 @@ import {
   Ban,
   BookOpen,
   Copy,
+  ImageIcon,
   Inbox,
   KeyRound,
   Link2,
   RotateCcw,
   Sparkles,
+  Trash2,
+  Upload,
   X,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -20,6 +23,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
+import { Checkbox } from "@/components/ui/checkbox.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import {
   Select,
@@ -58,7 +62,7 @@ const LANGUAGE_LABEL: Record<Language, string> = {
 const PRODUCT_LABEL: Record<Product, string> = {
   "book-sample": "Tier 1 — Two Chapters ($10)",
   "book-full": "Tier 2 — Full Book ($42.39)",
-  "book-deluxe": "Tier 3 — Full Book + Custom Desktop ($83.59)",
+  "book-deluxe": "Tier 3 — Full Book + Wallpaper Library ($83.59)",
   wallpaper: "/shop — Custom Desktop Wallpaper",
   "print-book": "/shop — Printed Copy",
   "tiger-figurine": "/shop — 虎爺擺飾 (Tiger Figurine)",
@@ -76,6 +80,15 @@ const CHAPTER_ACCESS_FOR_PRODUCT: Partial<Record<Product, ChapterAccess>> = {
   "book-sample": "sample",
   "book-full": "full",
   "book-deluxe": "full",
+};
+
+// Only Tier 3 also unlocks the /library "Wallpapers" tab — a shared pool of
+// pre-made wallpapers uploaded once below (see WallpaperLibraryManager),
+// not a one-off hand-made image per buyer (that was the model before the
+// 2026-10-26 pivot — the standalone /shop "wallpaper" item still works the
+// old way, by the client's choice).
+const WALLPAPER_ACCESS_FOR_PRODUCT: Partial<Record<Product, boolean>> = {
+  "book-deluxe": true,
 };
 
 function isBookProduct(product: Product): boolean {
@@ -109,6 +122,7 @@ export default function BookAccessPanel() {
       <ExistingGrants />
       <PaymentLinksEditor />
       <SampleChapterEditor />
+      <WallpaperLibraryManager />
     </div>
   );
 }
@@ -133,6 +147,7 @@ function PendingNotices() {
         email,
         language,
         chapterAccess: CHAPTER_ACCESS_FOR_PRODUCT[product],
+        wallpaperAccess: WALLPAPER_ACCESS_FOR_PRODUCT[product] ?? false,
         sourceNoticeId: noticeId as Parameters<
           typeof grant
         >[0]["sourceNoticeId"],
@@ -194,12 +209,15 @@ function PendingNotices() {
         whole flow relies on. The three book tiers grant /library access
         ("Grant access" below); Tier 1 only unlocks the two sample chapters
         (see the chapter-numbers editor below), Tiers 2 and 3 unlock all
-        thirty. Every other /shop item ("Mark fulfilled" below) is
-        hand-made or hand-shipped by you — a wallpaper or Tier 3 purchase
-        needs a custom desktop image made by hand from the goal date /
-        style / note shown below, and a physical item needs to be shipped
-        to the address shown; acting on a notice here does NOT send or ship
-        anything automatically, that's a separate step you do yourself.
+        thirty — Tier 3 also unlocks the "Wallpapers" tab there
+        automatically (a shared pool you upload to once, below, not a
+        per-buyer custom job). Every other /shop item ("Mark fulfilled"
+        below) is hand-made or hand-shipped by you — the standalone
+        wallpaper item still needs a custom desktop image made by hand from
+        the goal date / style / note shown below, and a physical item needs
+        to be shipped to the address shown; acting on a notice here does NOT
+        send or ship anything automatically, that's a separate step you do
+        yourself.
       </p>
 
       {notices === undefined ? (
@@ -333,6 +351,7 @@ function ManualGrantForm() {
   const [email, setEmail] = useState("");
   const [language, setLanguage] = useState<Language>("en");
   const [chapterAccess, setChapterAccess] = useState<ChapterAccess>("full");
+  const [wallpaperAccess, setWallpaperAccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
@@ -343,7 +362,7 @@ function ManualGrantForm() {
     }
     setSubmitting(true);
     try {
-      await grant({ email: trimmed, language, chapterAccess });
+      await grant({ email: trimmed, language, chapterAccess, wallpaperAccess });
       toast.success(`Access granted and emailed to ${trimmed}.`);
       setEmail("");
     } catch (error) {
@@ -401,6 +420,13 @@ function ManualGrantForm() {
           Grant &amp; email code
         </Button>
       </div>
+      <label className="mt-3 flex w-fit items-center gap-2 text-sm text-muted-foreground">
+        <Checkbox
+          checked={wallpaperAccess}
+          onCheckedChange={(v) => setWallpaperAccess(v === true)}
+        />
+        Also include wallpaper library access (normally only Tier 3 grants this)
+      </label>
     </div>
   );
 }
@@ -427,10 +453,15 @@ function ExistingGrants() {
     email: string,
     language: Language,
     chapterAccess: ChapterAccess,
+    wallpaperAccess: boolean,
   ) => {
     setBusyEmail(email);
     try {
-      await regrant({ email, language, chapterAccess });
+      // Passing wallpaperAccess through explicitly (rather than omitting
+      // it) so a plain "resend my code" click can never be misread — the
+      // server also preserves it when omitted, but being explicit here
+      // keeps this call's intent obvious.
+      await regrant({ email, language, chapterAccess, wallpaperAccess });
       toast.success(`New code generated and emailed to ${email}.`);
     } catch {
       toast.error("Could not resend a code.");
@@ -498,6 +529,12 @@ function ExistingGrants() {
                         )}
                         {chapterAccess === "sample" ? "2 chapters" : "Full book"}
                       </Badge>
+                      {g.wallpaperAccess && (
+                        <Badge variant="secondary" className="gap-1">
+                          <ImageIcon className="size-3" />
+                          Wallpapers
+                        </Badge>
+                      )}
                       <Badge variant="secondary">{LANGUAGE_LABEL[g.language]}</Badge>
                     </>
                   ) : (
@@ -511,7 +548,14 @@ function ExistingGrants() {
                     variant="ghost"
                     className="cursor-pointer text-muted-foreground"
                     disabled={busyEmail === g.email}
-                    onClick={() => handleResend(g.email, g.language, chapterAccess)}
+                    onClick={() =>
+                      handleResend(
+                        g.email,
+                        g.language,
+                        chapterAccess,
+                        g.wallpaperAccess ?? false,
+                      )
+                    }
                     aria-label="Resend a new code"
                     title="Resend a new code"
                   >
@@ -678,6 +722,153 @@ function SampleChapterEditor() {
           Save
         </Button>
       </div>
+    </div>
+  );
+}
+
+// Tier 3's deliverable since the 2026-10-26 pivot: a shared pool of
+// pre-made desktop wallpapers every Tier 3 buyer can browse and download
+// from /library's "Wallpapers" tab (see getWallpapers in
+// convex/bookAccess.ts), instead of a one-off image made by hand per order
+// — upload a batch here once rather than fulfilling each order yourself.
+function WallpaperLibraryManager() {
+  const wallpapers = useQuery(api.bookAccess.listWallpapersAdmin, {});
+  const generateUploadUrl = useMutation(api.content.generateUploadUrl);
+  const addWallpaper = useMutation(api.bookAccess.addWallpaper);
+  const removeWallpaper = useMutation(api.bookAccess.removeWallpaper);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [label, setLabel] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [busyId, setBusyId] = useState<string | null>(null);
+
+  const handleUpload = async (file: File) => {
+    setUploading(true);
+    try {
+      const uploadUrl = await generateUploadUrl({});
+      const res = await fetch(uploadUrl, {
+        method: "POST",
+        headers: { "Content-Type": file.type },
+        body: file,
+      });
+      if (!res.ok) throw new Error("Upload failed");
+      const { storageId } = await res.json();
+      await addWallpaper({ storageId, label: label.trim() || undefined });
+      toast.success("Wallpaper added.");
+      setLabel("");
+    } catch {
+      toast.error("Could not upload this wallpaper.");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const handleRemove = async (wallpaperId: string) => {
+    setBusyId(wallpaperId);
+    try {
+      await removeWallpaper({
+        wallpaperId: wallpaperId as Parameters<
+          typeof removeWallpaper
+        >[0]["wallpaperId"],
+      });
+    } catch {
+      toast.error("Could not remove this wallpaper.");
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  return (
+    <div className="rounded-xl border border-border bg-card p-6">
+      <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-card-foreground">
+        <ImageIcon className="size-5 text-primary" />
+        Wallpaper library
+      </h3>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Upload the pre-made desktop wallpapers Tier 3 buyers can browse and
+        download at /library — every Tier 3 buyer sees the same shared
+        pool, so upload once here rather than per order. An optional label
+        shows under each image both here and at /library.
+      </p>
+
+      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <Input
+          placeholder='Label (optional) — e.g. "Monday Reset"'
+          value={label}
+          onChange={(e) => setLabel(e.target.value)}
+          className="sm:flex-1"
+        />
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) handleUpload(file);
+          }}
+        />
+        <Button
+          variant="secondary"
+          className="cursor-pointer"
+          disabled={uploading}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <Upload className="size-4" />
+          {uploading ? "Uploading…" : "Upload image"}
+        </Button>
+      </div>
+
+      {wallpapers === undefined ? (
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <Skeleton key={i} className="aspect-video w-full rounded-lg" />
+          ))}
+        </div>
+      ) : wallpapers.length === 0 ? (
+        <Empty className="mt-4">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <ImageIcon />
+            </EmptyMedia>
+            <EmptyTitle>No wallpapers yet</EmptyTitle>
+            <EmptyDescription>
+              Upload at least one image above — Tier 3 buyers see an empty
+              "check back soon" message at /library until then.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      ) : (
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {wallpapers.map((w) => (
+            <div
+              key={w._id}
+              className="overflow-hidden rounded-lg border border-border bg-background"
+            >
+              <img
+                src={w.url}
+                alt={w.label || "Wallpaper"}
+                className="aspect-video w-full object-cover"
+              />
+              <div className="flex items-center justify-between gap-2 p-2.5">
+                <p className="truncate text-xs text-muted-foreground">
+                  {w.label || "Untitled"}
+                </p>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="size-7 cursor-pointer text-destructive hover:text-destructive"
+                  disabled={busyId === w._id}
+                  onClick={() => handleRemove(w._id)}
+                  aria-label="Remove"
+                >
+                  <Trash2 className="size-3.5" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

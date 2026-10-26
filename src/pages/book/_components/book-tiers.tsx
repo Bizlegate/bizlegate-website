@@ -60,10 +60,15 @@ export default function BookTiers() {
   const { regularPrice, salePrice, onSale } = useBookPrice();
 
   return (
-    <Section className="bg-secondary/40">
-      {/* eyebrowClassName: this section's bg-secondary/40 backdrop composites
-          to a mid gray that the default gold eyebrow measures well under
-          2:1 against — see the comment on SectionHeading. */}
+    <Section className="bg-primary">
+      {/* Changed 2026-10-26 from bg-secondary/40 (a mid-gray wash) to the
+          site's actual champagne-gold --primary — same color as the
+          "Get Started" buttons below — to make this section stand out more.
+          Both backdrops land at a near-identical lightness (gray wash
+          composited to ~L0.68, gold is L0.72), so the eyebrowClassName
+          override below and the rest of the section's existing text colors
+          (title/description/card text) still read fine without further
+          changes — only the hue changed, not how light the backdrop is. */}
       <SectionHeading
         eyebrow={eyebrow}
         title={title}

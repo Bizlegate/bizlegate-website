@@ -206,12 +206,18 @@ export const sendBookAccessEmail = internalAction({
     code: v.string(),
     language: v.union(v.literal("en"), v.literal("zh"), v.literal("both")),
     chapterAccess: v.optional(v.union(v.literal("sample"), v.literal("full"))),
+    // Added 2026-10-26 with the shared wallpaper-library pivot — optional so
+    // this action still validates if ever called without it.
+    wallpaperAccess: v.optional(v.boolean()),
   },
   handler: async (_ctx, args) => {
     const scopeText =
       args.chapterAccess === "sample"
         ? "Your access covers the two sample chapters"
         : `Your access covers the full book`;
+    const wallpaperLine = args.wallpaperAccess
+      ? `<p style="font-size:13px;color:#0A1B2A;margin:0 0 16px;">Your access also unlocks the desktop wallpaper library — look for the "Wallpapers" tab once you're signed in.</p>`
+      : "";
     const html = `
       <div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;">
         <div style="background:#0A1B2A;padding:24px 28px;border-radius:8px 8px 0 0;">
@@ -224,6 +230,7 @@ export const sendBookAccessEmail = internalAction({
             <a href="https://bizlegate.com/library" style="color:#0A1B2A;font-weight:bold;">bizlegate.com/library</a>
             and sign in with:
           </p>
+          ${wallpaperLine}
           <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
             ${row("Email", escapeHtml(args.email))}
             ${row("Access code", `<span style="font-family:monospace;font-size:16px;letter-spacing:1px;">${escapeHtml(args.code)}</span>`)}
