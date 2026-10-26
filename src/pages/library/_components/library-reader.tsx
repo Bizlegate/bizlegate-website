@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import PurchaseDialog from "@/pages/book/_components/purchase-dialog.tsx";
+import BookFlipReader, { type BookPage } from "./book-flip-reader.tsx";
 import type { LibraryCredentials } from "./library-login.tsx";
 
 type Language = "en" | "zh";
@@ -71,6 +72,19 @@ export default function LibraryReader({
     code: creds.code,
     language,
   }) as Chapter[] | undefined;
+
+  // The real-page-image flip reader (2026-10-26, English edition added
+  // 2026-10-27) — queried for whichever language is currently selected.
+  // Falls back to the plain-text reader below whenever this comes back
+  // empty, so each edition keeps working seamlessly through the admin's
+  // page-by-page upload rather than needing a manual "go live" toggle per
+  // language — see convex/bookAccess.ts getBookPages / book-flip-reader.tsx.
+  const bookPages = useQuery(api.bookAccess.getBookPages, {
+    email: creds.email,
+    code: creds.code,
+    language,
+  }) as BookPage[] | undefined;
+  const useFlipReader = !!bookPages && bookPages.length > 0;
 
   // Jump back to chapter one whenever the reader switches language — the two
   // editions aren't guaranteed to line up chapter-for-chapter in the UI, and
@@ -185,7 +199,9 @@ export default function LibraryReader({
             </div>
           )}
 
-          {chapters === undefined ? (
+          {useFlipReader ? (
+            <BookFlipReader pages={bookPages!} language={language} />
+          ) : chapters === undefined ? (
             <div className="space-y-3">
               <Skeleton className="h-8 w-2/3" />
               <Skeleton className="h-4 w-full" />

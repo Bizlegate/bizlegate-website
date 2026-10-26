@@ -129,6 +129,7 @@ export default function BookAccessPanel() {
       <ExistingGrants />
       <PaymentLinksEditor />
       <SampleChapterEditor />
+      <BookPagesManager />
       <WallpaperLibraryManager />
     </div>
   );
@@ -741,6 +742,217 @@ function SampleChapterEditor() {
           Save
         </Button>
       </div>
+    </div>
+  );
+}
+
+// Real page-image uploader for /library's page-flip reader (approved
+// 2026-10-26 — "你可以正式把中文版放到 library 了", see
+// claude/16_payment_processor_decision.md and the bookPages table comment
+// in schema.ts for the chapterNumber convention this relies on). Expects
+// filenames like p001_cover.jpg / p002_fm.jpg / p003_ch01.jpg so `order`
+// and `chapterNumber` can be parsed straight from the filename — no
+// separate page manifest to keep in sync with the images themselves.
+const PAGE_FILENAME_RE = /^p(\d{3})_(cover|fm|ch(\d{2}))\.(jpe?g|png)$/i;
+
+function parsePageFilename(
+  name: string,
+): { order: number; chapterNumber?: number } | null {
+  const m = name.match(PAGE_FILENAME_RE);
+  if (!m) return null;
+  const order = parseInt(m[1], 10);
+  const tag = m[2].toLowerCase();
+  if (tag === "cover") return { order, chapterNumber: 0 };
+  if (tag === "fm") return { order };
+  return { order, chapterNumber: parseInt(m[3], 10) };
+}
+
+function BookPagesManager() {
+  const status = useQuery(api.bookAccess.bookPagesStatus, {});
+  const generateUploadUrl = useMutation(api.content.generateUploadUrl);
+  const savePage = useMutation(api.bookAccess.saveBookPage);
+  const clearPages = useMutation(api.bookAccess.clearBookPages);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [language, setLanguage] = useState<"en" | "zh">("zh");
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState<{
+    done: number;
+    total: number;
+  } | null>(null);
+  const [clearing, setClearing] = useState(false);
+
+  const handleFiles = async (fileList: FileList) => {
+    const files = Array.from(fileList);
+    const parsed = files
+      .map((file) => ({ file, parsed: parsePageFilename(file.name) }))
+      .filter(
+        (
+          f,
+        ): f is {
+          file: File;
+          parsed: { order: number; chapterNumber?: number };
+        } => f.parsed !== null,
+      )
+      .sort((a, b) => a.parsed.order - b.parsed.order);
+
+    const skipped = files.length - parsed.length;
+    if (parsed.length === 0) {
+      toast.error(
+        'No file names matched the expected pattern (e.g. "p001_cover.jpg", "p014_ch05.jpg").',
+      );
+      return;
+    }
+
+    setUploading(true);
+    setProgress({ done: 0, total: parsed.length });
+    let failed = 0;
+    for (const { file, parsed: p } of parsed) {
+      try {
+        const uploadUrl = await generateUploadUrl({});
+        const res = await fetch(uploadUrl, {
+          method: "POST",
+          headers: { "Content-Type": file.type || "image/jpeg" },
+          body: file,
+        });
+        if (!res.ok) throw new Error("Upload failed");
+        const { storageId } = await res.json();
+        await savePage({
+          language,
+          order: p.order,
+          chapterNumber: p.chapterNumber,
+          storageId,
+        });
+      } catch {
+        failed += 1;
+      }
+      setProgress((prev) => (prev ? { ...prev, done: prev.done + 1 } : prev));
+    }
+    setUploading(false);
+    setProgress(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+
+    if (failed === 0) {
+      toast.success(
+        `Uploaded ${parsed.length} page${parsed.length === 1 ? "" : "s"}${
+          skipped
+            ? ` (${skipped} file name${skipped === 1 ? "" : "s"} skipped — didn't match the pattern)`
+            : ""
+        }.`,
+      );
+    } else {
+      toast.error(
+        `${failed} of ${parsed.length} pages failed to upload — try selecting them again.`,
+      );
+    }
+  };
+
+  const handleClear = async () => {
+    if (
+      !window.confirm(
+        `Delete all uploaded ${
+          language === "zh" ? "中文" : "English"
+        } pages? This can't be undone — you'd need to re-upload every page.`,
+      )
+    ) {
+      return;
+    }
+    setClearing(true);
+    try {
+      const result = await clearPages({ language });
+      toast.success(
+        `Removed ${result.deleted} page${result.deleted === 1 ? "" : "s"}.`,
+      );
+    } catch {
+      toast.error("Could not clear these pages.");
+    } finally {
+      setClearing(false);
+    }
+  };
+
+  return (
+    <div className="rounded-xl border border-border bg-card p-6">
+      <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-card-foreground">
+        <BookOpen className="size-5 text-primary" />
+        Book pages (page-flip reader)
+      </h3>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Upload the real book-page screenshots that power /library's
+        page-flip view — once at least one page exists for a language, the
+        plain-text reader for that language switches over automatically,
+        no separate "go live" step. Name each file{" "}
+        <code className="rounded bg-muted px-1 py-0.5 text-xs">
+          p001_cover.jpg
+        </code>
+        ,{" "}
+        <code className="rounded bg-muted px-1 py-0.5 text-xs">
+          p00N_fm.jpg
+        </code>{" "}
+        (other front/back matter — table of contents, author's note, etc.),
+        or{" "}
+        <code className="rounded bg-muted px-1 py-0.5 text-xs">
+          p0NN_ch05.jpg
+        </code>{" "}
+        (a page of chapter 5) — the 3-digit number sets reading order, the
+        tag sets which chapter it belongs to and therefore who can see it
+        (sample vs. full access — see schema.ts). Select every page file for
+        the language at once; re-uploading a page number already on file
+        replaces it in place.
+      </p>
+
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        <Select
+          value={language}
+          onValueChange={(v) => setLanguage(v as "en" | "zh")}
+        >
+          <SelectTrigger className="w-32 cursor-pointer">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="zh">中文</SelectItem>
+            <SelectItem value="en">English</SelectItem>
+          </SelectContent>
+        </Select>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          multiple
+          className="hidden"
+          onChange={(e) => {
+            if (e.target.files && e.target.files.length > 0) {
+              handleFiles(e.target.files);
+            }
+          }}
+        />
+        <Button
+          variant="secondary"
+          className="cursor-pointer"
+          disabled={uploading}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <Upload className="size-4" />
+          {uploading && progress
+            ? `Uploading ${progress.done}/${progress.total}…`
+            : "Select page images"}
+        </Button>
+        <Button
+          variant="outline"
+          className="cursor-pointer text-destructive hover:text-destructive"
+          disabled={clearing || uploading}
+          onClick={handleClear}
+        >
+          <Trash2 className="size-4" />
+          Clear {language === "zh" ? "中文" : "English"} pages
+        </Button>
+      </div>
+
+      <p className="mt-4 text-xs text-muted-foreground">
+        {status === undefined
+          ? "Loading current counts…"
+          : `Currently uploaded: 中文 ${status.zh} page${
+              status.zh === 1 ? "" : "s"
+            } · English ${status.en} page${status.en === 1 ? "" : "s"}.`}
+      </p>
     </div>
   );
 }

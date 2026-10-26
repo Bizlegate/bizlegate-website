@@ -701,3 +701,153 @@ export const removeWallpaper = mutation({
     return null;
   },
 });
+
+// ---------------------------------------------------------------------------
+// Real page-image reading view (2026-10-26) — see the bookPages table
+// comment in schema.ts for the chapterNumber convention (0 = cover,
+// 1-30 = that chapter, omitted = other front/back matter).
+
+const BOOK_PAGE_LANGUAGE = v.union(v.literal("en"), v.literal("zh"));
+
+// Admin: after uploading a page image to storage (via content.generateUploadUrl,
+// same as addWallpaper above), save it as a book page. Upserts on
+// (language, order) so re-uploading the same page (e.g. after a manuscript
+// correction) replaces it in place instead of creating a duplicate row —
+// the old stored file is deleted so storage doesn't accumulate stale pages.
+export const saveBookPage = mutation({
+  args: {
+    language: BOOK_PAGE_LANGUAGE,
+    order: v.number(),
+    chapterNumber: v.optional(v.number()),
+    storageId: v.id("_storage"),
+  },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    const url = await ctx.storage.getUrl(args.storageId);
+    if (!url) {
+      throw new ConvexError({
+        code: "NOT_FOUND",
+        message: "Uploaded file could not be found.",
+      });
+    }
+    const existing = await ctx.db
+      .query("bookPages")
+      .withIndex("by_language_order", (q) =>
+        q.eq("language", args.language).eq("order", args.order),
+      )
+      .unique();
+    if (existing) {
+      await ctx.storage.delete(existing.storageId);
+      await ctx.db.patch(existing._id, {
+        chapterNumber: args.chapterNumber,
+        storageId: args.storageId,
+        url,
+      });
+    } else {
+      await ctx.db.insert("bookPages", {
+        language: args.language,
+        order: args.order,
+        chapterNumber: args.chapterNumber,
+        storageId: args.storageId,
+        url,
+      });
+    }
+    return null;
+  },
+});
+
+// Admin: wipe every page for a language and delete their stored files —
+// use before re-uploading a full batch from scratch so stale/renumbered
+// pages from a previous attempt can never linger.
+export const clearBookPages = mutation({
+  args: { language: BOOK_PAGE_LANGUAGE },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    const rows = await ctx.db
+      .query("bookPages")
+      .withIndex("by_language_order", (q) => q.eq("language", args.language))
+      .collect();
+    for (const row of rows) {
+      await ctx.storage.delete(row.storageId);
+      await ctx.db.delete(row._id);
+    }
+    return { deleted: rows.length };
+  },
+});
+
+// Admin: how many pages exist per language right now, for the uploader UI
+// to show progress/status instead of guessing.
+export const bookPagesStatus = query({
+  args: {},
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+    const en = await ctx.db
+      .query("bookPages")
+      .withIndex("by_language_order", (q) => q.eq("language", "en"))
+      .collect();
+    const zh = await ctx.db
+      .query("bookPages")
+      .withIndex("by_language_order", (q) => q.eq("language", "zh"))
+      .collect();
+    return { en: en.length, zh: zh.length };
+  },
+});
+
+// Public: the gated page-flip read, mirroring getChapters — re-checks the
+// grant on every call, enforces the language the buyer actually paid for,
+// and narrows which physical pages a "sample" grant may see to the front
+// cover plus whichever chapter numbers are currently configured as the
+// sample set (see getSampleChapterNumbers) — a sample buyer never receives
+// the image URL for a page outside those chapters, not even a front/back
+// matter page like the table of contents.
+export const getBookPages = query({
+  args: {
+    email: v.string(),
+    code: v.string(),
+    language: v.union(v.literal("en"), v.literal("zh")),
+  },
+  handler: async (ctx, args) => {
+    const email = normalizeEmail(args.email);
+    const code = args.code.trim().toUpperCase();
+    const grant = await ctx.db
+      .query("bookAccess")
+      .withIndex("by_email_code", (q) => q.eq("email", email).eq("code", code))
+      .unique();
+
+    if (!grant || !grant.active) {
+      throw new ConvexError({
+        code: "FORBIDDEN",
+        message: "Invalid email or access code.",
+      });
+    }
+    if (grant.language !== "both" && grant.language !== args.language) {
+      throw new ConvexError({
+        code: "FORBIDDEN",
+        message: "Your access does not include this language edition.",
+      });
+    }
+
+    const rows = await ctx.db
+      .query("bookPages")
+      .withIndex("by_language_order", (q) => q.eq("language", args.language))
+      .collect();
+    rows.sort((a, b) => a.order - b.order);
+
+    const chapterAccess = grant.chapterAccess ?? "full";
+    let filtered = rows;
+    if (chapterAccess === "sample") {
+      const sampleNumbers = await getSampleChapterNumbers(ctx);
+      filtered = rows.filter(
+        (r) =>
+          r.chapterNumber === 0 ||
+          (r.chapterNumber !== undefined && sampleNumbers.includes(r.chapterNumber)),
+      );
+    }
+
+    return filtered.map((r) => ({
+      order: r.order,
+      chapterNumber: r.chapterNumber,
+      url: r.url,
+    }));
+  },
+});

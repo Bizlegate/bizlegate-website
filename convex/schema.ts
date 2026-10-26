@@ -217,4 +217,33 @@ export default defineSchema({
     url: v.string(),
     label: v.optional(v.string()),
   }),
+
+  // Real page screenshots from the actual print-ready manuscript PDF, one
+  // row per physical page, in reading order — powers /library's page-flip
+  // reading view (added 2026-10-26, see claude/16_payment_processor_decision.md
+  // and the "it feels like a cheap webpage, not a real book" feedback that
+  // prompted it). This deliberately replaces the plain-text chaptersFor()
+  // reader for a language once pages exist for it, rather than re-typesetting
+  // the manuscript in HTML — "use the real pages, don't redesign them" was
+  // the explicit instruction.
+  //
+  // `order` is the page's 0-indexed position in the physical book (0 = front
+  // cover). `chapterNumber` is how getBookPages decides what a "sample"
+  // grant may see: 0 marks the front cover (always shown), 1–30 marks that
+  // chapter's pages (shown to "full" always, shown to "sample" only when
+  // the chapter is in the admin's configured sample set — see
+  // getSampleChapterNumbers), and omitted marks any other front/back-matter
+  // page (title verso, table of contents, author's note, the closing
+  // cross-promo page, etc.) — these are only ever shown to "full" access, so
+  // a sample buyer never sees the table of contents for chapters they
+  // haven't unlocked.
+  bookPages: defineTable({
+    language: v.union(v.literal("en"), v.literal("zh")),
+    order: v.number(),
+    chapterNumber: v.optional(v.number()),
+    storageId: v.id("_storage"),
+    url: v.string(),
+  })
+    .index("by_language_order", ["language", "order"])
+    .index("by_language_chapter", ["language", "chapterNumber"]),
 });
