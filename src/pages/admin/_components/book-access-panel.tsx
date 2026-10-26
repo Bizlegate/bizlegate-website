@@ -252,6 +252,18 @@ function PendingNotices() {
                     <p className="truncate font-medium text-card-foreground">
                       {notice.name ? `${notice.name} — ${notice.email}` : notice.email}
                     </p>
+                    {notice.referenceCode && (
+                      <p className="mt-1 text-sm">
+                        <span className="text-muted-foreground">Match against: </span>
+                        <span className="font-mono font-bold tracking-wider text-primary">
+                          {notice.referenceCode}
+                        </span>
+                        <span className="text-muted-foreground">
+                          {" "}
+                          (name + this code on the Wise deposit)
+                        </span>
+                      </p>
+                    )}
                     {notice.goalDate && (
                       <p className="mt-1 text-sm text-muted-foreground">
                         Goal date: {notice.goalDate}

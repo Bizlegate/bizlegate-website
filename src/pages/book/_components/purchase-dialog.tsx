@@ -101,6 +101,12 @@ export default function PurchaseDialog({
   const [shippingAddress, setShippingAddress] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [wiseLink, setWiseLink] = useState<string | null>(null);
+  // Shown to the buyer on the "one step left" screen and asked to be
+  // included as a note on the Wise payment — this, plus the required name
+  // above, is what lets the admin match an actual Wise/bank deposit back to
+  // this notice (added 2026-10-26, see submitPurchaseNotice in
+  // convex/bookAccess.ts and claude/16_payment_processor_decision.md).
+  const [referenceCode, setReferenceCode] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
   const needsWallpaperFields = NEEDS_WALLPAPER_FIELDS.has(product);
@@ -127,6 +133,7 @@ export default function PurchaseDialog({
     setShippingAddress("");
     setSubmitting(false);
     setWiseLink(null);
+    setReferenceCode(null);
     setSubmitted(false);
   };
 
@@ -139,6 +146,10 @@ export default function PurchaseDialog({
     e.preventDefault();
     if (!email.trim()) {
       toast.error("Please enter your email address.");
+      return;
+    }
+    if (!name.trim()) {
+      toast.error("Please enter the name on the account you'll pay from.");
       return;
     }
     if (needsWallpaperFields && !goalDate.trim()) {
@@ -157,7 +168,7 @@ export default function PurchaseDialog({
     try {
       const result = await submitNotice({
         email: email.trim(),
-        name: name.trim() || undefined,
+        name: name.trim(),
         note: note.trim() || undefined,
         product,
         requestedLanguage: isBook ? effectiveLang : undefined,
@@ -166,6 +177,7 @@ export default function PurchaseDialog({
         shippingAddress: needsShipping ? shippingAddress.trim() : undefined,
       });
       setWiseLink(result.wiseLink ?? null);
+      setReferenceCode(result.referenceCode ?? null);
       setSubmitted(true);
     } catch (error) {
       const message =
@@ -197,6 +209,20 @@ export default function PurchaseDialog({
                 we'll confirm by email — usually within one business day.
               </DialogDescription>
             </DialogHeader>
+            {referenceCode && (
+              <div className="rounded-lg border border-primary/30 bg-primary/5 p-4 text-center">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Your reference code
+                </p>
+                <p className="mt-1 font-mono text-lg font-bold tracking-wider text-foreground">
+                  {referenceCode}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Please add this as a note/message on your payment — it's
+                  how we match your transfer to your order.
+                </p>
+              </div>
+            )}
             {wiseLink ? (
               <Button asChild size="lg" className="w-full cursor-pointer">
                 <a href={wiseLink} target="_blank" rel="noopener noreferrer">
@@ -233,12 +259,19 @@ export default function PurchaseDialog({
                 />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="purchase-name">Name (optional)</Label>
+                <Label htmlFor="purchase-name">
+                  Name on the account you'll pay from
+                </Label>
                 <Input
                   id="purchase-name"
+                  required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
+                <p className="text-xs text-muted-foreground">
+                  This is how we match your payment to your order — please
+                  use the same name that will show up on the transfer.
+                </p>
               </div>
               {needsWallpaperFields && (
                 <>

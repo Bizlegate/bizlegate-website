@@ -9,6 +9,22 @@ import { EN_CHAPTERS, ZH_CHAPTERS, type BookChapter } from "./bookContentData";
 // deliverability is handled downstream by Resend.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Short code shown to a buyer after they submit a purchase notice, so they
+// can add it as a note/message on the Wise payment — this, together with
+// the buyer's name, is the actual key the admin reconciles a Wise/bank
+// deposit against (added 2026-10-26; a Wise deposit shows the payer's name
+// and amount, never an account number, so asking buyers for an account
+// number wouldn't match anything the admin can actually see). Alphabet
+// excludes 0/O/1/I so it reads back over email without ambiguity.
+const REFERENCE_CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+function generateReferenceCode(): string {
+  let suffix = "";
+  for (let i = 0; i < 4; i++) {
+    suffix += REFERENCE_CODE_CHARS[Math.floor(Math.random() * REFERENCE_CODE_CHARS.length)];
+  }
+  return `BZ-${suffix}`;
+}
+
 const LANGUAGE = v.union(v.literal("en"), v.literal("zh"), v.literal("both"));
 const CHAPTER_ACCESS = v.union(v.literal("sample"), v.literal("full"));
 const IMAGE_STYLE = v.union(v.literal("glam"), v.literal("professional"));
@@ -200,6 +216,17 @@ export const submitPurchaseNotice = mutation({
         message: "Please enter a valid email address.",
       });
     }
+    // Required as of 2026-10-26 (used to be optional) — this is the
+    // reconciliation key: a Wise/bank deposit shows the payer's name, so the
+    // admin matches amount + this name (+ the referenceCode below) against
+    // what actually lands in Wise. See claude/16_payment_processor_decision.md.
+    const name = args.name?.trim() ?? "";
+    if (!name) {
+      throw new ConvexError({
+        code: "BAD_REQUEST",
+        message: "Please enter the name on the account you'll pay from.",
+      });
+    }
     if (WALLPAPER_PRODUCTS.has(args.product)) {
       if (!args.goalDate?.trim()) {
         throw new ConvexError({
@@ -229,16 +256,18 @@ export const submitPurchaseNotice = mutation({
 
     const includeWallpaperFields = WALLPAPER_PRODUCTS.has(args.product);
     const includeShipping = PHYSICAL_PRODUCTS.has(args.product);
+    const referenceCode = generateReferenceCode();
 
     const id = await ctx.db.insert("bookPurchaseNotices", {
       email,
-      name: args.name?.trim() || undefined,
+      name,
       note: args.note?.trim() || undefined,
       product: args.product,
       requestedLanguage: args.requestedLanguage,
       goalDate: includeWallpaperFields ? args.goalDate?.trim() : undefined,
       imageStyle: includeWallpaperFields ? args.imageStyle : undefined,
       shippingAddress: includeShipping ? args.shippingAddress?.trim() : undefined,
+      referenceCode,
       status: "pending",
     });
 
@@ -247,13 +276,14 @@ export const submitPurchaseNotice = mutation({
       internal.emails.sendPurchaseNoticeNotification,
       {
         email,
-        name: args.name?.trim() || undefined,
+        name,
         note: args.note?.trim() || undefined,
         product: PRODUCT_LABEL[args.product],
         requestedLanguage: args.requestedLanguage,
         goalDate: includeWallpaperFields ? args.goalDate?.trim() : undefined,
         imageStyle: includeWallpaperFields ? args.imageStyle : undefined,
         shippingAddress: includeShipping ? args.shippingAddress?.trim() : undefined,
+        referenceCode,
       },
     );
 
@@ -263,7 +293,7 @@ export const submitPurchaseNotice = mutation({
       .unique();
     const wiseLink = override?.wiseLink ?? DEFAULT_PAYMENT_LINKS[args.product];
 
-    return { noticeId: id, wiseLink };
+    return { noticeId: id, wiseLink, referenceCode };
   },
 });
 

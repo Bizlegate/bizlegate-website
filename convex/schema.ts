@@ -127,6 +127,14 @@ export default defineSchema({
     // a separate logistics flow (see claude/00_project_status.md,
     // 2026-10-09).
     shippingAddress: v.optional(v.string()),
+    // A short code generated at submission time (e.g. "BZ-7K2Q"), shown to
+    // the buyer so they can include it as a note/message on the Wise
+    // payment, and shown back to the admin here and in the notification
+    // email — the actual reconciliation key, since a Wise/bank deposit
+    // shows the payer's name, not an account number (added 2026-10-26, see
+    // claude/16_payment_processor_decision.md). Optional only so older
+    // notices from before this field existed still validate.
+    referenceCode: v.optional(v.string()),
     status: v.union(
       v.literal("pending"),
       v.literal("granted"),

@@ -159,17 +159,21 @@ export const sendPurchaseNoticeNotification = internalAction({
     imageStyle: v.optional(v.union(v.literal("glam"), v.literal("professional"))),
     // Physical items only (print-book, tiger-figurine, tail-ring).
     shippingAddress: v.optional(v.string()),
+    // Added 2026-10-26 — the reconciliation code shown to the buyer, so it's
+    // right here in this email too (no need to open /admin just to see it).
+    referenceCode: v.optional(v.string()),
   },
   handler: async (_ctx, args) => {
     const html = `
       <div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;">
         <div style="background:#0A1B2A;padding:24px 28px;border-radius:8px 8px 0 0;">
           <h1 style="margin:0;color:#C5A059;font-size:20px;">New Purchase Notice — Bizlegate</h1>
-          <p style="margin:6px 0 0;color:#cbd5e1;font-size:13px;">A buyer says they've sent a manual bank transfer. Verify the deposit, then act on it from /admin → Book Access — "Grant access" for a book tier (/library access — the sample tier unlocks two chapters, full/deluxe unlock all thirty), or "Mark fulfilled" once a merch item has been hand-shipped/delivered.</p>
+          <p style="margin:6px 0 0;color:#cbd5e1;font-size:13px;">A buyer says they've sent a manual bank transfer. Match this against the name + reference code on the actual Wise deposit before you act — then go to /admin → Book Access — "Grant access" for a book tier (/library access — the sample tier unlocks two chapters, full/deluxe unlock all thirty), or "Mark fulfilled" once a merch item has been hand-shipped/delivered.</p>
         </div>
         <table style="width:100%;border-collapse:collapse;background:#ffffff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;">
           ${row("Email", `<a href="mailto:${escapeHtml(args.email)}" style="color:#0A1B2A;">${escapeHtml(args.email)}</a>`)}
           ${args.name ? row("Name", escapeHtml(args.name)) : ""}
+          ${args.referenceCode ? row("Reference code", `<span style="font-family:monospace;font-weight:bold;">${escapeHtml(args.referenceCode)}</span>`) : ""}
           ${row("Product", escapeHtml(args.product))}
           ${args.requestedLanguage ? row("Requested language", REQUESTED_LANGUAGE_LABELS[args.requestedLanguage] ?? args.requestedLanguage) : ""}
           ${args.goalDate ? row("Goal-achievement date", escapeHtml(args.goalDate)) : ""}
