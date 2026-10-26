@@ -26,6 +26,9 @@ import {
   BOOK_TIERS,
   BOOK_TIERS_SECTION_DEFAULTS,
   BOOK_TIERS_CTA,
+  BOOK_WALLPAPER_INTRO_DEFAULTS,
+  BOOK_WALLPAPER_INTRO_IMAGE_KEY,
+  BOOK_WALLPAPER_INTRO_IMAGE_DEFAULT,
   BOOK_EXIT_PREVIEW_DEFAULTS,
   BOOK_AUTHOR_NOTE_PARAGRAPHS,
   BOOK_SALE_PRICE_KEY,
@@ -664,6 +667,38 @@ export const PAGE_SCHEMAS: PageSchema[] = [
             key: BOOK_COVER_KEY,
             label: "Book cover",
             fallbackUrl: BOOK_COVER_DEFAULT.url,
+          },
+        ],
+      },
+      {
+        title: "Wallpaper library intro",
+        description:
+          "Added 2026-10-26 — sits right above the pricing tiers below, introducing what the Tier 3 'Wallpaper Library' actually is before a visitor hits the price grid. The image is a single placeholder; the client's reference was a desktop + laptop mockup showing sample wallpaper quotes — swap in a real mockup or preview graphic below.",
+        textFields: [
+          {
+            key: "book.wallpaperIntro.eyebrow",
+            label: "Eyebrow",
+            kind: "text",
+            fallback: BOOK_WALLPAPER_INTRO_DEFAULTS.eyebrow,
+          },
+          {
+            key: "book.wallpaperIntro.title",
+            label: "Title",
+            kind: "text",
+            fallback: BOOK_WALLPAPER_INTRO_DEFAULTS.title,
+          },
+          {
+            key: "book.wallpaperIntro.body",
+            label: "Body",
+            kind: "textarea",
+            fallback: BOOK_WALLPAPER_INTRO_DEFAULTS.body,
+          },
+        ],
+        mediaFields: [
+          {
+            key: BOOK_WALLPAPER_INTRO_IMAGE_KEY,
+            label: "Mockup / preview image",
+            fallbackUrl: BOOK_WALLPAPER_INTRO_IMAGE_DEFAULT.url,
           },
         ],
       },

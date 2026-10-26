@@ -251,6 +251,25 @@ export const BOOK_CTA_DEFAULTS = {
 // `highlighted` is kept on the type/data (rather than deleted) in case a
 // non-visual use for it shows up later, but book-tiers.tsx no longer reads
 // it for styling.
+// Introduces the Tier 3 wallpaper-library deliverable (see BookWallpaperIntro,
+// added 2026-10-26) — placed right before the pricing tiers below because
+// nothing earlier on the page explained what the wallpaper library actually
+// is. The client supplied a reference mockup (a desktop + laptop on a desk
+// showing sample wallpaper quotes, plus a few floating preview cards) —
+// BOOK_WALLPAPER_INTRO_IMAGE_DEFAULT below reuses an existing book photo as
+// a placeholder only; swap it for a real mockup/preview graphic from
+// /admin → Content → Book.
+export const BOOK_WALLPAPER_INTRO_IMAGE_KEY = "book.wallpaperIntro.image";
+export const BOOK_WALLPAPER_INTRO_IMAGE_DEFAULT: MediaValue = {
+  url: "/book/persona-exec.webp",
+  type: "image",
+};
+export const BOOK_WALLPAPER_INTRO_DEFAULTS = {
+  eyebrow: "Exclusive To Tier 3",
+  title: "A Wallpaper Library, Built to Keep You Grounded",
+  body: "Packed with words of wisdom from this book and beyond, these wallpapers are a constant reminder to ground you — whether you're kicking off your morning, wrapping up your day, or switching between tasks in between. Unlimited access, included with the Complete Playbook + Wallpaper Library tier below.",
+};
+
 export const BOOK_TIER_SAMPLE_PRICE_KEY = "book.tier.sample.price";
 export const BOOK_TIER_SAMPLE_PRICE_DEFAULT = "$10";
 export const BOOK_TIER_DELUXE_PRICE_KEY = "book.tier.deluxe.price";

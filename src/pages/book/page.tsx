@@ -4,6 +4,7 @@ import BookHero from "./_components/book-hero.tsx";
 import BookTiers from "./_components/book-tiers.tsx";
 import BookValueStack from "./_components/book-value-stack.tsx";
 import BookStructure from "./_components/book-structure.tsx";
+import BookWallpaperIntro from "./_components/book-wallpaper-intro.tsx";
 import BookPreviewCta from "./_components/book-preview-cta.tsx";
 import BookFinalCta from "./_components/book-final-cta.tsx";
 import BookComingSoon from "./_components/book-coming-soon.tsx";
@@ -50,6 +51,7 @@ export default function Book() {
       <BookHero />
       <BookValueStack />
       <BookStructure />
+      <BookWallpaperIntro />
       <BookTiers />
       <BookPreviewCta />
       <BookFinalCta />
