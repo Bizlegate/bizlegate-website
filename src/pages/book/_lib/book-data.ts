@@ -265,7 +265,10 @@ export const BOOK_WALLPAPER_INTRO_IMAGE_DEFAULT: MediaValue = {
   type: "image",
 };
 export const BOOK_WALLPAPER_INTRO_DEFAULTS = {
-  eyebrow: "Exclusive To Tier 3",
+  // Changed 2026-10-26 from "Exclusive To Tier 3" — the client wanted
+  // wording that reads clearly as "bundle-only, not sold on its own"
+  // without her having to know what "Tier 3" means.
+  eyebrow: "Exclusive to Book Buyers",
   title: "A Wallpaper Library, Built to Keep You Grounded",
   body: "Packed with words of wisdom from this book and beyond, these wallpapers are a constant reminder to ground you — whether you're kicking off your morning, wrapping up your day, or switching between tasks in between. Unlimited access, included with the Complete Playbook + Wallpaper Library tier below.",
 };
