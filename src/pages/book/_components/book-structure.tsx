@@ -15,8 +15,13 @@ const LAYER_IMAGES = {
     key: BOOK_PERSONA_TANAKA_KEY,
     fallback: BOOK_PERSONA_TANAKA_DEFAULT,
     alt: "A team lead navigating the politics of the room",
-    // Landscape source, centered crop already keeps the whole head in frame.
-    objectPosition: "center",
+    // Tuned 2026-10-26 after the admin swapped in a new photo: a plain
+    // center crop (50%) left almost no headroom above the standing figure's
+    // head. Lower Y% keeps more of the image's top (more headroom); higher
+    // Y% crops tighter to the top (less headroom). 18% gives breathing room
+    // above the head — nudge up/down a few points if it's not quite right
+    // for whichever photo is uploaded here.
+    objectPosition: "center 18%",
   },
   discipline: {
     key: BOOK_PERSONA_FRUSTRATED_KEY,
