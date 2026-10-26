@@ -12,7 +12,7 @@ import {
 import { LOGO_KEY, LOGO_DEFAULT } from "@/lib/branding.ts";
 import { useLanguage } from "@/lib/language.tsx";
 import { useUiText } from "@/lib/ui-strings.ts";
-import { SHOP_ENABLED_KEY } from "@/pages/admin/_components/shop-site-toggle.tsx";
+import { BOOK_ENABLED_KEY } from "@/pages/admin/_components/book-site-toggle.tsx";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -21,20 +21,28 @@ export default function Navbar() {
   const logo = useMediaValue(LOGO_KEY, LOGO_DEFAULT);
   const { toggle } = useLanguage();
   const zhEnabled = useZhEnabled();
-  // Added 2026-10-26 — a plain Shop nav link, shown only once the admin
-  // turns /shop on (toggled from /admin → Content → Shop). The client's
-  // reasoning: a visitor who arrives at /shop from a book/channel ad and
-  // then clicks elsewhere on the site (Services, Process) has no way back
-  // to /shop without this — losing the sale. This does mean /shop is now
-  // reachable from every page on bizlegate.com rather than only by direct
-  // link, which is a step back from the earlier Bizlegate/Office Original
-  // separation strategy (see claude/22_shop_office_original_separation_strategy.md)
-  // — the client decided she no longer needs that level of separation, only
-  // to keep her own name off of both (2026-10-26).
+  // Added 2026-10-26 — a "Shop" button that links to /book (NOT /shop —
+  // the client clarified this explicitly: the scenario she's solving is a
+  // visitor who arrives at /book from a book/channel ad and then clicks
+  // elsewhere on the site (Services, Process) and has no way back to
+  // /book without this, losing the sale; /shop was the wrong target even
+  // though the button itself is still labeled "Shop"). Shown only once the
+  // admin turns /book on (toggled from /admin → Content → Book). This does
+  // mean /book is now reachable from every page on bizlegate.com rather
+  // than only by direct link, which is a step back from the earlier
+  // Bizlegate/Office Original separation strategy (see
+  // claude/22_shop_office_original_separation_strategy.md) — the client
+  // decided she no longer needs that level of separation, only to keep her
+  // own name off of both (2026-10-26).
+  //
+  // Styled as its own gold button next to Request Access (same look, not a
+  // plain text nav link) and placed to its right — per the client's
+  // 2026-10-26 follow-up: she wants the existing left-hand nav order
+  // (Home/Services/Process/Inquire) left untouched since Inquire belongs
+  // with the services items before it, so this goes after Request Access
+  // instead of being inserted into that group.
   const { content } = useContext(ContentContext);
-  const shopEnabled = content?.[SHOP_ENABLED_KEY] === "true";
-  // Called unconditionally (Rules of Hooks) even though the link itself is
-  // only included below when shopEnabled is true.
+  const bookEnabled = content?.[BOOK_ENABLED_KEY] === "true";
   const shopLabel = useUiText("nav", "shop");
 
   const NAV_LINKS = [
@@ -42,7 +50,6 @@ export default function Navbar() {
     { to: "/services", label: useUiText("nav", "services"), end: false },
     { to: "/process", label: useUiText("nav", "process"), end: false },
     { to: "/inquire", label: useUiText("nav", "inquire"), end: false },
-    ...(shopEnabled ? [{ to: "/shop", label: shopLabel, end: false }] : []),
   ];
   const requestAccessLabel = useUiText("nav", "requestAccess");
   const siteManagerLabel = useUiText("nav", "siteManager");
@@ -96,6 +103,11 @@ export default function Navbar() {
           <Button asChild size="sm" className="ml-3">
             <Link to="/inquire">{requestAccessLabel}</Link>
           </Button>
+          {bookEnabled && (
+            <Button asChild size="sm" className="ml-2">
+              <Link to="/book">{shopLabel}</Link>
+            </Button>
+          )}
           {zhEnabled && (
             <button
               type="button"
@@ -170,6 +182,11 @@ export default function Navbar() {
           <Button asChild className="mt-2 w-full" onClick={() => setOpen(false)}>
             <Link to="/inquire">{requestAccessLabel}</Link>
           </Button>
+          {bookEnabled && (
+            <Button asChild className="mt-2 w-full" onClick={() => setOpen(false)}>
+              <Link to="/book">{shopLabel}</Link>
+            </Button>
+          )}
           {hasBackendAccess && (
             <NavLink
               to="/admin"
