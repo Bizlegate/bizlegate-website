@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Menu, X, Shield, Languages } from "lucide-react";
 import { cn } from "@/lib/utils.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { useAccess } from "@/hooks/use-access.ts";
-import { useMediaValue, useZhEnabled } from "@/hooks/use-content.ts";
+import {
+  ContentContext,
+  useMediaValue,
+  useZhEnabled,
+} from "@/hooks/use-content.ts";
 import { LOGO_KEY, LOGO_DEFAULT } from "@/lib/branding.ts";
 import { useLanguage } from "@/lib/language.tsx";
 import { useUiText } from "@/lib/ui-strings.ts";
+import { SHOP_ENABLED_KEY } from "@/pages/admin/_components/shop-site-toggle.tsx";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -16,12 +21,28 @@ export default function Navbar() {
   const logo = useMediaValue(LOGO_KEY, LOGO_DEFAULT);
   const { toggle } = useLanguage();
   const zhEnabled = useZhEnabled();
+  // Added 2026-10-26 — a plain Shop nav link, shown only once the admin
+  // turns /shop on (toggled from /admin → Content → Shop). The client's
+  // reasoning: a visitor who arrives at /shop from a book/channel ad and
+  // then clicks elsewhere on the site (Services, Process) has no way back
+  // to /shop without this — losing the sale. This does mean /shop is now
+  // reachable from every page on bizlegate.com rather than only by direct
+  // link, which is a step back from the earlier Bizlegate/Office Original
+  // separation strategy (see claude/22_shop_office_original_separation_strategy.md)
+  // — the client decided she no longer needs that level of separation, only
+  // to keep her own name off of both (2026-10-26).
+  const { content } = useContext(ContentContext);
+  const shopEnabled = content?.[SHOP_ENABLED_KEY] === "true";
+  // Called unconditionally (Rules of Hooks) even though the link itself is
+  // only included below when shopEnabled is true.
+  const shopLabel = useUiText("nav", "shop");
 
   const NAV_LINKS = [
     { to: "/", label: useUiText("nav", "home"), end: true },
     { to: "/services", label: useUiText("nav", "services"), end: false },
     { to: "/process", label: useUiText("nav", "process"), end: false },
     { to: "/inquire", label: useUiText("nav", "inquire"), end: false },
+    ...(shopEnabled ? [{ to: "/shop", label: shopLabel, end: false }] : []),
   ];
   const requestAccessLabel = useUiText("nav", "requestAccess");
   const siteManagerLabel = useUiText("nav", "siteManager");

@@ -17,6 +17,10 @@ export const UI_STRINGS = {
     services: { en: "Services", zh: "服務項目" },
     process: { en: "Process", zh: "合作流程" },
     inquire: { en: "Inquire", zh: "立即諮詢" },
+    // Added 2026-10-26 — only rendered in navbar.tsx when site.shopEnabled
+    // is on, so a visitor who clicks away from /shop (e.g. to Services) has
+    // a way back instead of losing the page entirely.
+    shop: { en: "Shop", zh: "商店" },
     requestAccess: { en: "Request Access", zh: "立即諮詢" },
     siteManager: { en: "Site Manager", zh: "後台管理" },
     openMenu: { en: "Open menu", zh: "開啟選單" },
