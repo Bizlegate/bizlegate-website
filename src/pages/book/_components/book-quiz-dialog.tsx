@@ -123,7 +123,7 @@ export default function BookQuizDialog() {
           <>
             <DialogHeader>
               <DialogTitle className="font-serif text-2xl">
-                Not sure this book is for you?
+                Not sure this booklet is for you?
               </DialogTitle>
               <DialogDescription>
                 Take the free 2-minute Office Politics Self-Diagnostic — it
@@ -258,7 +258,7 @@ export default function BookQuizDialog() {
                 className="w-full cursor-pointer sm:w-auto"
                 onClick={handleBuyFromResult}
               >
-                Get the Book
+                Get the Booklet
               </Button>
             </DialogFooter>
           </>

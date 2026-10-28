@@ -72,7 +72,7 @@ export const BOOK_HERO_DEFAULTS = {
   // "no download, no app" copy, which was already accurate). Matches that
   // existing wording so the page says the same thing everywhere.
   priceNote: "Instant Access · Read Online at bizlegate.com/library",
-  buyLabel: "Get the E-Book Now",
+  buyLabel: "Get Access Now",
 };
 
 // Sale price shown struck-through-and-replaced next to the regular price.
@@ -92,7 +92,7 @@ export const BOOK_SALE_PRICE_DEFAULT = "$42.39";
 // else on this page — it was a hardcoded prop before 2026-10-26.
 export const BOOK_VALUE_SECTION_DEFAULTS = {
   eyebrow: "Who It's For",
-  title: "Is This Book for You? Read it if you are...",
+  title: "Is This Booklet for You? Read it if you are...",
 };
 
 // Repurposed 2026-10-26 from a generic 3-item "everything you get" feature
@@ -120,7 +120,7 @@ export const BOOK_VALUE_ITEMS = [
 ] as const;
 
 export const BOOK_STRUCTURE_DEFAULTS = {
-  title: "Two operating layers, one book.",
+  title: "Two operating layers, one booklet.",
   body: "Twenty chapters on the tactics — who to hire, how to build a team that doesn't run on goodwill alone, and how to read the room before it reads you. Ten more on the discipline most management books skip entirely: protecting your own mind, energy, and health well enough to still be standing when it matters.",
 };
 
@@ -145,7 +145,7 @@ export const BOOK_QUOTE_DEFAULTS = {
 };
 
 export const BOOK_CONSULTING_DEFAULTS = {
-  eyebrow: "Need More Than the Book?",
+  eyebrow: "Need More Than the Booklet?",
   // Was "Get a direct answer to your situation." — read as a guarantee of
   // resolution, which a few rounds of email can't always promise if the
   // first message doesn't give the full picture. Softened to describe what
@@ -207,8 +207,8 @@ export const BOOK_CONSULTING_SALE_DEFAULTS = {
 // see quiz-data.ts and book-quiz-dialog.tsx.
 export const BOOK_EXIT_PREVIEW_DEFAULTS = {
   title: "Read the Author's Note — free.",
-  body: "The full introduction, no email required. If it sounds like you, the book picks up right where this leaves off.",
-  cta: "Get the Book",
+  body: "The full introduction, no email required. If it sounds like you, the booklet picks up right where this leaves off.",
+  cta: "Get the Booklet",
 };
 
 // The confirmed, final Author's Note text (see project doc

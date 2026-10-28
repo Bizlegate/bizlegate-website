@@ -611,7 +611,7 @@ export const PAGE_SCHEMAS: PageSchema[] = [
   },
   {
     id: "book",
-    label: "Book",
+    label: "Booklet",
     groups: [
       {
         title: "Hero",
@@ -665,7 +665,7 @@ export const PAGE_SCHEMAS: PageSchema[] = [
         mediaFields: [
           {
             key: BOOK_COVER_KEY,
-            label: "Book cover",
+            label: "Booklet cover",
             fallbackUrl: BOOK_COVER_DEFAULT.url,
           },
         ],

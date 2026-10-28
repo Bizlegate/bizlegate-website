@@ -7,6 +7,7 @@ import {
   Ban,
   BookOpen,
   Copy,
+  FileDown,
   ImageIcon,
   Inbox,
   KeyRound,
@@ -47,6 +48,7 @@ type Product =
   | "book-full"
   | "book-deluxe"
   | "book-upgrade"
+  | "book-pdf"
   | "wallpaper"
   | "print-book"
   | "tiger-figurine"
@@ -62,13 +64,18 @@ const LANGUAGE_LABEL: Record<Language, string> = {
 
 const PRODUCT_LABEL: Record<Product, string> = {
   "book-sample": "Tier 1 — Two Chapters ($10)",
-  "book-full": "Tier 2 — Full Book ($42.39)",
-  "book-deluxe": "Tier 3 — Full Book + Wallpaper Library ($83.59)",
+  "book-full": "Tier 2 — Booklet ($42.39)",
+  "book-deluxe": "Tier 3 — Booklet + Wallpaper Library ($83.59)",
   // Added 2026-10-26 — the "Get the full book" button a Tier 1 reader sees
   // in /library; they pay only the $32.39 difference, and grantAccess
   // upgrades their existing row (same email) to chapterAccess "full"
   // instead of creating a new one.
-  "book-upgrade": "Tier 1 → Full Book Upgrade ($32.39)",
+  "book-upgrade": "Tier 1 → Booklet Upgrade ($32.39)",
+  // Added 2026-10-27 — paid add-on for a buyer who already has Tier 2/3
+  // (chapterAccess "full"): a downloadable PDF keepsake copy, on top of the
+  // online reader. See PDF_ACCESS_FOR_PRODUCT below and the PdfDownloadManager
+  // uploader further down this file.
+  "book-pdf": "Add-on — PDF Keepsake Download ($14.99)",
   wallpaper: "/shop — Custom Desktop Wallpaper",
   "print-book": "/shop — Printed Copy",
   "tiger-figurine": "/shop — 虎爺擺飾 (Tiger Figurine)",
@@ -98,8 +105,20 @@ const WALLPAPER_ACCESS_FOR_PRODUCT: Partial<Record<Product, boolean>> = {
   "book-deluxe": true,
 };
 
+// Only the book-pdf add-on grants the paid PDF download — deliberately a
+// separate map from CHAPTER_ACCESS_FOR_PRODUCT (not merged into it) because
+// granting this must never touch chapterAccess: a book-pdf notice is always
+// an add-on for someone who already has Tier 2/3 access, not a fresh grant,
+// so handleGrant below omits chapterAccess for it and grantAccess preserves
+// whatever the buyer's existing row already has.
+const PDF_ACCESS_FOR_PRODUCT: Partial<Record<Product, boolean>> = {
+  "book-pdf": true,
+};
+
 function isBookProduct(product: Product): boolean {
-  return product in CHAPTER_ACCESS_FOR_PRODUCT;
+  return (
+    product in CHAPTER_ACCESS_FOR_PRODUCT || product in PDF_ACCESS_FOR_PRODUCT
+  );
 }
 
 const IMAGE_STYLE_LABEL: Record<string, string> = {
@@ -130,6 +149,7 @@ export default function BookAccessPanel() {
       <PaymentLinksEditor />
       <SampleChapterEditor />
       <BookPagesManager />
+      <PdfDownloadManager />
       <WallpaperLibraryManager />
     </div>
   );
@@ -156,6 +176,10 @@ function PendingNotices() {
         language,
         chapterAccess: CHAPTER_ACCESS_FOR_PRODUCT[product],
         wallpaperAccess: WALLPAPER_ACCESS_FOR_PRODUCT[product] ?? false,
+        // No `?? false` here on purpose — leaving it undefined for every
+        // product except book-pdf lets grantAccess preserve whatever
+        // pdfAccess the buyer's existing row already had (see its comment).
+        pdfAccess: PDF_ACCESS_FOR_PRODUCT[product],
         sourceNoticeId: noticeId as Parameters<
           typeof grant
         >[0]["sourceNoticeId"],
@@ -212,14 +236,17 @@ function PendingNotices() {
       </h3>
       <p className="mt-1 text-sm text-muted-foreground">
         Buyers who said they've sent the bank transfer, from /shop or the
-        book's tiers. Check your Wise / bank statement for a matching
+        booklet's tiers. Check your Wise / bank statement for a matching
         deposit before acting on one — this is the one manual step the
-        whole flow relies on. The three book tiers grant /library access
+        whole flow relies on. The three booklet tiers grant /library access
         ("Grant access" below); Tier 1 only unlocks the two sample chapters
         (see the chapter-numbers editor below), Tiers 2 and 3 unlock all
         thirty — Tier 3 also unlocks the "Wallpapers" tab there
         automatically (a shared pool you upload to once, below, not a
-        per-buyer custom job). Every other /shop item ("Mark fulfilled"
+        per-buyer custom job). The PDF add-on ("Grant access" too) only ever
+        adds the downloadable-PDF button to a buyer's existing /library
+        access — pick the same language they already have, it never changes
+        their chapter access. Every other /shop item ("Mark fulfilled"
         below) is hand-made or hand-shipped by you — the standalone
         wallpaper item still needs a custom desktop image made by hand from
         the goal date / style / note shown below, and a physical item needs
@@ -372,6 +399,7 @@ function ManualGrantForm() {
   const [language, setLanguage] = useState<Language>("en");
   const [chapterAccess, setChapterAccess] = useState<ChapterAccess>("full");
   const [wallpaperAccess, setWallpaperAccess] = useState(false);
+  const [pdfAccess, setPdfAccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
@@ -382,7 +410,13 @@ function ManualGrantForm() {
     }
     setSubmitting(true);
     try {
-      await grant({ email: trimmed, language, chapterAccess, wallpaperAccess });
+      await grant({
+        email: trimmed,
+        language,
+        chapterAccess,
+        wallpaperAccess,
+        pdfAccess,
+      });
       toast.success(`Access granted and emailed to ${trimmed}.`);
       setEmail("");
     } catch (error) {
@@ -432,7 +466,7 @@ function ManualGrantForm() {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="full">Full book</SelectItem>
+            <SelectItem value="full">Booklet</SelectItem>
             <SelectItem value="sample">2 sample chapters</SelectItem>
           </SelectContent>
         </Select>
@@ -446,6 +480,13 @@ function ManualGrantForm() {
           onCheckedChange={(v) => setWallpaperAccess(v === true)}
         />
         Also include wallpaper library access (normally only Tier 3 grants this)
+      </label>
+      <label className="mt-2 flex w-fit items-center gap-2 text-sm text-muted-foreground">
+        <Checkbox
+          checked={pdfAccess}
+          onCheckedChange={(v) => setPdfAccess(v === true)}
+        />
+        Also include the PDF keepsake download (normally a paid add-on)
       </label>
     </div>
   );
@@ -474,14 +515,15 @@ function ExistingGrants() {
     language: Language,
     chapterAccess: ChapterAccess,
     wallpaperAccess: boolean,
+    pdfAccess: boolean,
   ) => {
     setBusyEmail(email);
     try {
-      // Passing wallpaperAccess through explicitly (rather than omitting
-      // it) so a plain "resend my code" click can never be misread — the
-      // server also preserves it when omitted, but being explicit here
-      // keeps this call's intent obvious.
-      await regrant({ email, language, chapterAccess, wallpaperAccess });
+      // Passing wallpaperAccess/pdfAccess through explicitly (rather than
+      // omitting them) so a plain "resend my code" click can never be
+      // misread — the server also preserves them when omitted, but being
+      // explicit here keeps this call's intent obvious.
+      await regrant({ email, language, chapterAccess, wallpaperAccess, pdfAccess });
       toast.success(`New code generated and emailed to ${email}.`);
     } catch {
       toast.error("Could not resend a code.");
@@ -547,12 +589,18 @@ function ExistingGrants() {
                         ) : (
                           <BookOpen className="size-3" />
                         )}
-                        {chapterAccess === "sample" ? "2 chapters" : "Full book"}
+                        {chapterAccess === "sample" ? "2 chapters" : "Booklet"}
                       </Badge>
                       {g.wallpaperAccess && (
                         <Badge variant="secondary" className="gap-1">
                           <ImageIcon className="size-3" />
                           Wallpapers
+                        </Badge>
+                      )}
+                      {g.pdfAccess && (
+                        <Badge variant="secondary" className="gap-1">
+                          <FileDown className="size-3" />
+                          PDF
                         </Badge>
                       )}
                       <Badge variant="secondary">{LANGUAGE_LABEL[g.language]}</Badge>
@@ -574,6 +622,7 @@ function ExistingGrants() {
                         g.language,
                         chapterAccess,
                         g.wallpaperAccess ?? false,
+                        g.pdfAccess ?? false,
                       )
                     }
                     aria-label="Resend a new code"
@@ -633,8 +682,8 @@ function PaymentLinksEditor() {
         Shown to a buyer only after they submit their email on /shop — never
         on any public page (see claude/16_payment_processor_decision.md).
         Paste a Wise "request money" link per product; leave blank to fall
-        back to the hardcoded default in convex/bookAccess.ts. Tier 2 — Full
-        Book ($42.39) already has one — every other item needs its own
+        back to the hardcoded default in convex/bookAccess.ts. Tier 2 —
+        Booklet ($42.39) already has one — every other item needs its own
         fixed-amount link created in Wise before it can show a "Pay now"
         button.
       </p>
@@ -873,10 +922,10 @@ function BookPagesManager() {
     <div className="rounded-xl border border-border bg-card p-6">
       <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-card-foreground">
         <BookOpen className="size-5 text-primary" />
-        Book pages (page-flip reader)
+        Booklet pages (page-flip reader)
       </h3>
       <p className="mt-1 text-sm text-muted-foreground">
-        Upload the real book-page screenshots that power /library's
+        Upload the real booklet-page screenshots that power /library's
         page-flip view — once at least one page exists for a language, the
         plain-text reader for that language switches over automatically,
         no separate "go live" step. Name each file{" "}
@@ -952,6 +1001,108 @@ function BookPagesManager() {
           : `Currently uploaded: 中文 ${status.zh} page${
               status.zh === 1 ? "" : "s"
             } · English ${status.en} page${status.en === 1 ? "" : "s"}.`}
+      </p>
+    </div>
+  );
+}
+
+// The single downloadable PDF per language sold as the "collect a keepsake
+// copy" paid add-on (book-pdf, see PDF_ACCESS_FOR_PRODUCT above) — just the
+// same print-ready manuscript file used to generate the page-flip images
+// above, handed over whole. Mirrors BookPagesManager's upload pattern but
+// one file per language instead of one per physical page.
+function PdfDownloadManager() {
+  const status = useQuery(api.bookAccess.pdfFilesStatus, {});
+  const generateUploadUrl = useMutation(api.content.generateUploadUrl);
+  const savePdfFile = useMutation(api.bookAccess.savePdfFile);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [language, setLanguage] = useState<"en" | "zh">("zh");
+  const [uploading, setUploading] = useState(false);
+
+  const handleFile = async (file: File) => {
+    setUploading(true);
+    try {
+      const uploadUrl = await generateUploadUrl({});
+      const res = await fetch(uploadUrl, {
+        method: "POST",
+        headers: { "Content-Type": file.type || "application/pdf" },
+        body: file,
+      });
+      if (!res.ok) throw new Error("Upload failed");
+      const { storageId } = await res.json();
+      await savePdfFile({ language, storageId });
+      toast.success(
+        `${language === "zh" ? "中文" : "English"} PDF uploaded.`,
+      );
+    } catch {
+      toast.error("Could not upload this PDF.");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  return (
+    <div className="rounded-xl border border-border bg-card p-6">
+      <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-card-foreground">
+        <FileDown className="size-5 text-primary" />
+        PDF keepsake download (paid add-on)
+      </h3>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Upload the actual manuscript PDF per language — the same file used to
+        generate the page-flip images above. Only a buyer with the PDF
+        add-on unlocked (see "Grant access" above, or the checkbox in
+        "Grant access directly" below) sees a "Download PDF" button at
+        /library; everyone else only sees the on-screen page-flip reader.
+        Re-uploading replaces the file in place. This upload is the clean
+        master copy — each buyer who clicks "Download PDF" gets their own
+        copy with "Office Original · their email" stamped diagonally across
+        every page (generated the first time they click, see
+        convex/bookPdfWatermark.ts — deliberately a big stamp through the
+        page, not a small line at the bottom, since that could just be
+        cropped off), so nothing unwatermarked ever leaves this upload.
+      </p>
+
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        <Select
+          value={language}
+          onValueChange={(v) => setLanguage(v as "en" | "zh")}
+        >
+          <SelectTrigger className="w-32 cursor-pointer">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="zh">中文</SelectItem>
+            <SelectItem value="en">English</SelectItem>
+          </SelectContent>
+        </Select>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="application/pdf,.pdf"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) handleFile(file);
+          }}
+        />
+        <Button
+          variant="secondary"
+          className="cursor-pointer"
+          disabled={uploading}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <Upload className="size-4" />
+          {uploading ? "Uploading…" : "Upload PDF"}
+        </Button>
+      </div>
+
+      <p className="mt-4 text-xs text-muted-foreground">
+        {status === undefined
+          ? "Loading current status…"
+          : `Currently uploaded: 中文 ${
+              status.zh ? "✓ ready" : "not uploaded yet"
+            } · English ${status.en ? "✓ ready" : "not uploaded yet"}.`}
       </p>
     </div>
   );

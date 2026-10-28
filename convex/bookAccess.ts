@@ -53,6 +53,7 @@ const PRODUCT = v.union(
   v.literal("book-full"),
   v.literal("book-deluxe"),
   v.literal("book-upgrade"),
+  v.literal("book-pdf"),
   v.literal("wallpaper"),
   v.literal("print-book"),
   v.literal("tiger-figurine"),
@@ -65,6 +66,7 @@ type Product =
   | "book-full"
   | "book-deluxe"
   | "book-upgrade"
+  | "book-pdf"
   | "wallpaper"
   | "print-book"
   | "tiger-figurine"
@@ -75,14 +77,22 @@ type ChapterAccess = "sample" | "full";
 
 const PRODUCT_LABEL: Record<Product, string> = {
   "book-sample": "Be the Outsmarter — Two Key Chapters ($10)",
-  "book-full": "Be the Outsmarter — Full Book ($42.39)",
-  "book-deluxe": "Be the Outsmarter — Full Book + Wallpaper Library ($83.59)",
+  "book-full": "Be the Outsmarter — Booklet ($42.39)",
+  "book-deluxe": "Be the Outsmarter — Booklet + Wallpaper Library ($83.59)",
   // Added 2026-10-26 — the "Get the full book" button a Tier 1 (sample)
   // reader sees inside /library, so they pay only the difference instead of
   // the full $42.39 again. grantAccess upserts by email, so granting
   // chapterAccess "full" here correctly upgrades their existing row rather
   // than creating a second one (see purchase-dialog.tsx / library-reader.tsx).
-  "book-upgrade": "Be the Outsmarter — Upgrade to Full Book ($32.39)",
+  "book-upgrade": "Be the Outsmarter — Upgrade to Booklet ($32.39)",
+  // Added 2026-10-27 — the paid "collect a keepsake PDF" add-on offered
+  // inside /library to a buyer who already has chapterAccess "full" (see
+  // PDF_ACCESS_FOR_PRODUCT in book-access-panel.tsx). This knowingly
+  // reverses the 2026-09-27 "never sell a downloadable PDF, to avoid piracy"
+  // decision (see claude/16_payment_processor_decision.md) — the client
+  // specifically wants this as a paid add-on; the gated online reader stays
+  // the default/free way to read.
+  "book-pdf": "Be the Outsmarter — PDF Keepsake Download ($14.99)",
   wallpaper: "Office Original — Custom Desktop Wallpaper",
   "print-book": "Be the Outsmarter — Printed Copy",
   "tiger-figurine": "Office Original — 虎爺擺飾 (Tiger General Figurine)",
@@ -375,6 +385,12 @@ export const grantAccess = mutation({
     // — so resending someone's code can never silently take their wallpaper
     // access away.
     wallpaperAccess: v.optional(v.boolean()),
+    // Whether this grant also unlocks /library's paid "download a keepsake
+    // PDF" add-on (see getBookPdf below) — the admin panel passes true
+    // automatically when granting from a book-pdf purchase notice. Left
+    // unset on a re-grant (e.g. "resend code") preserves whatever the
+    // existing grant already had, same reasoning as wallpaperAccess above.
+    pdfAccess: v.optional(v.boolean()),
     sourceNoticeId: v.optional(v.id("bookPurchaseNotices")),
   },
   handler: async (ctx, args) => {
@@ -389,14 +405,20 @@ export const grantAccess = mutation({
     }
 
     const code = generateAccessCode();
-    const chapterAccess: ChapterAccess = args.chapterAccess ?? "full";
 
     const existing = await ctx.db
       .query("bookAccess")
       .withIndex("by_email", (q) => q.eq("email", email))
       .unique();
+    // Preserves the existing grant's chapterAccess when not explicitly
+    // passed (e.g. a book-pdf add-on grant, which must never silently
+    // downgrade/upgrade chapterAccess) — only falls back to "full" for a
+    // genuinely new row with nothing to preserve.
+    const chapterAccess: ChapterAccess =
+      args.chapterAccess ?? existing?.chapterAccess ?? "full";
     const wallpaperAccess =
       args.wallpaperAccess ?? existing?.wallpaperAccess ?? false;
+    const pdfAccess = args.pdfAccess ?? existing?.pdfAccess ?? false;
 
     if (existing) {
       await ctx.db.patch(existing._id, {
@@ -404,6 +426,7 @@ export const grantAccess = mutation({
         language: args.language,
         chapterAccess,
         wallpaperAccess,
+        pdfAccess,
         active: true,
         sourceNoticeId: args.sourceNoticeId ?? existing.sourceNoticeId,
       });
@@ -414,6 +437,7 @@ export const grantAccess = mutation({
         language: args.language,
         chapterAccess,
         wallpaperAccess,
+        pdfAccess,
         active: true,
         sourceNoticeId: args.sourceNoticeId,
       });
@@ -429,6 +453,7 @@ export const grantAccess = mutation({
       language: args.language,
       chapterAccess,
       wallpaperAccess,
+      pdfAccess,
     });
 
     return { email, code };
@@ -476,6 +501,7 @@ export const listPaymentLinks = query({
       "book-full",
       "book-deluxe",
       "book-upgrade",
+      "book-pdf",
       "wallpaper",
       "print-book",
       "tiger-figurine",
@@ -585,6 +611,7 @@ export const verifyAccess = query({
       language: grant.language,
       chapterAccess: grant.chapterAccess ?? "full",
       wallpaperAccess: grant.wallpaperAccess ?? false,
+      pdfAccess: grant.pdfAccess ?? false,
     };
   },
 });
@@ -851,3 +878,79 @@ export const getBookPages = query({
     }));
   },
 });
+
+// ---------------------------------------------------------------------------
+// Downloadable PDF "keepsake" add-on (2026-10-27) — a paid upsell offered
+// inside /library to a buyer who already has chapterAccess "full": the
+// exact same print-ready manuscript PDF used to generate bookPages' page
+// images above, handed over whole as a real download instead of flipped
+// through on-screen. Knowingly reverses the 2026-09-27 "never sell a
+// downloadable PDF, to avoid piracy" decision (see
+// claude/16_payment_processor_decision.md) at the client's explicit request
+// — the gated online reader remains the default/free way to read; this is
+// a separate paid add-on on top of it, not a replacement.
+
+const BOOK_PDF_LANGUAGE = v.union(v.literal("en"), v.literal("zh"));
+
+// Admin: upload (or replace) the single downloadable PDF for a language, via
+// /admin → Book Access. Upserts on language — re-uploading (e.g. a corrected
+// manuscript) replaces the old file in storage rather than accumulating
+// stale copies, same pattern as saveBookPage above but one row per language
+// instead of one per physical page.
+export const savePdfFile = mutation({
+  args: { language: BOOK_PDF_LANGUAGE, storageId: v.id("_storage") },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    const url = await ctx.storage.getUrl(args.storageId);
+    if (!url) {
+      throw new ConvexError({
+        code: "NOT_FOUND",
+        message: "Uploaded file could not be found.",
+      });
+    }
+    const existing = await ctx.db
+      .query("bookPdfFiles")
+      .withIndex("by_language", (q) => q.eq("language", args.language))
+      .unique();
+    if (existing) {
+      await ctx.storage.delete(existing.storageId);
+      await ctx.db.patch(existing._id, { storageId: args.storageId, url });
+    } else {
+      await ctx.db.insert("bookPdfFiles", {
+        language: args.language,
+        storageId: args.storageId,
+        url,
+      });
+    }
+    return null;
+  },
+});
+
+// Admin: which languages currently have a downloadable PDF uploaded, for the
+// uploader UI to show real status instead of guessing.
+export const pdfFilesStatus = query({
+  args: {},
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+    const en = await ctx.db
+      .query("bookPdfFiles")
+      .withIndex("by_language", (q) => q.eq("language", "en"))
+      .unique();
+    const zh = await ctx.db
+      .query("bookPdfFiles")
+      .withIndex("by_language", (q) => q.eq("language", "zh"))
+      .unique();
+    return { en: !!en, zh: !!zh };
+  },
+});
+
+// NOTE: the actual buyer-facing PDF download is convex/bookPdfWatermark.ts's
+// getWatermarkedBookPdf action, not a query here. There used to be a plain
+// getBookPdf query that returned bookPdfFiles' raw master URL directly —
+// removed 2026-10-27 when the per-buyer email watermark was added, because
+// leaving it in place would have let anyone with pdfAccess fetch the
+// un-watermarked master file directly and skip the watermark entirely. The
+// internal checkPdfGrant query in bookPdfWatermark.ts re-implements the same
+// grant verification this used to do (active + pdfAccess + language match),
+// since an action can't query ctx.db directly and calls across files via
+// ctx.runQuery instead.

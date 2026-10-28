@@ -101,6 +101,7 @@ export default defineSchema({
       v.literal("book-full"),
       v.literal("book-deluxe"),
       v.literal("book-upgrade"),
+      v.literal("book-pdf"),
       v.literal("wallpaper"),
       v.literal("print-book"),
       v.literal("tiger-figurine"),
@@ -162,6 +163,7 @@ export default defineSchema({
       v.literal("book-full"),
       v.literal("book-deluxe"),
       v.literal("book-upgrade"),
+      v.literal("book-pdf"),
       v.literal("wallpaper"),
       v.literal("print-book"),
       v.literal("tiger-figurine"),
@@ -196,6 +198,17 @@ export default defineSchema({
     // any row from before this field existed still validates — treated as
     // false when absent.
     wallpaperAccess: v.optional(v.boolean()),
+    // Unlocks the paid "collect a keepsake PDF" add-on in /library — a
+    // downloadable copy of the same print-ready manuscript used to generate
+    // bookPages below (added 2026-10-27, see claude/16_payment_processor_decision.md
+    // for why the site originally decided NOT to sell a downloadable PDF —
+    // this knowingly reverses that call because the client specifically
+    // wants a paid "collector's" download on top of the online reader, which
+    // stays the default/free way to read). Only offered to buyers who
+    // already have chapterAccess "full" (see PDF_ACCESS_FOR_PRODUCT in
+    // book-access-panel.tsx) — optional so any row from before this field
+    // existed still validates, treated as false when absent.
+    pdfAccess: v.optional(v.boolean()),
     active: v.boolean(),
     // The purchase notice this grant was issued from, if any (manual grants
     // made without a prior notice — e.g. a comp copy — can omit this).
@@ -246,4 +259,32 @@ export default defineSchema({
   })
     .index("by_language_order", ["language", "order"])
     .index("by_language_chapter", ["language", "chapterNumber"]),
+
+  // The single downloadable PDF per language sold as the paid "collect a
+  // keepsake copy" add-on from /library (gated behind bookAccess.pdfAccess
+  // above) — the exact same print-ready manuscript file used to generate
+  // bookPages' page images, just offered whole as a download instead of
+  // flipped through on-screen. One row per language; re-uploading from
+  // /admin → Book Access replaces the file in place (see savePdfFile in
+  // bookAccess.ts) rather than accumulating old copies.
+  bookPdfFiles: defineTable({
+    language: v.union(v.literal("en"), v.literal("zh")),
+    storageId: v.id("_storage"),
+    url: v.string(),
+  }).index("by_language", ["language"]),
+
+  // A per-buyer watermarked copy of bookPdfFiles, generated on first
+  // download and reused after that (see convex/bookPdfWatermark.ts) instead
+  // of re-stamping and re-storing the whole file every time the same buyer
+  // clicks "Download PDF" again. Every page gets "Office Original · <their
+  // email>" stamped diagonally across the middle, not tucked in a bottom
+  // strip that could just be cropped off — a soft deterrent, not real DRM,
+  // so a leaked copy is at least traceable back to which buyer's email it
+  // came from. One row per (email, language).
+  bookPdfDownloads: defineTable({
+    email: v.string(),
+    language: v.union(v.literal("en"), v.literal("zh")),
+    storageId: v.id("_storage"),
+    url: v.string(),
+  }).index("by_email_language", ["email", "language"]),
 });

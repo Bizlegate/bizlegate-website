@@ -11,6 +11,8 @@
 import type * as authz from "../authz.js";
 import type * as bookAccess from "../bookAccess.js";
 import type * as bookContentData from "../bookContentData.js";
+import type * as bookPdfWatermark from "../bookPdfWatermark.js";
+import type * as bookPdfWatermarkData from "../bookPdfWatermarkData.js";
 import type * as content from "../content.js";
 import type * as emails from "../emails.js";
 import type * as http from "../http.js";
@@ -28,6 +30,8 @@ declare const fullApi: ApiFromModules<{
   authz: typeof authz;
   bookAccess: typeof bookAccess;
   bookContentData: typeof bookContentData;
+  bookPdfWatermark: typeof bookPdfWatermark;
+  bookPdfWatermarkData: typeof bookPdfWatermarkData;
   content: typeof content;
   emails: typeof emails;
   http: typeof http;

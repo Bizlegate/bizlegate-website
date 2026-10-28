@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "convex/react";
+import { useAction, useQuery } from "convex/react";
 import {
   BookOpen,
   ChevronLeft,
   ChevronRight,
   Download,
+  FileDown,
   Image as ImageIcon,
   LogOut,
   Sparkles,
@@ -48,6 +49,7 @@ export default function LibraryReader({
   grantLanguage,
   chapterAccess,
   wallpaperAccess,
+  pdfAccess,
   onSignOut,
 }: {
   creds: LibraryCredentials;
@@ -59,6 +61,11 @@ export default function LibraryReader({
   /** Unlocks the "Wallpapers" tab below — only the $83.59 deluxe tier grants
    * this (see convex/bookAccess.ts). */
   wallpaperAccess: boolean;
+  /** Unlocks the paid "download a PDF keepsake copy" add-on below (added
+   * 2026-10-27) — only ever true for a buyer who also has chapterAccess
+   * "full" (see PDF_ACCESS_FOR_PRODUCT in book-access-panel.tsx), never
+   * offered on top of the $10 sample tier. */
+  pdfAccess: boolean;
   onSignOut: () => void;
 }) {
   const [language, setLanguage] = useState<Language>(
@@ -85,6 +92,49 @@ export default function LibraryReader({
     language,
   }) as BookPage[] | undefined;
   const useFlipReader = !!bookPages && bookPages.length > 0;
+
+  // The paid "keepsake PDF download" add-on (2026-10-27, watermarked with
+  // the buyer's email 2026-10-27 — see convex/bookPdfWatermark.ts for why
+  // this is an action, not a query: generating the watermarked copy needs
+  // file storage writes, which only an action can do). Deliberately NOT
+  // auto-fetched on render like getChapters/getBookPages above — stamping a
+  // fresh copy takes a few seconds, so this only runs when the buyer
+  // actually clicks "Download PDF" below. `language` here is always covered
+  // by the grant: the language Select further up only appears (and only
+  // lets the buyer switch) when grantLanguage is "both", in which case the
+  // grant covers both anyway.
+  const getWatermarkedPdf = useAction(api.bookPdfWatermark.getWatermarkedBookPdf);
+  const [pdfDownloading, setPdfDownloading] = useState(false);
+  const [pdfDownloadError, setPdfDownloadError] = useState<string | null>(null);
+
+  const handleDownloadPdf = async () => {
+    setPdfDownloading(true);
+    setPdfDownloadError(null);
+    try {
+      const result = await getWatermarkedPdf({
+        email: creds.email,
+        code: creds.code,
+        language,
+      });
+      if (!result) {
+        setPdfDownloadError("Not ready yet — check back soon.");
+        return;
+      }
+      // The URL only exists once the action resolves, so there's no <a
+      // href> to render ahead of time — build one and click it
+      // programmatically to trigger the browser's normal download flow.
+      const link = document.createElement("a");
+      link.href = result.url;
+      link.download = "";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch {
+      setPdfDownloadError("Could not prepare your PDF — please try again.");
+    } finally {
+      setPdfDownloading(false);
+    }
+  };
 
   // Jump back to chapter one whenever the reader switches language — the two
   // editions aren't guaranteed to line up chapter-for-chapter in the UI, and
@@ -190,14 +240,56 @@ export default function LibraryReader({
                   bookAccess row in place rather than creating a new one. */}
               <PurchaseDialog
                 product="book-upgrade"
-                productLabel="the full book (upgrade — you've already paid $10)"
+                productLabel="the full booklet (upgrade — you've already paid $10)"
               >
                 <Button size="sm" variant="secondary" className="cursor-pointer">
-                  Get the full book
+                  Get the full booklet
                 </Button>
               </PurchaseDialog>
             </div>
           )}
+
+          {chapterAccess === "full" &&
+            (pdfAccess ? (
+              <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-muted/40 px-4 py-3 text-sm">
+                <span className="flex flex-col gap-0.5">
+                  <span className="flex items-center gap-2 text-foreground">
+                    <FileDown className="size-4 text-primary" />
+                    Your PDF keepsake copy
+                  </span>
+                  {pdfDownloadError && (
+                    <span className="text-xs text-destructive">
+                      {pdfDownloadError}
+                    </span>
+                  )}
+                </span>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  className="cursor-pointer"
+                  disabled={pdfDownloading}
+                  onClick={handleDownloadPdf}
+                >
+                  <Download className="size-4" />
+                  {pdfDownloading ? "Preparing…" : "Download PDF"}
+                </Button>
+              </div>
+            ) : (
+              <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-sm">
+                <span className="flex items-center gap-2 text-foreground">
+                  <FileDown className="size-4 text-primary" />
+                  Want to keep a copy? Download it as a PDF.
+                </span>
+                <PurchaseDialog
+                  product="book-pdf"
+                  productLabel="a downloadable PDF keepsake copy ($14.99)"
+                >
+                  <Button size="sm" variant="secondary" className="cursor-pointer">
+                    Collect the PDF ($14.99)
+                  </Button>
+                </PurchaseDialog>
+              </div>
+            ))}
 
           {useFlipReader ? (
             <BookFlipReader pages={bookPages!} language={language} />

@@ -73,7 +73,7 @@ export default function BookHero() {
           </div>
         </div>
         <div className="order-1 md:order-2">
-          <Book3dCover src={cover.url} alt={`${title} — book cover`} />
+          <Book3dCover src={cover.url} alt={`${title} — booklet cover`} />
         </div>
       </div>
     </section>

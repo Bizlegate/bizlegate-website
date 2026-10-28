@@ -26,27 +26,27 @@ const STRINGS = {
     pageAlt: (n: number) => `第 ${n} 頁`,
     nextPage: "下一頁",
     prevPage: "上一頁",
-    coverAlt: "書封面",
+    coverAlt: "手冊封面",
     coverHint: "輕觸封面翻開",
     cover: "封面",
-    theEnd: "全書完",
+    theEnd: "全文完",
     jumpPlaceholder: "跳到章節…",
     chapterOption: (n: number) => `第 ${n} 章`,
     caption:
-      "點封面打開書本，之後可以點左右按鈕、點頁面右下角、或用鍵盤左右鍵一頁一頁翻。",
+      "點封面打開手冊，之後可以點左右按鈕、點頁面右下角、或用鍵盤左右鍵一頁一頁翻。",
   },
   en: {
     pageAlt: (n: number) => `Page ${n}`,
     nextPage: "Next page",
     prevPage: "Previous page",
-    coverAlt: "Book cover",
+    coverAlt: "Booklet cover",
     coverHint: "TAP THE COVER TO OPEN",
     cover: "Cover",
     theEnd: "The End",
     jumpPlaceholder: "Jump to chapter…",
     chapterOption: (n: number) => `Chapter ${n}`,
     caption:
-      "Click the cover to open the book, then use the arrow buttons, the page corners, or your keyboard's left/right arrow keys to flip through.",
+      "Click the cover to open the booklet, then use the arrow buttons, the page corners, or your keyboard's left/right arrow keys to flip through.",
   },
 } as const;
 

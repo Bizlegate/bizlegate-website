@@ -26,7 +26,7 @@ const LAYER_IMAGES = {
   discipline: {
     key: BOOK_PERSONA_FRUSTRATED_KEY,
     fallback: BOOK_PERSONA_FRUSTRATED_DEFAULT,
-    alt: "An executive under the pressure the book prepares you for",
+    alt: "An executive under the pressure the booklet prepares you for",
     // Tall portrait source cropped into a short landscape card. A plain
     // center crop lands mid-forehead and cuts off the top of the head; too
     // low a value (previously 12%) shows too much blank background above

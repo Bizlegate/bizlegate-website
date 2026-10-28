@@ -7,12 +7,16 @@ import LibraryLogin, {
 import LibraryReader from "./_components/library-reader.tsx";
 
 /**
- * The gated online-reading page for "Be the Outsmarter" — replaces selling a
- * downloadable PDF (see claude/16_payment_processor_decision.md). A saved
- * email+code is remembered in this browser (see useLibraryCredentials), but
- * is re-checked against the live grant on every visit via verifyAccess — a
- * revoked or stale credential never renders the reader, it just falls back
- * to the login form.
+ * The gated online-reading page for "Be the Outsmarter" — the default/free
+ * way to read (see claude/16_payment_processor_decision.md for why selling
+ * a plain downloadable PDF was originally ruled out, to avoid piracy). A
+ * paid "keepsake PDF download" add-on was added 2026-10-27 on top of this —
+ * see pdfAccess below — deliberately as an extra for a buyer who already
+ * has full access, not a replacement for this reader. A saved email+code is
+ * remembered in this browser (see useLibraryCredentials), but is re-checked
+ * against the live grant on every visit via verifyAccess — a revoked or
+ * stale credential never renders the reader, it just falls back to the
+ * login form.
  */
 export default function Library() {
   const { creds, hydrated, save, clear } = useLibraryCredentials();
@@ -46,6 +50,7 @@ export default function Library() {
         grantLanguage={verify.language}
         chapterAccess={verify.chapterAccess}
         wallpaperAccess={verify.wallpaperAccess}
+        pdfAccess={verify.pdfAccess}
         onSignOut={clear}
       />
     );

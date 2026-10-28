@@ -168,7 +168,7 @@ export const sendPurchaseNoticeNotification = internalAction({
       <div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;">
         <div style="background:#0A1B2A;padding:24px 28px;border-radius:8px 8px 0 0;">
           <h1 style="margin:0;color:#C5A059;font-size:20px;">New Purchase Notice — Bizlegate</h1>
-          <p style="margin:6px 0 0;color:#cbd5e1;font-size:13px;">A buyer says they've sent a manual bank transfer. Match this against the name + reference code on the actual Wise deposit before you act — then go to /admin → Book Access — "Grant access" for a book tier (/library access — the sample tier unlocks two chapters, full/deluxe unlock all thirty), or "Mark fulfilled" once a merch item has been hand-shipped/delivered.</p>
+          <p style="margin:6px 0 0;color:#cbd5e1;font-size:13px;">A buyer says they've sent a manual bank transfer. Match this against the name + reference code on the actual Wise deposit before you act — then go to /admin → Book Access — "Grant access" for a booklet tier (/library access — the sample tier unlocks two chapters, full/deluxe unlock all thirty), or "Mark fulfilled" once a merch item has been hand-shipped/delivered.</p>
         </div>
         <table style="width:100%;border-collapse:collapse;background:#ffffff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;">
           ${row("Email", `<a href="mailto:${escapeHtml(args.email)}" style="color:#0A1B2A;">${escapeHtml(args.email)}</a>`)}
@@ -213,14 +213,20 @@ export const sendBookAccessEmail = internalAction({
     // Added 2026-10-26 with the shared wallpaper-library pivot — optional so
     // this action still validates if ever called without it.
     wallpaperAccess: v.optional(v.boolean()),
+    // Added 2026-10-27 with the paid "keepsake PDF download" add-on —
+    // optional so this action still validates if ever called without it.
+    pdfAccess: v.optional(v.boolean()),
   },
   handler: async (_ctx, args) => {
     const scopeText =
       args.chapterAccess === "sample"
         ? "Your access covers the two sample chapters"
-        : `Your access covers the full book`;
+        : `Your access covers the full booklet`;
     const wallpaperLine = args.wallpaperAccess
       ? `<p style="font-size:13px;color:#0A1B2A;margin:0 0 16px;">Your access also unlocks the desktop wallpaper library — look for the "Wallpapers" tab once you're signed in.</p>`
+      : "";
+    const pdfLine = args.pdfAccess
+      ? `<p style="font-size:13px;color:#0A1B2A;margin:0 0 16px;">Your access also unlocks a downloadable PDF keepsake copy — look for the "Download PDF" button once you're signed in.</p>`
       : "";
     const html = `
       <div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;">
@@ -235,12 +241,13 @@ export const sendBookAccessEmail = internalAction({
             and sign in with:
           </p>
           ${wallpaperLine}
+          ${pdfLine}
           <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
             ${row("Email", escapeHtml(args.email))}
             ${row("Access code", `<span style="font-family:monospace;font-size:16px;letter-spacing:1px;">${escapeHtml(args.code)}</span>`)}
           </table>
           <p style="font-size:12px;color:#64748b;margin:0;">
-            Keep this code private — it's tied to your email address and unlocks your paid copy of the book.
+            Keep this code private — it's tied to your email address and unlocks your paid copy of the booklet.
             If you ever lose it, just reply to this email and we'll issue a new one.
           </p>
         </div>

@@ -141,7 +141,7 @@ export default function LibraryLogin({
               Checking…
             </>
           ) : (
-            "Read the book"
+            "Read the booklet"
           )}
         </Button>
       </form>
