@@ -27,6 +27,58 @@ import type { LibraryCredentials } from "./library-login.tsx";
 type Language = "en" | "zh";
 type View = "read" | "wallpapers";
 
+// The UI chrome around the reader itself (header, tabs, upsell banners, the
+// plain-text reader's prev/next, the wallpaper gallery) — added 2026-10-28,
+// this was all hardcoded English until a Chinese-edition buyer pointed out
+// the page around her Chinese book was still entirely in English. Keyed off
+// this component's own `language` state (which edition of the book is
+// currently open), not the public site's navbar language toggle — /library
+// is a standalone gated page with no navbar, so the book edition is the
+// only "language" concept a reader here actually experiences. Mirrors the
+// STRINGS pattern already used in book-flip-reader.tsx in this same folder.
+const STRINGS = {
+  en: {
+    signedInAs: (email: string) => `Be the Outsmarter — signed in as ${email}`,
+    signOut: "Sign out",
+    readTab: "Read",
+    wallpapersTab: "Wallpapers",
+    sampleAccess: "You have access to 2 sample chapters.",
+    getFullBooklet: "Get the full booklet",
+    yourPdfCopy: "Your PDF keepsake copy",
+    pdfNotReady: "Not ready yet — check back soon.",
+    pdfPrepareFailed: "Could not prepare your PDF — please try again.",
+    preparing: "Preparing…",
+    downloadPdf: "Download PDF",
+    wantPdfCopy: "Want to keep a copy? Download it as a PDF.",
+    collectPdf: "Collect the PDF ($14.99)",
+    previous: "Previous",
+    next: "Next",
+    noWallpapers: "No wallpapers uploaded yet — check back soon.",
+    wallpaperAlt: "Desktop wallpaper",
+    download: "Download",
+  },
+  zh: {
+    signedInAs: (email: string) => `步步為贏 — 已登入：${email}`,
+    signOut: "登出",
+    readTab: "閱讀",
+    wallpapersTab: "桌布",
+    sampleAccess: "你目前可以閱讀 2 個樣章。",
+    getFullBooklet: "購買完整手冊",
+    yourPdfCopy: "你的 PDF 收藏版",
+    pdfNotReady: "還沒準備好，請稍後再試一次。",
+    pdfPrepareFailed: "PDF 準備失敗，請再試一次。",
+    preparing: "準備中…",
+    downloadPdf: "下載 PDF",
+    wantPdfCopy: "想收藏一份嗎？可以下載 PDF 版本。",
+    collectPdf: "收藏 PDF（$14.99）",
+    previous: "上一篇",
+    next: "下一篇",
+    noWallpapers: "尚未上傳桌布，請稍後再來看看。",
+    wallpaperAlt: "桌布",
+    download: "下載",
+  },
+} as const;
+
 // Mirrors the shape returned by convex/bookAccess.ts's getChapters (itself
 // re-exporting the BookChapter shape from the server-only
 // convex/bookContentData.ts — deliberately redeclared here instead of
@@ -117,7 +169,7 @@ export default function LibraryReader({
         language,
       });
       if (!result) {
-        setPdfDownloadError("Not ready yet — check back soon.");
+        setPdfDownloadError(STRINGS[language].pdfNotReady);
         return;
       }
       // The URL only exists once the action resolves, so there's no <a
@@ -130,7 +182,7 @@ export default function LibraryReader({
       link.click();
       link.remove();
     } catch {
-      setPdfDownloadError("Could not prepare your PDF — please try again.");
+      setPdfDownloadError(STRINGS[language].pdfPrepareFailed);
     } finally {
       setPdfDownloading(false);
     }
@@ -166,6 +218,7 @@ export default function LibraryReader({
     };
   }, []);
 
+  const t = STRINGS[language];
   const chapter = chapters?.[chapterIndex];
   const canGoPrev = chapterIndex > 0;
   const canGoNext = chapters ? chapterIndex < chapters.length - 1 : false;
@@ -175,7 +228,7 @@ export default function LibraryReader({
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <BookOpen className="size-4" />
-          Be the Outsmarter — signed in as {creds.email}
+          {t.signedInAs(creds.email)}
         </div>
         <div className="flex items-center gap-3">
           {grantLanguage === "both" && (
@@ -194,7 +247,7 @@ export default function LibraryReader({
           )}
           <Button variant="ghost" size="sm" className="cursor-pointer" onClick={onSignOut}>
             <LogOut className="size-4" />
-            Sign out
+            {t.signOut}
           </Button>
         </div>
       </div>
@@ -208,7 +261,7 @@ export default function LibraryReader({
             onClick={() => setView("read")}
           >
             <BookOpen className="size-4" />
-            Read
+            {t.readTab}
           </Button>
           <Button
             size="sm"
@@ -217,20 +270,20 @@ export default function LibraryReader({
             onClick={() => setView("wallpapers")}
           >
             <ImageIcon className="size-4" />
-            Wallpapers
+            {t.wallpapersTab}
           </Button>
         </div>
       )}
 
       {view === "wallpapers" ? (
-        <WallpaperGallery creds={creds} />
+        <WallpaperGallery creds={creds} language={language} />
       ) : (
         <>
           {chapterAccess === "sample" && (
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-sm">
               <span className="flex items-center gap-2 text-foreground">
                 <Sparkles className="size-4 text-primary" />
-                You have access to 2 sample chapters.
+                {t.sampleAccess}
               </span>
               {/* "book-upgrade" product, $32.39 (= $42.39 - $10 already
                   paid), not a plain link to /book — a Tier 1 reader should
@@ -243,7 +296,7 @@ export default function LibraryReader({
                 productLabel="the full booklet (upgrade — you've already paid $10)"
               >
                 <Button size="sm" variant="secondary" className="cursor-pointer">
-                  Get the full booklet
+                  {t.getFullBooklet}
                 </Button>
               </PurchaseDialog>
             </div>
@@ -255,7 +308,7 @@ export default function LibraryReader({
                 <span className="flex flex-col gap-0.5">
                   <span className="flex items-center gap-2 text-foreground">
                     <FileDown className="size-4 text-primary" />
-                    Your PDF keepsake copy
+                    {t.yourPdfCopy}
                   </span>
                   {pdfDownloadError && (
                     <span className="text-xs text-destructive">
@@ -271,21 +324,21 @@ export default function LibraryReader({
                   onClick={handleDownloadPdf}
                 >
                   <Download className="size-4" />
-                  {pdfDownloading ? "Preparing…" : "Download PDF"}
+                  {pdfDownloading ? t.preparing : t.downloadPdf}
                 </Button>
               </div>
             ) : (
               <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-sm">
                 <span className="flex items-center gap-2 text-foreground">
                   <FileDown className="size-4 text-primary" />
-                  Want to keep a copy? Download it as a PDF.
+                  {t.wantPdfCopy}
                 </span>
                 <PurchaseDialog
                   product="book-pdf"
                   productLabel="a downloadable PDF keepsake copy ($14.99)"
                 >
                   <Button size="sm" variant="secondary" className="cursor-pointer">
-                    Collect the PDF ($14.99)
+                    {t.collectPdf}
                   </Button>
                 </PurchaseDialog>
               </div>
@@ -366,7 +419,7 @@ export default function LibraryReader({
                   onClick={() => setChapterIndex((i) => i - 1)}
                 >
                   <ChevronLeft className="size-4" />
-                  Previous
+                  {t.previous}
                 </Button>
                 <Button
                   variant="outline"
@@ -374,7 +427,7 @@ export default function LibraryReader({
                   disabled={!canGoNext}
                   onClick={() => setChapterIndex((i) => i + 1)}
                 >
-                  Next
+                  {t.next}
                   <ChevronRight className="size-4" />
                 </Button>
               </div>
@@ -396,7 +449,14 @@ type Wallpaper = { _id: string; url: string; label?: string };
  * uploads to the pool once from /admin → Book Access, instead of
  * fulfilling each order by hand. See getWallpapers in convex/bookAccess.ts.
  */
-function WallpaperGallery({ creds }: { creds: LibraryCredentials }) {
+function WallpaperGallery({
+  creds,
+  language,
+}: {
+  creds: LibraryCredentials;
+  language: Language;
+}) {
+  const t = STRINGS[language];
   const wallpapers = useQuery(api.bookAccess.getWallpapers, {
     email: creds.email,
     code: creds.code,
@@ -415,7 +475,7 @@ function WallpaperGallery({ creds }: { creds: LibraryCredentials }) {
   if (wallpapers.length === 0) {
     return (
       <p className="rounded-lg border border-border bg-muted/40 p-6 text-center text-sm text-muted-foreground">
-        No wallpapers uploaded yet — check back soon.
+        {t.noWallpapers}
       </p>
     );
   }
@@ -429,17 +489,17 @@ function WallpaperGallery({ creds }: { creds: LibraryCredentials }) {
         >
           <img
             src={w.url}
-            alt={w.label || "Desktop wallpaper"}
+            alt={w.label || t.wallpaperAlt}
             className="aspect-video w-full object-cover"
           />
           <div className="flex items-center justify-between gap-3 p-4">
             <p className="truncate text-sm font-medium text-card-foreground">
-              {w.label || "Desktop wallpaper"}
+              {w.label || t.wallpaperAlt}
             </p>
             <Button asChild size="sm" variant="secondary" className="cursor-pointer">
               <a href={w.url} download>
                 <Download className="size-4" />
-                Download
+                {t.download}
               </a>
             </Button>
           </div>
