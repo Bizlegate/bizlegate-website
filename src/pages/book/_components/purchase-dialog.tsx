@@ -77,6 +77,75 @@ const NEEDS_SHIPPING: ReadonlySet<Product> = new Set([
   "bundle-collector",
 ]);
 
+// Added 2026-10-29 — this dialog is shared across the whole site (book
+// page, /library upsells, /shop), so it has to render in whichever
+// language the visitor is currently reading rather than always English.
+// `productLabel` itself is supplied by each caller: every caller except
+// the two /library upsell buttons already resolves it through the CMS
+// (useContentText/useContentGetter, which is language-aware on its own),
+// so only this component's own chrome — titles, field labels, errors,
+// buttons — needs its own STRINGS here.
+const STRINGS = {
+  en: {
+    emailRequired: "Please enter your email address.",
+    nameRequired: "Please enter the name on the account you'll pay from.",
+    goalDateRequired: "Please share your goal-achievement date.",
+    noteRequired: "Please tell us what you're working through right now.",
+    shippingRequired: "Please enter a shipping address.",
+    genericError: "Something went wrong — please try again.",
+    submittedTitle: "One step left — send the payment",
+    submittedDescription: (label: string) =>
+      `Pay ${label} using the link below (works with a Wise account or a regular bank transfer). Once we see it land, we'll confirm by email — usually within one business day.`,
+    referenceCodeLabel: "Your reference code",
+    referenceCodeHelp:
+      "Please add this as a note/message on your payment — it's how we match your transfer to your order.",
+    payNow: "Pay now",
+    emailInstructionsFallback: "We'll email you payment instructions shortly.",
+    getTitle: (label: string) => `Get ${label}`,
+    formDescription:
+      "We handle payment by bank transfer, confirmed by hand — enter your email and we'll show you how to pay on the next step.",
+    emailLabel: "Email",
+    nameLabel: "Name on the account you'll pay from",
+    nameHelp:
+      "This is how we match your payment to your order — please use the same name that will show up on the transfer.",
+    shippingLabel: "Shipping address",
+    shippingPlaceholder: "Name, street address, city, postal code, country",
+    noteLabelDefault: "Note (optional)",
+    notePlaceholderDefault: "Anything we should know",
+    pleaseWait: "Please wait…",
+    continueToPayment: "Continue to payment",
+  },
+  zh: {
+    emailRequired: "請輸入您的電子郵件地址。",
+    nameRequired: "請輸入付款帳戶上的姓名。",
+    goalDateRequired: "請填寫您的目標達成日期。",
+    noteRequired: "請告訴我們您目前正在面對的狀況。",
+    shippingRequired: "請輸入收件地址。",
+    genericError: "發生錯誤，請再試一次。",
+    submittedTitle: "最後一步——完成付款",
+    submittedDescription: (label: string) =>
+      `請用下方連結支付「${label}」（可用 Wise 帳戶或一般銀行轉帳）。我們確認款項入帳後，會透過 email 通知您——通常在一個工作日內。`,
+    referenceCodeLabel: "您的參考碼",
+    referenceCodeHelp:
+      "請在付款時將這組參考碼加入備註/訊息——這是我們核對您的轉帳與訂單的依據。",
+    payNow: "立即付款",
+    emailInstructionsFallback: "我們會盡快寄 email 通知您付款方式。",
+    getTitle: (label: string) => `取得「${label}」`,
+    formDescription:
+      "我們採用人工核對的銀行轉帳付款方式——請輸入您的 email，下一步會顯示付款方式。",
+    emailLabel: "電子郵件",
+    nameLabel: "付款帳戶上的姓名",
+    nameHelp:
+      "這是我們核對您的付款與訂單的依據——請填寫轉帳時會顯示的同一個姓名。",
+    shippingLabel: "收件地址",
+    shippingPlaceholder: "姓名、街道地址、城市、郵遞區號、國家",
+    noteLabelDefault: "備註（選填）",
+    notePlaceholderDefault: "有什麼我們需要知道的嗎",
+    pleaseWait: "請稍候…",
+    continueToPayment: "繼續前往付款",
+  },
+} as const;
+
 /**
  * "Buy" flow for the manual bank-transfer model (see
  * claude/16_payment_processor_decision.md) — replaces a real checkout.
@@ -125,6 +194,8 @@ export default function PurchaseDialog({
   // from /admin -> Book Access for a one-off case. Only read/sent for the
   // book-* tiers — merch items don't care about reading language.
   const effectiveLang = useEffectiveLang();
+  const t = STRINGS[effectiveLang];
+  const deluxeFormDefaults = BOOK_DELUXE_FORM_DEFAULTS[effectiveLang];
 
   const submitNotice = useMutation(api.bookAccess.submitPurchaseNotice);
 
@@ -149,23 +220,23 @@ export default function PurchaseDialog({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) {
-      toast.error("Please enter your email address.");
+      toast.error(t.emailRequired);
       return;
     }
     if (!name.trim()) {
-      toast.error("Please enter the name on the account you'll pay from.");
+      toast.error(t.nameRequired);
       return;
     }
     if (needsWallpaperFields && !goalDate.trim()) {
-      toast.error("Please share your goal-achievement date.");
+      toast.error(t.goalDateRequired);
       return;
     }
     if (needsWallpaperFields && !note.trim()) {
-      toast.error("Please tell us what you're working through right now.");
+      toast.error(t.noteRequired);
       return;
     }
     if (needsShipping && !shippingAddress.trim()) {
-      toast.error("Please enter a shipping address.");
+      toast.error(t.shippingRequired);
       return;
     }
     setSubmitting(true);
@@ -187,7 +258,7 @@ export default function PurchaseDialog({
       const message =
         error instanceof ConvexError
           ? (error.data as { message: string }).message
-          : "Something went wrong — please try again.";
+          : t.genericError;
       toast.error(message);
     } finally {
       setSubmitting(false);
@@ -205,38 +276,35 @@ export default function PurchaseDialog({
                 <CheckCircle2 className="size-6" />
               </div>
               <DialogTitle className="text-center">
-                One step left — send the payment
+                {t.submittedTitle}
               </DialogTitle>
               <DialogDescription className="text-center">
-                Pay {productLabel} using the link below (works with a Wise
-                account or a regular bank transfer). Once we see it land,
-                we'll confirm by email — usually within one business day.
+                {t.submittedDescription(productLabel)}
               </DialogDescription>
             </DialogHeader>
             {referenceCode && (
               <div className="rounded-lg border border-primary/30 bg-primary/5 p-4 text-center">
                 <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  Your reference code
+                  {t.referenceCodeLabel}
                 </p>
                 <p className="mt-1 font-mono text-lg font-bold tracking-wider text-foreground">
                   {referenceCode}
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Please add this as a note/message on your payment — it's
-                  how we match your transfer to your order.
+                  {t.referenceCodeHelp}
                 </p>
               </div>
             )}
             {wiseLink ? (
               <Button asChild size="lg" className="w-full cursor-pointer">
                 <a href={wiseLink} target="_blank" rel="noopener noreferrer">
-                  Pay now
+                  {t.payNow}
                   <ExternalLink className="size-4" />
                 </a>
               </Button>
             ) : (
               <p className="rounded-lg border border-border bg-muted/40 p-4 text-center text-sm text-muted-foreground">
-                We'll email you payment instructions shortly.
+                {t.emailInstructionsFallback}
               </p>
             )}
             <DialogFooter showCloseButton />
@@ -244,15 +312,12 @@ export default function PurchaseDialog({
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>Get {productLabel}</DialogTitle>
-              <DialogDescription>
-                We handle payment by bank transfer, confirmed by hand — enter
-                your email and we'll show you how to pay on the next step.
-              </DialogDescription>
+              <DialogTitle>{t.getTitle(productLabel)}</DialogTitle>
+              <DialogDescription>{t.formDescription}</DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-1.5">
-                <Label htmlFor="purchase-email">Email</Label>
+                <Label htmlFor="purchase-email">{t.emailLabel}</Label>
                 <Input
                   id="purchase-email"
                   type="email"
@@ -263,25 +328,20 @@ export default function PurchaseDialog({
                 />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="purchase-name">
-                  Name on the account you'll pay from
-                </Label>
+                <Label htmlFor="purchase-name">{t.nameLabel}</Label>
                 <Input
                   id="purchase-name"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
-                <p className="text-xs text-muted-foreground">
-                  This is how we match your payment to your order — please
-                  use the same name that will show up on the transfer.
-                </p>
+                <p className="text-xs text-muted-foreground">{t.nameHelp}</p>
               </div>
               {needsWallpaperFields && (
                 <>
                   <div className="space-y-1.5">
                     <Label htmlFor="purchase-goal-date">
-                      {BOOK_DELUXE_FORM_DEFAULTS.goalDateLabel}
+                      {deluxeFormDefaults.goalDateLabel}
                     </Label>
                     <Input
                       id="purchase-goal-date"
@@ -292,7 +352,7 @@ export default function PurchaseDialog({
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label>{BOOK_DELUXE_FORM_DEFAULTS.imageStyleLabel}</Label>
+                    <Label>{deluxeFormDefaults.imageStyleLabel}</Label>
                     <Select
                       value={imageStyle}
                       onValueChange={(v) => setImageStyle(v as ImageStyle)}
@@ -302,10 +362,10 @@ export default function PurchaseDialog({
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="professional">
-                          {BOOK_DELUXE_FORM_DEFAULTS.imageStyleProfessional}
+                          {deluxeFormDefaults.imageStyleProfessional}
                         </SelectItem>
                         <SelectItem value="glam">
-                          {BOOK_DELUXE_FORM_DEFAULTS.imageStyleGlam}
+                          {deluxeFormDefaults.imageStyleGlam}
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -314,14 +374,14 @@ export default function PurchaseDialog({
               )}
               {needsShipping && (
                 <div className="space-y-1.5">
-                  <Label htmlFor="purchase-shipping">Shipping address</Label>
+                  <Label htmlFor="purchase-shipping">{t.shippingLabel}</Label>
                   <Textarea
                     id="purchase-shipping"
                     rows={3}
                     required
                     value={shippingAddress}
                     onChange={(e) => setShippingAddress(e.target.value)}
-                    placeholder="Name, street address, city, postal code, country"
+                    placeholder={t.shippingPlaceholder}
                     className="resize-none"
                   />
                 </div>
@@ -329,8 +389,8 @@ export default function PurchaseDialog({
               <div className="space-y-1.5">
                 <Label htmlFor="purchase-note">
                   {needsWallpaperFields
-                    ? BOOK_DELUXE_FORM_DEFAULTS.noteLabel
-                    : "Note (optional)"}
+                    ? deluxeFormDefaults.noteLabel
+                    : t.noteLabelDefault}
                 </Label>
                 <Textarea
                   id="purchase-note"
@@ -340,8 +400,8 @@ export default function PurchaseDialog({
                   onChange={(e) => setNote(e.target.value)}
                   placeholder={
                     needsWallpaperFields
-                      ? BOOK_DELUXE_FORM_DEFAULTS.notePlaceholder
-                      : "Anything we should know"
+                      ? deluxeFormDefaults.notePlaceholder
+                      : t.notePlaceholderDefault
                   }
                   className="resize-none"
                 />
@@ -354,10 +414,10 @@ export default function PurchaseDialog({
                 {submitting ? (
                   <>
                     <Loader2 className="mr-2 size-4 animate-spin" />
-                    Please wait…
+                    {t.pleaseWait}
                   </>
                 ) : (
-                  "Continue to payment"
+                  t.continueToPayment
                 )}
               </Button>
             </form>

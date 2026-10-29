@@ -342,12 +342,27 @@ export const BOOK_TIERS_CTA = "Get Started";
 // "wallpaper" item still collects these (book-deluxe just grants library
 // access automatically, no per-buyer fields needed). Name kept as-is to
 // avoid touching every import — see purchase-dialog.tsx.
+//
+// Bilingual as of 2026-10-29 — purchase-dialog.tsx is the only consumer and
+// now picks BOOK_DELUXE_FORM_DEFAULTS[effectiveLang] itself (see its own
+// STRINGS/effectiveLang for why: this dialog is shared across the site and
+// needs to render in whichever language the visitor is currently reading).
 export const BOOK_DELUXE_FORM_DEFAULTS = {
-  goalDateLabel: "Your goal-achievement date",
-  imageStyleLabel: "Desktop image style",
-  imageStyleGlam: "With character artwork",
-  imageStyleProfessional: "Professional only (no artwork)",
-  noteLabel: "What are you working through right now?",
-  notePlaceholder:
-    "Tell us the situation you're in — this becomes your personalized reminder line.",
-};
+  en: {
+    goalDateLabel: "Your goal-achievement date",
+    imageStyleLabel: "Desktop image style",
+    imageStyleGlam: "With character artwork",
+    imageStyleProfessional: "Professional only (no artwork)",
+    noteLabel: "What are you working through right now?",
+    notePlaceholder:
+      "Tell us the situation you're in — this becomes your personalized reminder line.",
+  },
+  zh: {
+    goalDateLabel: "你的目標達成日期",
+    imageStyleLabel: "桌面圖片風格",
+    imageStyleGlam: "含角色插畫",
+    imageStyleProfessional: "純文字風格(無插畫)",
+    noteLabel: "你現在正在面對、努力克服的狀況是？",
+    notePlaceholder: "告訴我們你現在的處境——這會變成你專屬的提醒文字。",
+  },
+} as const;

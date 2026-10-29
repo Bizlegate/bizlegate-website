@@ -56,6 +56,13 @@ const STRINGS = {
     noWallpapers: "No wallpapers uploaded yet — check back soon.",
     wallpaperAlt: "Desktop wallpaper",
     download: "Download",
+    // Added 2026-10-29 — PurchaseDialog's productLabel is caller-supplied;
+    // every other caller resolves it through the CMS (useContentText/
+    // useContentGetter), which is already language-aware, so these two are
+    // the only hardcoded productLabel strings in the whole site and need
+    // their own zh version here.
+    upgradeProductLabel: "the full booklet (upgrade — you've already paid $10)",
+    pdfProductLabel: "a downloadable PDF keepsake copy ($14.99)",
   },
   zh: {
     signedInAs: (email: string) => `步步為贏 — 已登入：${email}`,
@@ -76,6 +83,8 @@ const STRINGS = {
     noWallpapers: "尚未上傳桌布，請稍後再來看看。",
     wallpaperAlt: "桌布",
     download: "下載",
+    upgradeProductLabel: "完整手冊（升級——您已付過 $10）",
+    pdfProductLabel: "可下載的 PDF 收藏版（$14.99）",
   },
 } as const;
 
@@ -293,7 +302,7 @@ export default function LibraryReader({
                   bookAccess row in place rather than creating a new one. */}
               <PurchaseDialog
                 product="book-upgrade"
-                productLabel="the full booklet (upgrade — you've already paid $10)"
+                productLabel={t.upgradeProductLabel}
               >
                 <Button size="sm" variant="secondary" className="cursor-pointer">
                   {t.getFullBooklet}
@@ -335,7 +344,7 @@ export default function LibraryReader({
                 </span>
                 <PurchaseDialog
                   product="book-pdf"
-                  productLabel="a downloadable PDF keepsake copy ($14.99)"
+                  productLabel={t.pdfProductLabel}
                 >
                   <Button size="sm" variant="secondary" className="cursor-pointer">
                     {t.collectPdf}
