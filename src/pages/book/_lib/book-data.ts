@@ -270,7 +270,11 @@ export const BOOK_WALLPAPER_INTRO_DEFAULTS = {
   // without her having to know what "Tier 3" means.
   eyebrow: "Exclusive to Book Buyers",
   title: "A Wallpaper Library, Built to Keep You Grounded",
-  body: "Packed with words of wisdom from this book and beyond, these wallpapers are a constant reminder to ground you — whether you're kicking off your morning, wrapping up your day, or switching between tasks in between. Unlimited access, included with the Complete Playbook + Wallpaper Library tier below.",
+  // Revised 2026-10-31 (client request) to foreground the 52-wallpaper
+  // count and the "one per week, for the whole year" framing — previously
+  // just said "these wallpapers" with no sense of how many or how often a
+  // new one shows up.
+  body: "Packed with words of wisdom from this book and beyond, this 52-wallpaper library gives you a fresh one for every week of the year — a constant reminder to ground you, whether you're kicking off your morning, wrapping up your day, or switching between tasks in between. Unlimited access, included with the Complete Playbook + Wallpaper Library tier below.",
 };
 
 export const BOOK_TIER_SAMPLE_PRICE_KEY = "book.tier.sample.price";
