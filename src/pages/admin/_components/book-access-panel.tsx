@@ -1113,6 +1113,16 @@ function PdfDownloadManager() {
 // from /library's "Wallpapers" tab (see getWallpapers in
 // convex/bookAccess.ts), instead of a one-off image made by hand per order
 // — upload a batch here once rather than fulfilling each order yourself.
+// Added 2026-10-31 — turns a filename into a usable label for batch
+// uploads ("monday-reset_v2.png" -> "monday reset v2"). Only used when the
+// admin selects more than one file at once (see handleFiles below) — a
+// single-file upload still uses whatever she types in the Label field, same
+// as before this batch feature existed.
+function filenameToLabel(filename: string): string {
+  const withoutExt = filename.replace(/\.[^./\\]+$/, "");
+  return withoutExt.replace(/[_-]+/g, " ").trim();
+}
+
 function WallpaperLibraryManager() {
   const wallpapers = useQuery(api.bookAccess.listWallpapersAdmin, {});
   const generateUploadUrl = useMutation(api.content.generateUploadUrl);
@@ -1121,26 +1131,63 @@ function WallpaperLibraryManager() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [label, setLabel] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{
+    done: number;
+    total: number;
+  } | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
 
-  const handleUpload = async (file: File) => {
+  // Added 2026-10-31 — the admin used to only be able to pick one image at
+  // a time (no `multiple` on the <input> below). Now handles any number of
+  // files, uploading them one at a time (sequential, not parallel, so we
+  // don't hammer Convex storage with a burst of simultaneous requests) and
+  // reporting progress. When more than one file is selected, the Label
+  // field is ignored in favor of each file's own filename (requested by the
+  // client 2026-10-31 — a single shared label on a batch of different
+  // wallpapers isn't useful, and there's no per-file label input in this
+  // picker). A single-file selection keeps the old behavior exactly:
+  // whatever's typed in the Label field, or blank.
+  const handleFiles = async (files: File[]) => {
+    if (files.length === 0) return;
+    const isBatch = files.length > 1;
     setUploading(true);
+    setUploadProgress({ done: 0, total: files.length });
+    let successCount = 0;
     try {
-      const uploadUrl = await generateUploadUrl({});
-      const res = await fetch(uploadUrl, {
-        method: "POST",
-        headers: { "Content-Type": file.type },
-        body: file,
-      });
-      if (!res.ok) throw new Error("Upload failed");
-      const { storageId } = await res.json();
-      await addWallpaper({ storageId, label: label.trim() || undefined });
-      toast.success("Wallpaper added.");
+      for (const file of files) {
+        try {
+          const uploadUrl = await generateUploadUrl({});
+          const res = await fetch(uploadUrl, {
+            method: "POST",
+            headers: { "Content-Type": file.type },
+            body: file,
+          });
+          if (!res.ok) throw new Error("Upload failed");
+          const { storageId } = await res.json();
+          const fileLabel = isBatch
+            ? filenameToLabel(file.name)
+            : label.trim() || undefined;
+          await addWallpaper({ storageId, label: fileLabel || undefined });
+          successCount++;
+        } catch {
+          toast.error(`Could not upload "${file.name}".`);
+        } finally {
+          setUploadProgress((prev) =>
+            prev ? { ...prev, done: prev.done + 1 } : prev,
+          );
+        }
+      }
+      if (successCount > 0) {
+        toast.success(
+          successCount === 1
+            ? "Wallpaper added."
+            : `${successCount} wallpapers added.`,
+        );
+      }
       setLabel("");
-    } catch {
-      toast.error("Could not upload this wallpaper.");
     } finally {
       setUploading(false);
+      setUploadProgress(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
@@ -1172,10 +1219,16 @@ function WallpaperLibraryManager() {
         pool, so upload once here rather than per order. An optional label
         shows under each image both here and at /library.
       </p>
+      <p className="mt-1 text-xs text-muted-foreground">
+        You can select multiple images at once — the Label field below only
+        applies when uploading a single image; for a multi-image batch, each
+        wallpaper is labeled from its own filename instead (rename the files
+        beforehand if you want specific labels).
+      </p>
 
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
         <Input
-          placeholder='Label (optional) — e.g. "Monday Reset"'
+          placeholder='Label (optional, single-image only) — e.g. "Monday Reset"'
           value={label}
           onChange={(e) => setLabel(e.target.value)}
           className="sm:flex-1"
@@ -1184,10 +1237,11 @@ function WallpaperLibraryManager() {
           ref={fileInputRef}
           type="file"
           accept="image/*"
+          multiple
           className="hidden"
           onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) handleUpload(file);
+            const files = Array.from(e.target.files ?? []);
+            if (files.length > 0) handleFiles(files);
           }}
         />
         <Button
@@ -1197,7 +1251,9 @@ function WallpaperLibraryManager() {
           onClick={() => fileInputRef.current?.click()}
         >
           <Upload className="size-4" />
-          {uploading ? "Uploading…" : "Upload image"}
+          {uploadProgress
+            ? `Uploading ${uploadProgress.done}/${uploadProgress.total}…`
+            : "Upload image(s)"}
         </Button>
       </div>
 
