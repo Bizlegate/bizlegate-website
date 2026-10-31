@@ -715,6 +715,27 @@ export const addWallpaper = mutation({
   },
 });
 
+// Admin: rename an existing wallpaper's label without touching the image
+// file itself — added 2026-10-31 (the client had a batch of ~50 wallpapers
+// whose labels came out with inconsistent capitalization, since the batch
+// uploader derives each label from the image's filename — see
+// filenameToLabel in book-access-panel.tsx). Fixing just the label text
+// this way avoids deleting and re-uploading the whole image, which would
+// also have reset its position in the "desc" order and risked a stray
+// duplicate if the admin forgot to delete the old row first. See the bulk
+// "Fix capitalization" action in WallpaperLibraryManager, which calls this
+// once per wallpaper whose label needs correcting.
+export const renameWallpaper = mutation({
+  args: { wallpaperId: v.id("wallpapers"), label: v.string() },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    await ctx.db.patch(args.wallpaperId, {
+      label: args.label.trim() || undefined,
+    });
+    return null;
+  },
+});
+
 // Admin: remove a wallpaper from the pool and delete its stored file.
 export const removeWallpaper = mutation({
   args: { wallpaperId: v.id("wallpapers") },

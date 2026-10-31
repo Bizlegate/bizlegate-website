@@ -6,14 +6,17 @@ import {
   BadgeCheck,
   Ban,
   BookOpen,
+  Check,
   Copy,
   FileDown,
   ImageIcon,
   Inbox,
   KeyRound,
   Link2,
+  Pencil,
   RotateCcw,
   Sparkles,
+  SpellCheck,
   Trash2,
   Upload,
   X,
@@ -1123,11 +1126,34 @@ function filenameToLabel(filename: string): string {
   return withoutExt.replace(/[_-]+/g, " ").trim();
 }
 
+// Added 2026-10-31, alongside renameWallpaper in convex/bookAccess.ts — the
+// client's batch of ~50 wallpaper filenames (hence labels, via
+// filenameToLabel above) came out with inconsistent capitalization: some
+// ALL CAPS, some Title Case, most already correct "Sentence case". This
+// normalizes any label to sentence case — capitalize the first letter of
+// the whole string, lowercase the rest, then re-capitalize the first
+// letter after any ". "/"! "/"? " so a label with more than one sentence
+// doesn't lose its second sentence's capital (e.g. "Evaluate the cost
+// before you cooperate. Maybe you can afford it." keeps "Maybe" capitalized
+// rather than becoming "maybe"). Used by the "Fix capitalization" bulk
+// action below — it never touches the image file, only the label text.
+function smartSentenceCase(label: string): string {
+  if (!label) return label;
+  let s = label.toLowerCase();
+  s = s.charAt(0).toUpperCase() + s.slice(1);
+  s = s.replace(
+    /([.!?]\s+)([a-z])/g,
+    (_match, sep: string, letter: string) => sep + letter.toUpperCase(),
+  );
+  return s;
+}
+
 function WallpaperLibraryManager() {
   const wallpapers = useQuery(api.bookAccess.listWallpapersAdmin, {});
   const generateUploadUrl = useMutation(api.content.generateUploadUrl);
   const addWallpaper = useMutation(api.bookAccess.addWallpaper);
   const removeWallpaper = useMutation(api.bookAccess.removeWallpaper);
+  const renameWallpaper = useMutation(api.bookAccess.renameWallpaper);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [label, setLabel] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -1136,6 +1162,12 @@ function WallpaperLibraryManager() {
     total: number;
   } | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [fixingCase, setFixingCase] = useState(false);
+  // Added 2026-10-31 — inline per-wallpaper label edit (pencil icon below),
+  // for the one-off case the bulk "Fix capitalization" button doesn't cover
+  // (an actual typo or wording change, not just casing).
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState("");
 
   // Added 2026-10-31 — the admin used to only be able to pick one image at
   // a time (no `multiple` on the <input> below). Now handles any number of
@@ -1207,6 +1239,73 @@ function WallpaperLibraryManager() {
     }
   };
 
+  // Added 2026-10-31 — goes through every wallpaper already in the pool and
+  // re-saves its label through smartSentenceCase, skipping any that are
+  // already correct. Only touches the `label` field (via renameWallpaper,
+  // not addWallpaper/removeWallpaper) — the image itself, its storageId,
+  // and its position in the list are all untouched, so there's no risk of
+  // ending up with duplicates the way deleting and re-uploading every file
+  // would be.
+  const handleFixCapitalization = async () => {
+    if (!wallpapers || wallpapers.length === 0) return;
+    setFixingCase(true);
+    let fixedCount = 0;
+    try {
+      for (const w of wallpapers) {
+        const current = w.label ?? "";
+        const fixed = smartSentenceCase(current);
+        if (fixed && fixed !== current) {
+          try {
+            await renameWallpaper({
+              wallpaperId: w._id as Parameters<
+                typeof renameWallpaper
+              >[0]["wallpaperId"],
+              label: fixed,
+            });
+            fixedCount++;
+          } catch {
+            toast.error(`Could not fix the label for "${current}".`);
+          }
+        }
+      }
+      toast.success(
+        fixedCount > 0
+          ? `Fixed capitalization on ${fixedCount} label${fixedCount === 1 ? "" : "s"}.`
+          : "All labels already look consistent — nothing to fix.",
+      );
+    } finally {
+      setFixingCase(false);
+    }
+  };
+
+  const startEditing = (wallpaperId: string, currentLabel: string) => {
+    setEditingId(wallpaperId);
+    setEditValue(currentLabel);
+  };
+
+  const cancelEditing = () => {
+    setEditingId(null);
+    setEditValue("");
+  };
+
+  const saveEditing = async (wallpaperId: string) => {
+    setBusyId(wallpaperId);
+    try {
+      await renameWallpaper({
+        wallpaperId: wallpaperId as Parameters<
+          typeof renameWallpaper
+        >[0]["wallpaperId"],
+        label: editValue,
+      });
+      setEditingId(null);
+      setEditValue("");
+    } catch {
+      toast.error("Could not save this label.");
+    } finally {
+      setBusyId(null);
+    }
+  };
+
   return (
     <div className="rounded-xl border border-border bg-card p-6">
       <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-card-foreground">
@@ -1257,6 +1356,26 @@ function WallpaperLibraryManager() {
         </Button>
       </div>
 
+      {wallpapers !== undefined && wallpapers.length > 0 && (
+        <div className="mt-3 flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            className="cursor-pointer"
+            disabled={fixingCase}
+            onClick={handleFixCapitalization}
+          >
+            <SpellCheck className="size-3.5" />
+            {fixingCase ? "Fixing…" : "Fix capitalization"}
+          </Button>
+          <p className="text-xs text-muted-foreground">
+            Rewrites every label below to sentence case (first letter
+            capitalized, rest lowercase) — only the label text changes, not
+            the images.
+          </p>
+        </div>
+      )}
+
       {wallpapers === undefined ? (
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {Array.from({ length: 3 }).map((_, i) => (
@@ -1289,19 +1408,66 @@ function WallpaperLibraryManager() {
                 className="aspect-video w-full object-cover"
               />
               <div className="flex items-center justify-between gap-2 p-2.5">
-                <p className="truncate text-xs text-muted-foreground">
-                  {w.label || "Untitled"}
-                </p>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="size-7 cursor-pointer text-destructive hover:text-destructive"
-                  disabled={busyId === w._id}
-                  onClick={() => handleRemove(w._id)}
-                  aria-label="Remove"
-                >
-                  <Trash2 className="size-3.5" />
-                </Button>
+                {editingId === w._id ? (
+                  <>
+                    <Input
+                      autoFocus
+                      value={editValue}
+                      onChange={(e) => setEditValue(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") saveEditing(w._id);
+                        if (e.key === "Escape") cancelEditing();
+                      }}
+                      className="h-7 flex-1 text-xs"
+                    />
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="size-7 shrink-0 cursor-pointer"
+                      disabled={busyId === w._id}
+                      onClick={() => saveEditing(w._id)}
+                      aria-label="Save label"
+                    >
+                      <Check className="size-3.5" />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="size-7 shrink-0 cursor-pointer"
+                      disabled={busyId === w._id}
+                      onClick={cancelEditing}
+                      aria-label="Cancel"
+                    >
+                      <X className="size-3.5" />
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <p className="truncate text-xs text-muted-foreground">
+                      {w.label || "Untitled"}
+                    </p>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="size-7 shrink-0 cursor-pointer"
+                      disabled={busyId === w._id}
+                      onClick={() => startEditing(w._id, w.label ?? "")}
+                      aria-label="Edit label"
+                    >
+                      <Pencil className="size-3.5" />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="size-7 shrink-0 cursor-pointer text-destructive hover:text-destructive"
+                      disabled={busyId === w._id}
+                      onClick={() => handleRemove(w._id)}
+                      aria-label="Remove"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           ))}
